@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    @@include('./layouts/head.html')
+
+    <!-- notification css -->
+    <link rel="stylesheet" href="../assets/plugins/notification/css/notification.min.css">
+
+    <!-- minimal-form css -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/pages/minimal-form/demo.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/pages/minimal-form/component.css" />
+
+    @@include('./layouts/head-bottom-link.html')
+
+</head>
+
+@@include('./layouts/main.html')
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5>Minimal Form</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Minimal Form</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <header class="codrops-header">
+                                    <h1>Minimal Form<span>Simplistic, single input view form</span></h1>
+                                </header>
+                            </div>
+                            <div class="col-md-12">
+                                <section>
+                                    <form id="theForm" class="simform">
+                                        <div class="simform-inner">
+                                            <ol class="questions">
+                                                <li>
+                                                    <span><label for="q1">What's your email?</label></span>
+                                                    <input id="q1" name="q1" type="email" />
+                                                </li>
+                                                <li>
+                                                    <span><label for="q2">Where do you live?</label></span>
+                                                    <input id="q2" name="q2" type="text" />
+                                                </li>
+                                                <li>
+                                                    <span><label for="q3">What time do you go to work?</label></span>
+                                                    <input id="q3" name="q3" type="text" />
+                                                </li>
+                                                <li>
+                                                    <span><label for="q4">How do you like your veggies?</label></span>
+                                                    <input id="q4" name="q4" type="text" />
+                                                </li>
+                                                <li>
+                                                    <span><label for="q5">What book inspires you?</label></span>
+                                                    <input id="q5" name="q5" type="text" />
+                                                </li>
+                                                <li>
+                                                    <span><label for="q6">What's your profession?</label></span>
+                                                    <input id="q6" name="q6" type="text" />
+                                                </li>
+                                            </ol>
+                                            <button class="submit" type="submit">Send answers</button>
+                                            <div class="controls">
+                                                <button class="next"><i class="feather icon-arrow-right"></i></button>
+                                                <div class="progress"></div>
+                                                <span class="number">
+                                                    <span class="number-current"></span>
+                                                    <span class="number-total"></span>
+                                                </span>
+                                                <span class="error-message"></span>
+                                            </div>
+                                        </div>
+                                        <span class="final-message"></span>
+                                    </form>
+                                </section>
+                            </div>
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+@@include('./layouts/footer.html')
+
+<!-- minimal-form Js -->
+<script src="../assets/js/pages/minimal-form/modernizr.custom.js"></script>
+<script src="../assets/js/pages/minimal-form/classie.js"></script>
+<script src="../assets/js/pages/minimal-form/stepsForm.js"></script>
+
+<script>
+    var theForm = document.getElementById('theForm');
+    //disable form autocomplete
+    theForm.setAttribute("autocomplete", "off");
+
+    new stepsForm(theForm, {
+        onSubmit: function(form) {
+            // hide form
+            classie.addClass(theForm.querySelector('.simform-inner'), 'hide');
+
+            // let's just simulate something...
+            var messageEl = theForm.querySelector('.final-message');
+            messageEl.innerHTML = 'Thank you! We\'ll be in touch.';
+            classie.addClass(messageEl, 'show');
+        }
+    });
+</script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>

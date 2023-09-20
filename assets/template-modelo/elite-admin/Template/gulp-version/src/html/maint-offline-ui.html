@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    @@include('./layouts/head.html')
+    @@include('./layouts/head-bottom-link.html')
+
+</head>
+
+<!-- [ offline-ui ] start -->
+<div class="auth-wrapper offline">
+    <div class="text-center">
+        <h1 class="mb-4">OFFLINE</h1>
+        <h5 class="text-muted mb-4">Oops! Website Is Temporarily Offline</h5>
+        <form action="index.html">
+            <button class="btn btn-primary mb-4"><i class="feather icon-home"></i>Back to Home</button>
+        </form>
+    </div>
+</div>
+<!-- [ offline-ui ] end -->
+
+<!-- Required Js -->
+<script src="../assets/js/vendor-all.min.js"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        
+    @@include('./layouts/head.html')
+    @@include('./layouts/head-bottom-link.html')
+
+</head>
+
+<!-- [ offline-ui ] start -->
+<div class="auth-wrapper error">
+    <div id="container" class="container">
+        <ul id="scene" class="scene">
+            <li class="layer" data-depth="1.00"><img class="img-fluid" src="../assets/images/error/404-01.png" alt="images"></li>
+            <li class="layer" data-depth="0.60"><img class="img-fluid" src="../assets/images/error/shadows-01.png" alt="images"></li>
+            <li class="layer" data-depth="0.20"><img class="img-fluid" src="../assets/images/error/monster-01.png" alt="images"></li>
+            <li class="layer" data-depth="0.40"><img class="img-fluid" src="../assets/images/error/text-01.png" alt="images"></li>
+            <li class="layer" data-depth="0.10"><img class="img-fluid" src="../assets/images/error/monster-eyes-01.png" alt="images"></li>
+        </ul>
+        <form action="index.html">
+            <button class="btn btn-outline-light mt-3 mb-4"><i class="feather icon-home"></i>Back to Home</button>
+        </form>
+    </div>
+</div>
+<!-- [ offline-ui ] end -->
+<script src="../assets/js/vendor-all.min.js"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="../assets/js/pages/error.js"></script>
+
+<script>
+    var scene = document.getElementById('scene');
+    var parallax = new Parallax(scene);
+</script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>

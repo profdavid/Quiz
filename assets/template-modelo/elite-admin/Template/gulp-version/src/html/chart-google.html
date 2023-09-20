@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    @@include('./layouts/head.html')
+    @@include('./layouts/head-bottom-link.html')
+    
+</head>
+
+@@include('./layouts/main.html')
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Google Chart</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Chart</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Google Chart</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- [ area-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Area Chart</h5>
+                                    </div>
+                                    <div class="card-body  text-center">
+                                        <div id="chart-google-area" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ area-chart ] end -->
+                            <!-- [ stack-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Stacking Area Chart</h5>
+                                    </div>
+                                    <div class="card-body  text-center">
+                                        <div id="chart-google-stacking" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ stack-chart ] end -->
+                            <!-- [ bar-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Bar Chart</h5>
+                                    </div>
+                                    <div class="card-body  text-center">
+                                        <div id="chart-google-bar" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ bubble-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Bubble Chart</h5>
+                                    </div>
+                                    <div class="card-body  text-center">
+                                        <div id="chart-google-bubble" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ bubble-chart ] end -->
+                            <!-- [ candlestick-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Candlestick Chart</h5>
+                                    </div>
+                                    <div class="card-body  text-center">
+                                        <div id="chart-google-Candlestick" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ candlestick-chart ] end -->
+                            <!-- [ waterfall-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Waterfall Chart</h5>
+                                    </div>
+                                    <div class="card-body  text-center">
+                                        <div id="chart-google-Waterfall" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ waterfall-chart ] end -->
+                            <!-- [ combo-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Combo Chart</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div id="chart-google-Combo" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ combo-chart ] end -->
+                            <!-- [ donut-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Donut Chart</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart-google-Donut" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ donut-chart ] end -->
+                            <!-- [ Exploading-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Exploading A Slice Chart</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart-google-Exploading" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ Exploading-chart ] end -->
+                            <!-- [ slice-chart ] start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Slice Visibility Threshold Chart</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart-google-Threshold" style="width: 100%; height: 300px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ slice-chart ] end-->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+@@include('./layouts/footer.html')
+
+<!-- google chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="../assets/js/pages/chart-google-custom.js"></script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>

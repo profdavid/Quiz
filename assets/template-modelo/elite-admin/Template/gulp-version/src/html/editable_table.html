@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    @@include('./layouts/head.html')
+
+    <!-- pages css -->
+    <link rel="stylesheet" href="../assets/css/pages/pages.css">
+
+    @@include('./layouts/head-bottom-link.html')
+
+</head>
+
+@@include('./layouts/main.html')
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Editable Table</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Table</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Editable Table</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- Edit With Click card start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Edit With Click</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered" id="example-1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>First</th>
+                                                        <th>Last</th>
+                                                        <th>Nickname</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Mark</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="First" value="Mark">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Otto</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="Last" value="Otto">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">@mdo</span>
+                                                            <select class="tabledit-input form-control input-sm" name="Nickname" disabled="">
+                                                                <option value="1">@mdo</option>
+                                                                <option value="2">@fat</option>
+                                                                <option value="3">@twitter</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Jacob</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="First" value="Jacob" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Thorntonkk</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="Last" value="Thornton" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">@mdo</span>
+                                                            <select class="tabledit-input form-control input-sm" name="Nickname" disabled="">
+                                                                <option value="1">@mdo</option>
+                                                                <option value="2">@fat</option>
+                                                                <option value="3">@twitter</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">3</th>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Larry</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="First" value="Larry" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">the Bird</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="Last" value="the Bird" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">@mdo</span>
+                                                            <select class="tabledit-input form-control input-sm" name="Nickname" disabled="">
+                                                                <option value="1">@mdo</option>
+                                                                <option value="2">@fat</option>
+                                                                <option value="3">@twitter</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light add" onclick="add_row();">Add Row</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit With Click card end -->
+                            <!-- Edit With Button card start -->
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Edit With Button</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered" id="example-2">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>First</th>
+                                                        <th>Last</th>
+                                                        <th>Nickname</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Mark</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="First" value="Mark">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Otto</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="Last" value="Otto">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">@mdo</span>
+                                                            <select class="tabledit-input form-control input-sm" name="Nickname" disabled="" style="display:none;">
+                                                                <option value="1">@mdo</option>
+                                                                <option value="2">@fat</option>
+                                                                <option value="3">@twitter</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Jacob</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="First" value="Jacob" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Thorntonkk</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="Last" value="Thornton" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">@mdo</span>
+                                                            <select class="tabledit-input form-control input-sm" name="Nickname" disabled="" style="display:none;">
+                                                                <option value="1">@mdo</option>
+                                                                <option value="2">@fat</option>
+                                                                <option value="3">@twitter</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">3</th>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">Larry</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="First" value="Larry" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">the Bird</span>
+                                                            <input class="tabledit-input form-control input-sm" type="text" name="Last" value="the Bird" disabled="">
+                                                        </td>
+                                                        <td class="tabledit-view-mode"><span class="tabledit-span">@mdo</span>
+                                                            <select class="tabledit-input form-control input-sm" name="Nickname" disabled="" style="display:none;">
+                                                                <option value="1">@mdo</option>
+                                                                <option value="2">@fat</option>
+                                                                <option value="3">@twitter</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit With Button card end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+@@include('./layouts/footer.html')
+
+<!-- editable Js -->
+<script src="../assets/plugins/editable/js/jquery.tabledit.js"></script>
+<script src="../assets/js/pages/editable-custom.js"></script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    @@include('./layouts/head.html')
+
+    <!-- Rating css -->
+    <link rel="stylesheet" href="../assets/plugins/ratting/css/bars-1to10.css">
+
+    @@include('./layouts/head-bottom-link.html')
+
+</head>
+
+@@include('./layouts/main.html')
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Project</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Project Dashboard</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ breadcrumb ] end -->
+                        <!-- [ Main Content ] start -->
+                        <div class="row">
+                            <!-- Project statustic start -->
+                            <div class="col-xl-12">
+                                <div class="card proj-progress-card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-xl-3 col-md-6">
+                                                <h6>Published Project</h6>
+                                                <h5 class="m-b-25">532<span class="text-c-red m-l-10 m-r-10">+1.69%</span></h5>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-c-red bg-c-red" style="width:25%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6">
+                                                <h6>Completed Task</h6>
+                                                <h5 class="m-b-25">4,569<span class="text-c-blue m-l-10 m-r-10">-0.5%</span></h5>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-c-blue bg-c-blue" style="width:65%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6">
+                                                <h6>Successfull Task</h6>
+                                                <h5 class="m-b-25">89%<span class="text-c-green m-l-10 m-r-10">+0.99%</span></h5>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-c-green bg-c-green" style="width:85%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-md-6">
+                                                <h6>Ongoing Project</h6>
+                                                <h5 class="m-b-25">365<span class="text-c-yellow m-l-10 m-r-10">+0.35%</span></h5>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-c-yellow bg-c-yellow" style="width:45%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Project statustic end -->
+                            <!-- Gadjets-section start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Avg. use of project by different devices</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="type-chart" style="height:180px;"></div>
+                                        <div class="mt-3">
+                                            <span class="d-block mb-2"><i class="fas fa-circle f-10 m-r-15" style="color:#67b7dc;"></i>Desktop Computers<span class="float-right f-w-400">76.7%</span></span>
+                                            <span class="d-block mb-2"><i class="fas fa-circle f-10 m-r-15" style="color:#8067dc;"></i>Smartphones<span class="float-right f-w-400">15%</span></span>
+                                            <span class="d-block"><i class="fas fa-circle f-10 m-r-15" style="color:#dc67ce;"></i>Tablets<span class="float-right f-w-400">30%</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Gadjets-section end -->
+                            <!-- moodrate start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card rating-bar">
+                                    <div class="card-body">
+                                        <div class="row mb-4">
+                                            <div class="col-6">
+                                                <h6 class="m-0">Task Completed</h6>
+                                                <span>Successfull tested</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <h2 class="text-right">60%</h2>
+                                            </div>
+                                        </div>
+                                        <select id="example-1to10" name="rating" autocomplete="off">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16" selected="selected">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="text-c-blue mb-3">App design and development</h6>
+                                                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</span>
+                                                <h6 class="mb-0 mt-4"><i class="feather icon-arrow-up text-c-green"></i>$6,456<span class="float-right"><i class="feather icon-arrow-down text-c-red"></i>$2,500</span></h6>
+                                                <div class="progress mt-2" style="height:6px;">
+                                                    <div class="progress-bar bg-primary rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <span class="mt-2 d-block">This Week<span class="float-right">Previous Week</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- moodrate end -->
+                            <!-- what-new start -->
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card latest-update-card update-card">
+                                    <div class="card-header">
+                                        <h5>Notification</h5>
+                                        <div class="card-header-right">
+                                            <div class="btn-group card-option">
+                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="feather icon-more-horizontal"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                    <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+                                                    <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="new-scroll" style="height:350px;position:relative;">
+                                        <div class="card-body">
+                                            <div class="latest-update-box">
+                                                <div class="row p-t-20 p-b-30">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <img src="../assets/images/user/avatar-1.jpg" alt="user image" class="img-radius align-top update-icon">
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">Your Manager Posted.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">Jonny michel</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-b-30">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <i class="feather icon-briefcase bg-c-red update-icon"></i>
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">You have 3 pending Task.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">Hemilton</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-b-30">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <i class="feather icon-check f-w-600 bg-c-green update-icon"></i>
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">New Order Received.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">Hemilton</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-b-30">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <i class="feather icon-briefcase bg-c-red update-icon"></i>
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">You have 3 pending Task.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">Hemilton</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-b-30">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <img src="../assets/images/user/avatar-4.jpg" alt="user image" class="img-radius align-top update-icon">
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">Your Manager Posted.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">Jonny michel</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row p-b-30">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <i class="feather icon-check f-w-600 bg-c-green update-icon"></i>
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">New Order Received.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">Shirley Hoe</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-auto text-right update-meta">
+                                                        <i class="feather icon-briefcase bg-c-red update-icon"></i>
+                                                    </div>
+                                                    <div class="col p-l-5">
+                                                        <a href="#!">
+                                                            <h6 class="m-0">You have 2 pending Task.</h6>
+                                                        </a>
+                                                        <p class="m-b-0">James Alexander</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- what-new end -->
+                            <!-- Top round user-card start -->
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    <div class="widget-profile-card-3">
+                                        <img class="img-fluid img-thumbnail" src="../assets/images/widget/img-round1.jpg" alt="Profile-user">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h3>John Doe</h3>
+                                        <p>Web Designer</p>
+                                        <p class="mb-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci a, rem accusantium recusandae beatae.
+                                    </div>
+                                    <div class="card-footer bg-inverse">
+                                        <div class="row text-center">
+                                            <div class="col">
+                                                <h4>400</h4>
+                                                <span>Designs</span>
+                                            </div>
+                                            <div class="col">
+                                                <h4>90</h4>
+                                                <span>Projects</span>
+                                            </div>
+                                            <div class="col">
+                                                <h4>70</h4>
+                                                <span>Devlopment</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Top round user-card end -->
+                            <!-- [ user Project list ] start -->
+                            <div class="col-xl-8 col-md-12">
+                                <div class="card user-list table-card">
+                                    <div class="card-header">
+                                        <h5>User Project List</h5>
+                                        <div class="card-header-right">
+                                            <div class="btn-group card-option">
+                                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="feather icon-more-horizontal"></i>
+                                                </button>
+                                                <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                                    <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
+                                                    <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
+                                                    <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
+                                                    <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body pb-0">
+                                        <div class="table-responsive">
+                                            <div class="user-scroll" style="height:430px;position:relative;">
+                                                <table class="table table-hover m-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>User</th>
+                                                            <th>project</th>
+                                                            <th>Completed</th>
+                                                            <th>Status</th>
+                                                            <th>Date</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><img class="rounded-circle" style="width:40px;" src="../assets/images/user/avatar-1.jpg" alt="activity-user"></td>
+                                                            <td>
+                                                                <h6 class="mb-1">Social Media App</h6>
+                                                                <p class="m-0">Assigned to<span class="text-c-green"> Tristan Madsen</span></p>
+                                                            </td>
+                                                            <td>326,134</td>
+                                                            <td class="text-c-green">68%</td>
+                                                            <td>October 26, 2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><img class="rounded-circle" style="width:40px;" src="../assets/images/user/avatar-2.jpg" alt="activity-user"></td>
+                                                            <td>
+                                                                <h6 class="mb-1">Newspaper Wordpress Web</h6>
+                                                                <p class="m-0">Assigned to<span class="text-c-red"> Marcus Poulsen</span></p>
+                                                            </td>
+                                                            <td>110,134</td>
+                                                            <td class="text-c-red">46%</td>
+                                                            <td>September 4, 2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><img class="rounded-circle" style="width:40px;" src="../assets/images/user/avatar-3.jpg" alt="activity-user"></td>
+                                                            <td>
+                                                                <h6 class="mb-1">Dashboard UI Kit Design</h6>
+                                                                <p class="m-0">Assigned to<span class="text-c-blue"> Felix Johansen</span></p>
+                                                            </td>
+                                                            <td>226,134</td>
+                                                            <td class="text-c-blue">31%</td>
+                                                            <td>November 14, 2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><img class="rounded-circle" style="width:40px;" src="../assets/images/user/avatar-1.jpg" alt="activity-user"></td>
+                                                            <td>
+                                                                <h6 class="mb-1">Social Media App</h6>
+                                                                <p class="m-0">Assigned to<span class="text-c-green"> Ida Jorgensen</span></p>
+                                                            </td>
+                                                            <td>500,134</td>
+                                                            <td class="text-c-green">85%</td>
+                                                            <td>December 14, 2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><img class="rounded-circle" style="width:40px;" src="../assets/images/user/avatar-1.jpg" alt="activity-user"></td>
+                                                            <td>
+                                                                <h6 class="mb-1">Social Media App</h6>
+                                                                <p class="m-0">Assigned to<span class="text-c-red"> Tristan Madsen</span></p>
+                                                            </td>
+                                                            <td>326,134</td>
+                                                            <td class="text-c-red">68%</td>
+                                                            <td>January 26, 2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><img class="rounded-circle" style="width:40px;" src="../assets/images/user/avatar-2.jpg" alt="activity-user"></td>
+                                                            <td>
+                                                                <h6 class="mb-1">Newspaper Wordpress Web</h6>
+                                                                <p class="m-0">Assigned to<span class="text-c-blue"> Marcus Poulsen</span></p>
+                                                            </td>
+                                                            <td>110,134</td>
+                                                            <td class="text-c-blue">46%</td>
+                                                            <td>April 4, 2017</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- [ user Project list ] end -->
+                        </div>
+                        <!-- [ Main Content ] end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+@@include('./layouts/footer.html')
+
+
+<!-- am chart js -->
+<script src="../assets/plugins/chart-am4/js/core.js"></script>
+<script src="../assets/plugins/chart-am4/js/charts.js"></script>
+<script src="../assets/plugins/chart-am4/js/animated.js"></script>
+<script src="../assets/plugins/chart-am4/js/maps.js"></script>
+<script src="../assets/plugins/chart-am4/js/worldLow.js"></script>
+<script src="../assets/plugins/chart-am4/js/continentsLow.js"></script>
+
+<!-- Rating Js -->
+<script src="../assets/plugins/ratting/js/jquery.barrating.min.js"></script>
+
+<!-- dashboard-custom js -->
+<script src="../assets/js/pages/dashboard-project.js"></script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>

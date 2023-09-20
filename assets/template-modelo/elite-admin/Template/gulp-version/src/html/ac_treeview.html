@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	@@include('./layouts/head.html')
+
+	<!-- jstree css -->
+	<link rel="stylesheet" href="../assets/plugins/jstree/css/style.min.css">
+
+	@@include('./layouts/head-bottom-link.html')
+
+</head>
+
+@@include('./layouts/main.html')
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+	<div class="pcoded-wrapper">
+		<div class="pcoded-content">
+			<div class="pcoded-inner-content">
+				<div class="main-body">
+					<div class="page-wrapper">
+						<!-- [ breadcrumb ] start -->
+						<div class="page-header">
+							<div class="page-block">
+								<div class="row align-items-center">
+									<div class="col-md-12">
+										<div class="page-header-title">
+											<h5 class="m-b-10">Tree View</h5>
+										</div>
+										<ul class="breadcrumb">
+											<li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+											<li class="breadcrumb-item"><a href="#!">Advance Components</a></li>
+											<li class="breadcrumb-item"><a href="#!">Tree View</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- [ breadcrumb ] end -->
+						<!-- [ Main Content ] start -->
+						<div class="row">
+							<!-- [ treeview ] start -->
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<h5>HTML Demo</h5>
+									</div>
+									<div class="card-body">
+										<div id="html" class="demo">
+											<ul>
+												<li data-jstree='{ "opened" : true }'>Root node
+													<ul>
+														<li data-jstree='{ "selected" : true }'>Child node 1</li>
+														<li>Child node 2</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<h5>Data Format Demo</h5>
+									</div>
+									<div class="card-body">
+										<div id="frmt" class="demo"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<h5>Callback Function Data Demo</h5>
+									</div>
+									<div class="card-body">
+										<div id="clbk" class="demo"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<h5>Inline Data Demo</h5>
+									</div>
+									<div class="card-body">
+										<div id="data" class="demo"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<h5>AJAX Demo</h5>
+									</div>
+									<div class="card-body">
+										<div id="ajax" class="demo"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<h5>Lazy Loading Demo</h5>
+									</div>
+									<div class="card-body">
+										<div id="lazy" class="demo"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="card">
+									<div class="card-header">
+										<h5>Interaction and Events Demo</h5>
+									</div>
+									<div class="card-body">
+										<button id="evts_button">select node with id 1</button> <em>either click the button or a node in the tree</em>
+										<div id="evts" class="demo"></div>
+									</div>
+								</div>
+							</div>
+							<!-- [ treeview ] end -->
+						</div>
+						<!-- [ Main Content ] end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- [ Main Content ] end -->
+
+@@include('./layouts/footer.html')
+
+<!-- jstree Js -->
+<script src="../assets/plugins/jstree/js/jstree.min.js"></script>
+<script src="../assets/js/pages/ac-treeview.js"></script>
+
+@@include('./layouts/footer-bottom-link.html')
+
+</body>
+
+</html>
