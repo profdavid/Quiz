@@ -31,6 +31,8 @@ class Home extends CI_Controller {
 		if($res_id){
 			$this->session->set_userdata('quiz_ideventoativo', $idevento);
 
+			$this->session->set_userdata('quiz_evenome', $this->PadraoM->fmSearch('evento', '', ['id' => $idevento], TRUE)->evenome);
+
 			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Novo Evento ativo!'));
 			
 			//--- Grava Log ---

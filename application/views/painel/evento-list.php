@@ -12,7 +12,7 @@
                                     <h5 class="m-b-10">Evento</h5>
                                 </div>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="<?=site_url() ?>"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="<?=site_url('painel') ?>"><i class="feather icon-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="#!">Listagem</a></li>
                                 </ul>
                             </div>
@@ -49,7 +49,7 @@
                                                 </thead>
                                                 <tbody>
                                                     {LIST_DADOS}
-                                                    <tr {COR_INATIVO}>
+                                                    <tr {COR_ATIVO}>
                                                     	<td><a href="{URL_EDITAR}">{evenome}</a></td>
                                                         <td><a href="{URL_EDITAR}">{evesituacao}</a></td>
                                                     	<td class="text-center">

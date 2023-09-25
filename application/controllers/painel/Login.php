@@ -27,7 +27,7 @@ class Login extends CI_Controller {
 		$senha = $this->input->post('senha');
 
 		//Buscando dados no Banco
-		$res = $this->PadraoM->fmSearchQuery("SELECT * FROM usuario WHERE usuemail = '".$email."'", TRUE);
+		$res = $this->PadraoM->fmSearchQuery("SELECT u.*, e.evenome FROM usuario u LEFT JOIN evento e ON u.ideventoativo = e.id WHERE u.usuemail = '".$email."'", TRUE);
 
 		if($res){
 			if(password_verify($senha, $res->ususenha)) {
@@ -36,6 +36,7 @@ class Login extends CI_Controller {
 				$this->session->set_userdata('quiz_usuemail', $res->usuemail);
 				$this->session->set_userdata('quiz_usunome', $res->usunome);
 				$this->session->set_userdata('quiz_ideventoativo', $res->ideventoativo);
+				$this->session->set_userdata('quiz_evenome', $res->evenome);
 
 				//--- Grava Log ---
 				$log = "Login | Id: ".$this->session->userdata('quiz_idusuario')." | Nome: ".$this->session->userdata('quiz_usunome');

@@ -41,6 +41,7 @@ class Evento extends CI_Controller {
 					'id' 			=> $r->id,
 					'evenome' 		=> $r->evenome,
 					'evesituacao' 	=> $situacao,
+					'COR_ATIVO'		=> ($r->id == $this->session->userdata('quiz_ideventoativo')) ? 'style="background-color:#d4edda;"' : null,
 					'URL_EDITAR'	=> site_url('painel/Evento/edita/'.$r->id)
 				);
 			}

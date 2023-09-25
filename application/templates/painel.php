@@ -186,6 +186,9 @@
             </ul>
             
             <ul class="navbar-nav ml-auto">
+                <li>
+                    <p class="text-primary"><?=$this->session->userdata('quiz_evenome')?></p>
+                </li>
                 
                 <!-- Menu Seleção de Eventos -->
                 <?=listEventos()?>

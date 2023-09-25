@@ -12,7 +12,7 @@
                                     <h5 class="m-b-10">Usuário</h5>
                                 </div>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="<?=site_url() ?>"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="<?=site_url('painel') ?>"><i class="feather icon-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="#!">Listagem</a></li>
                                 </ul>
                             </div>
