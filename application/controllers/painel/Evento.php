@@ -102,10 +102,10 @@ class Evento extends CI_Controller {
 			$res_log = $this->LogM->fmNew($itens_log);
 			//--- Fim Log ---
 			
-			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Registro excluí­do.'));
+			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Registro excluído.'));
 		}
 		else
-			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao excluir o registro. Pode ser que haja Subeventos vinculados.'));
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao excluir o registro.'));
 
 		redirect('painel/Evento');
 	}
