@@ -33,7 +33,7 @@
         background-size: auto;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        background-position: right;
+        background-position: top right;
     }
   </style>
   

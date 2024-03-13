@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 
-		if(!$this->session->userdata('quiz_logado')) redirect('Login');
+		if(!$this->session->userdata('quiz_logado')) redirect('painel/Login');
 
 		date_default_timezone_set('America/Sao_Paulo');
 
@@ -21,6 +21,6 @@ class Home extends CI_Controller {
 		$data['LIST_DADOS']	= array();
 		$data['SEM_DADOS'] 	= null;
 		
-		$this->parser->parse('home', $data);
+		$this->parser->parse('painel/home', $data);
 	}
 }

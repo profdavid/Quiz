@@ -33,7 +33,7 @@
                                         <p class="f-16">Jogo - Motivação - Interação - Integração</p>
                                     </div>
                                     <div class="card-footer">
-                                        <p class="text-danger">Desenvolvido por: Prof. David Paolini Develly e Aluno ??? - Campus Colatina.</p>
+                                        <p class="text-danger">Desenvolvido por: Prof. David Paolini Develly e Aluno Luis Gustavo Leal Rossim - Campus Colatina.</p>
                                     </div>
                                 </div>
                             </div>

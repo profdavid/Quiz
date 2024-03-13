@@ -9,7 +9,7 @@
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="page-header-title">
-                                    <h5 class="m-b-10">Usuário</h5>
+                                    <h5 class="m-b-10">Equipes</h5>
                                 </div>
                                 <ul class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="<?=site_url('painel') ?>"><i class="feather icon-home"></i></a></li>
@@ -32,7 +32,7 @@
                                     <div class="card-body">
                                         <div class="row mb-2">
                                             <div class="col-6">
-                                                <p class="f-16">Listagem de Usuários</p>
+                                                <p class="f-16">Listagem de Equipes</p>
                                             </div>
                                             <div class="col-6 text-right">
                                                 <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-file"></i>Novo</a>
@@ -43,20 +43,26 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nome</th>
-                                                        <th>E-mail</th>
+                                                        <th>Logo</th>
+                                                        <th>Evento</th>
+                                                        <th>Atualizado em</th>
                                                         <th data-sortable="false" width="60" class="text-center">Ações</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {LIST_DADOS}
                                                     <tr {COR_INATIVO}>
-                                                    	<td><a href="{URL_EDITAR}">{usunome}</a></td>
-                                                        <td><a href="{URL_EDITAR}">{usuemail}</a></td>
+                                                    	<td><a href="{URL_EDITAR}">{equnome}</a></td>
+                                                        <td>
+                                                            <img width='35px' src="{equlogo}" alt="equipe_logo">
+                                                        </td>
+                                                        <td>{evenome}</td>
+                                                        <td>{atualizado_em}</td>
                                                     	<td class="text-center">
                                                             <a href="{URL_EDITAR}" class="tabledit-delete-button mr-3">
                                                                 <span class="feather icon-edit f-16"></span>
                                                             </a>
-                                                    		<button type="button" class="tabledit-delete-button btn btn-default" onclick="chamaExcluir({id}, '{usunome}')">
+                                                    		<button type="button" class="tabledit-delete-button btn btn-default" onclick="chamaExcluir({id}, '{equnome}')">
                                                                 <span class="feather icon-trash-2 f-16 text-c-red"></span>
                                                             </button>
                                                     	</td>

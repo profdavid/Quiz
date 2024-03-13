@@ -60,6 +60,22 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/style.css') ?>">
 
     <style>
+        .b-title {
+            font-size: 20px !important;
+        }
+
+        .pcoded-navbar a {
+            color: #a9d9a3;
+        }
+
+        .nav-link {
+            transition: background-color 100ms;
+        }
+
+        .nav-link:hover {
+            background-color: #254120;
+        }
+
         .tabledit-delete-button{
             margin: 0; 
             padding: 0; 
@@ -111,16 +127,19 @@
                        <img src="<?=base_url('assets/img/ico2.png')?>">
                    </div> -->
                    <div class="b-bg">
-                        Quiz
+                        <span>Quiz</span>
                     </div>
-                   <span class="b-title">Ifes</span>
+                   <span class="b-title">
+                        IFES
+                   </span>
+                   <!-- <img width="125px" src="<?=base_url('assets/img/logo_branca.png')?>" alt=""> -->
                 </a>
                 <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             </div>
             <div class="navbar-content scroll-div">
                 <ul class="nav pcoded-inner-navbar">
                     <li class="nav-item pcoded-menu-caption">
-                        <label>Menu</label>
+                        <label class="text-white f-14 text-uppercase">Menu</label>
                     </li>
                     
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(2) == 'Home') ? 'active' : null ?>">
@@ -131,9 +150,7 @@
 
                     <li data-username="Evento" class="nav-item <?php echo ($this->uri->segment(2) == 'Evento') ? 'active' : null ?>"><a href="<?=site_url('painel/Evento')?>" class="nav-link"><span class="pcoded-micon"><i class="fas fa-dice-d6"></i></span><span class="pcoded-mtext">Eventos</span></a></li>
 
-                    <!-- <li data-username="Cursos" class="nav-item"><a href="<?=site_url('Curso')?>" class="nav-link"><span class="pcoded-micon"><i class="fas fa-tag"></i></span><span class="pcoded-mtext">Cursos</span></a></li>
-
-                    <li data-username="Cenários" class="nav-item"><a href="<?=site_url('Cenario')?>" class="nav-link"><span class="pcoded-micon"><i class="fas fa-clipboard-list"></i></span><span class="pcoded-mtext">Cenários</span></a></li> -->
+                    <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-target"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
                 </ul>
             </div>
         </div>
