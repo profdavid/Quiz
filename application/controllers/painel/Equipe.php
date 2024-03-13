@@ -16,8 +16,9 @@ class Equipe extends CI_Controller {
 
 	public function index(){
 		$data = array();
-		$data['URL_NOVO'] 	= site_url('painel/Equipe/novo');
-		$data['URL_EXCLUIR']= site_url('painel/Equipe/excluir');
+		$data['URL_NOVO'] 		= site_url('painel/Equipe/novo');
+		$data['URL_EXCLUIR']	= site_url('painel/Equipe/excluir');
+		$data['URL_DESLOGAR']	= site_url('painel/Equipe/deslogar');
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
 		$data['LIST_DADOS']	= array();
@@ -37,9 +38,11 @@ class Equipe extends CI_Controller {
 					'id' 			=> $r->id,
 					'equnome' 		=> $r->equnome,
 					'equlogo' 		=> $r->equlogo,
+					'equlogada' 		=> $r->equlogada,
 					'evenome'		=> $evento->evenome,
 					'criado_em' 	=> $r->criado_em,
 					'atualizado_em' => $r->atualizado_em,
+					'BTN_DESLOGAR' => ($r->equlogada == 0) ? 'disabled' : 'enabled',
 					'COR_INATIVO'	=> ($r->equlogada == 0) ? 'style="background-color:#fff2f3;"' : null,
 					'URL_EDITAR'	=> site_url('painel/Equipe/edita/'.$r->id)
 				);
@@ -206,4 +209,28 @@ class Equipe extends CI_Controller {
 
 		redirect('painel/Equipe');
 	}
+
+
+	public function deslogar(){
+		$id = $this->input->post('iddeslogar');	
+		$cond = array('id' => $id);
+		$itens['equlogada'] = 0;
+			
+		$res = $this->PadraoM->fmUpdate($this->tabela, $cond, $itens);
+		
+		if($res){
+			//--- Grava Log ---
+			$log = "Exclui ". $this->tabela ." | Id: $id";
+			$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
+			$res_log = $this->LogM->fmNew($itens_log);
+			//--- Fim Log ---
+			
+			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Equipe deslogada.'));
+		}
+		else
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao deslogar a equipe.'));
+
+		redirect('painel/Equipe');
+	}
+	
 }

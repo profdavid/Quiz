@@ -4,6 +4,12 @@ function chamaExcluir(id, str){
     $('#txt-excluir').html(str);
 }
 
+function chamaDeslogar(id, str){
+    $('#modalDeslogar').modal('show');
+    $('#iddeslogar').val(id);
+    $('#txt-deslogar').html(str);
+}
+
 function notify(from, align, icon, type, animIn, animOut, title, message) {
     $.growl({
         icon: icon,
