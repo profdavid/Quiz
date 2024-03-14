@@ -153,7 +153,7 @@ function listEventos(){
 
 	$html = '<li>
                 <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fas fa-cube"></i></a>
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="feather icon-grid"></i></a>
                     <div class="dropdown-menu dropdown-menu-right notification">
                         <div class="noti-head">
                             <h6 class="d-inline-block m-b-0">Eventos</h6>

@@ -32,8 +32,9 @@
                                     <div class="card-body">
                                         <p class="f-16">Jogo - Motivação - Interação - Integração</p>
                                     </div>
-                                    <div class="card-footer">
-                                        <p class="text-danger">Desenvolvido por: Prof. David Paolini Develly e Aluno Luis Gustavo Leal Rossim - Campus Colatina.</p>
+                                    <div class="card-footer d-flex justify-content-between align-items-end">
+                                        <p class="text-danger">Desenvolvido por: Prof. David Paolini Develly e Aluno Luis Gustavo Leal Rossim - Campus Colatina</p>
+                                        <img width="150px" src="<?=base_url('assets/img/logo_cor.png')?>" alt="logo_ifes">
                                     </div>
                                 </div>
                             </div>

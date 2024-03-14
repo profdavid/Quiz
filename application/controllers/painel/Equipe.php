@@ -42,7 +42,7 @@ class Equipe extends CI_Controller {
 					'evenome'		=> $evento->evenome,
 					'criado_em' 	=> $r->criado_em,
 					'atualizado_em' => $r->atualizado_em,
-					'BTN_DESLOGAR' => ($r->equlogada == 0) ? 'disabled' : 'enabled',
+					'BTN_DESLOGAR' => ($r->equlogada == 0) ? 'hidden' : '',
 					'COR_INATIVO'	=> ($r->equlogada == 0) ? 'style="background-color:#fff2f3;"' : null,
 					'URL_EDITAR'	=> site_url('painel/Equipe/edita/'.$r->id)
 				);

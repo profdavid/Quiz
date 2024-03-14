@@ -123,16 +123,12 @@
         <div class="navbar-wrapper">
             <div class="navbar-brand header-logo">
                 <a href="<?=site_url()?>" class="b-brand">
-                   <!-- <div>
-                       <img src="<?=base_url('assets/img/ico2.png')?>">
-                   </div> -->
                    <div class="b-bg">
                         <span>Quiz</span>
                     </div>
                    <span class="b-title">
                         IFES
                    </span>
-                   <!-- <img width="125px" src="<?=base_url('assets/img/logo_branca.png')?>" alt=""> -->
                 </a>
                 <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             </div>
@@ -148,9 +144,9 @@
                     
                     <li data-username="Usuario" class="nav-item <?php echo ($this->uri->segment(2) == 'Usuario') ? 'active' : null ?>"><a href="<?=site_url('painel/Usuario')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Usuários</span></a></li>
 
-                    <li data-username="Evento" class="nav-item <?php echo ($this->uri->segment(2) == 'Evento') ? 'active' : null ?>"><a href="<?=site_url('painel/Evento')?>" class="nav-link"><span class="pcoded-micon"><i class="fas fa-dice-d6"></i></span><span class="pcoded-mtext">Eventos</span></a></li>
+                    <li data-username="Evento" class="nav-item <?php echo ($this->uri->segment(2) == 'Evento') ? 'active' : null ?>"><a href="<?=site_url('painel/Evento')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Eventos</span></a></li>
 
-                    <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-target"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
+                    <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-shield"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
                 </ul>
             </div>
         </div>

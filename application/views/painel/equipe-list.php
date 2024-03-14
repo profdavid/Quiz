@@ -32,10 +32,10 @@
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-6">
-                                <p class="f-16">Listagem de Equipes</p>
+                                <p class="f-18">Listagem de Equipes</p>
                             </div>
                             <div class="col-6 text-right">
-                                <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-file"></i>Novo</a>
+                                <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-plus"></i>Novo</a>
                             </div>
                         </div>
                         <div class="dt-responsive table-responsive">
@@ -58,16 +58,16 @@
                                         </td>
                                         <td>{evenome}</td>
                                         <td>{atualizado_em}</td>
-                                      <td class="text-center d-flex">
-                                        <button type="button" {BTN_DESLOGAR} class="tabledit-delete-button btn btn-default mr-4" onclick="chamaDeslogar({id}, '{equnome}')">
-                                          <span class="feather icon-power text-warning f-16"></span>
-                                        </button>
-                                        <a href="{URL_EDITAR}" class="tabledit-delete-button mr-4">
-                                          <span class="feather icon-edit f-16"></span>
-                                        </a>
-                                        <button type="button" class="tabledit-delete-button btn btn-default" onclick="chamaExcluir({id}, '{equnome}')">
-                                          <span class="feather icon-trash-2 f-16 text-c-red"></span>
-                                        </button>
+                                        <td class="text-center d-flex justify-content-end">
+                                            <button type="button" {BTN_DESLOGAR} class="tabledit-delete-button btn btn-default mr-4" onclick="chamaDeslogar({id}, '{equnome}')">
+                                            <span class="feather icon-log-out text-secondary-subtle f-16"></span>
+                                            </button>
+                                            <a href="{URL_EDITAR}" class="tabledit-delete-button mr-4">
+                                            <span class="feather icon-edit f-16"></span>
+                                            </a>
+                                            <button type="button" class="tabledit-delete-button btn btn-default" onclick="chamaExcluir({id}, '{equnome}')">
+                                            <span class="feather icon-trash-2 f-16 text-c-red"></span>
+                                            </button>
                                       </td>
                                     </tr>
                                     {/LIST_DADOS}

@@ -32,10 +32,10 @@
                                     <div class="card-body">
                                         <div class="row mb-2">
                                             <div class="col-6">
-                                                <p class="f-16">Listagem de Eventos</p>
+                                                <p class="f-18">Listagem de Eventos</p>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-file"></i>Novo</a>
+                                                <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-plus"></i>Novo</a>
                                             </div>
                                         </div>
                                         <div class="dt-responsive table-responsive">

@@ -1,11 +1,16 @@
 <!-- [ signin-img ] start -->
 <div class="auth-wrapper aut-bg-img-side cotainer-fiuid align-items-stretch">
   <div class="row align-items-center w-100 align-items-stretch bg-white">
-    <div class="col-md-4 align-items-stret h-100 ad-flex justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-12 mx-auto align-items-stret h-100 ad-flex justify-content-center">
       <div class="auth-content">
+        <div class="row mb-3">
+          <div class="col-12 align-self-center text-center">
+            <img width="175px" src="<?=base_url('assets/img/logo_cor.png') ?>" alt="" class="img-fluid">
+          </div>
+        </div>
         <div class="row">
-          <div class="col-12 text-center">
-            <img src="<?=base_url('assets/img/brand01.png') ?>" alt="" class="img-fluid mb-4">
+          <div class="col-12 align-self-center text-center my-3">
+            <img width="155px" src="<?=base_url('assets/img/quiz_logo.png') ?>" alt="" class="img-fluid">
           </div>
         </div>
         
@@ -30,36 +35,8 @@
           
           <button type="submit" class="btn btn-primary btn-block mb-4">Acessar</button>
         </form>
-        
-        <p class="mb-2 text-muted"><a href="#" class="text-primary f-w-400" data-toggle="modal" data-target="#modalRecSenha">Esqueceu a senha?</a></p>
-      </div>
-    </div>
 
-    <div class="d-none d-lg-flex col-md-8 aut-bg-img d-md-flex justify-content-center">
-      <div class="col-md-8 d-flex">
-        <div class="auth-content d-flex align-items-stretch">
-          <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-            <!-- <ol class="carousel-indicators justify-content-start mx-0">
-              <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-              <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <h1 class="text-white mb-5">Login in A&G Sistemas</h1>
-                <p class="text-white">A melhor solução de controle para sua empresa.</p>
-              </div>
-              <div class="carousel-item">
-                <h1 class="text-white mb-5">Login in Elite Able</h1>
-                <p class="text-white">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-              </div>
-              <div class="carousel-item">
-                <h1 class="text-white mb-5">Login in Elite Able</h1>
-                <p class="text-white">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-              </div>
-            </div> -->
-          </div>
-        </div>
+        <p class="m-0"><a href="#" class="text-primary f-w-400" data-toggle="modal" data-target="#modalRecSenha">Esqueceu a senha?</a></p>
       </div>
     </div>
   </div>
