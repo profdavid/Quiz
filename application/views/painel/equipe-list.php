@@ -52,10 +52,8 @@
                                 <tbody>
                                     {LIST_DADOS}
                                     <tr {COR_INATIVO}>
-                                      <td><a href="{URL_EDITAR}">{equnome}</a></td>
-                                        <td>
-                                          <img width='35px' src="{equlogo}" alt="equipe_logo">
-                                        </td>
+                                        <td><a href="{URL_EDITAR}">{equnome}</a></td>
+                                        <td><img width='35px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
                                         <td>{evenome}</td>
                                         <td>{atualizado_em}</td>
                                         <td class="text-center d-flex justify-content-end">

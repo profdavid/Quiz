@@ -30,7 +30,7 @@
                                 {RES_ERRO}
 
                                 <div class="card">
-                                    <form role="form" id="frmacao" name="frmacao" method="post" action="{URL_FRM}">
+                                    <form role="form" id="frmacao" enctype="multipart/form-data" name="frmacao" method="post" action="{URL_FRM}">
                                     <input type="hidden" id="id" name="id" value="{id}" />
                                     
                                     <div class="card-body">
@@ -48,7 +48,7 @@
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="equlogo">Logo: *</label>
-                                                        <input type="text" class="form-control" id="equlogo" name="equlogo" required value="{equlogo}">
+                                                        <input class="form-control" id="equlogo" type="file" required name="equlogo" size="20"/>
                                                     </div>
 
                                                     <div class="form-group col-md-6">

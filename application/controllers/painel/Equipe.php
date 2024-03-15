@@ -12,6 +12,7 @@ class Equipe extends CI_Controller {
 		$this->layout = LAYOUT_PAINEL;
 		$this->load->model('/Padrao_Model', 'PadraoM');
 		$this->load->model('/LogSistema_Model', 'LogM');
+		$this->load->helpers('/fileuploader_helper');
 	}
 
 	public function index(){
@@ -82,6 +83,18 @@ class Equipe extends CI_Controller {
 
 
 	public function salvar(){
+		$fileupload = new FileUploader('equlogo', $_FILES['equlogo']);
+		
+		if ($fileupload) {
+			$upload_res = $fileupload->upload();
+
+			if (!$upload_res) {
+				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar arquivo'));
+			}
+		} else {
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao inicar upload'));
+		}
+		
 		//Inicializando variáveis com dados enviados
 		foreach($this->input->post() as $chave => $valor){
 			$valor = ($valor) ? $valor : null;
@@ -96,6 +109,7 @@ class Equipe extends CI_Controller {
 		//Tratamento dos itens
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
 		$itens['idevento'] = $idevento;
+		$itens['equlogo'] = $upload_res['files'][0]['file'];
 		
 		//Verifica se o nome já existe
 		$filtro_verifica = ($id) ? " AND id <> $id" : null;
