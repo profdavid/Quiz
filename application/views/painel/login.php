@@ -3,14 +3,9 @@
   <div class="row align-items-center w-100 align-items-stretch bg-white">
     <div class="col-lg-4 col-md-6 col-sm-12 mx-auto align-items-stret h-100 ad-flex justify-content-center">
       <div class="auth-content">
-        <div class="row mb-3">
-          <div class="col-12 align-self-center text-center">
-            <img width="175px" src="<?=base_url('assets/img/logo_cor.png') ?>" alt="" class="img-fluid">
-          </div>
-        </div>
         <div class="row">
           <div class="col-12 align-self-center text-center my-3">
-            <img width="155px" src="<?=base_url('assets/img/quiz_logo.png') ?>" alt="" class="img-fluid">
+            <img width="100px" src="<?=base_url('assets/img/quiz_logo.png') ?>" alt="" class="img-fluid">
           </div>
         </div>
         

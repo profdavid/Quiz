@@ -37,30 +37,17 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="equnome">Nome: *</label>
                                                             <input type="text" class="form-control" id="equnome" name="equnome" required value="{equnome}">
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="equlogo">Logo: *</label>
-                                                        <input class="form-control" id="equlogo" type="file" required name="equlogo" size="20"/>
-                                                    </div>
-
-                                                    <div class="form-group col-md-6">
-                                                        <label for="idevento">Evento: *</label>
-                                                        <select class="form-control" name="idevento" id="idevento">
-                                                            <?php foreach ($LIST_EVENTOS as $evento): ?>
-                                                                <option value="<?php echo $evento['idevento'] ?>"
-                                                                <?php if ($idevento_selecionado == $evento['idevento']) echo 'selected'; ?>>
-                                                                    <?php echo $evento['evenome']; ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+                                                    <div class="col-md-6">
+                                                        <label for="equlogo">Logo:
+                                                            <img width='20px' src="<?=base_url('{equlogo}')?>">
+                                                        </label>
+                                                        <input class="form-control" id="equlogo" type="file" name="equlogo" size="20"/>
                                                     </div>
                                                 </div>
                                             </div>

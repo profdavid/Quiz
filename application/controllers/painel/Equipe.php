@@ -27,30 +27,24 @@ class Equipe extends CI_Controller {
 
 		//Buscando dados no Banco (somente do evento ativo)
 		$res = $this->PadraoM->fmSearch($this->tabela, 'equnome', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
-
-		//Buscando dados no Banco
-		// $res = $this->PadraoM->fmSearch($this->tabela, 'equnome', []);
 		
 		if($res){
 			foreach($res as $r){
-				$evento = $this->PadraoM->fmSearch('evento', null , array('id' => $r->idevento), true); 
-
 				$data['LIST_DADOS'][] = array(
 					'id' 			=> $r->id,
 					'equnome' 		=> $r->equnome,
 					'equlogo' 		=> $r->equlogo,
-					'equlogada' 		=> $r->equlogada,
-					'evenome'		=> $evento->evenome,
+					'equlogada' 	=> $r->equlogada,
 					'criado_em' 	=> $r->criado_em,
 					'atualizado_em' => $r->atualizado_em,
-					'BTN_DESLOGAR' => ($r->equlogada == 0) ? 'hidden' : '',
+					'BTN_DESLOGAR' => ($r->equlogada == 0) ? 'hidden' : null,
 					'COR_INATIVO'	=> ($r->equlogada == 0) ? 'style="background-color:#fff2f3;"' : null,
 					'URL_EDITAR'	=> site_url('painel/Equipe/edita/'.$r->id)
 				);
 			}
 		}
 
-		$this->parser->parse('painel/equipe-list', $data);
+		$this->parser->parse('painel/equipe/equipe-list', $data);
 	}
 
 	public function novo(){
@@ -60,41 +54,21 @@ class Equipe extends CI_Controller {
 		$data['URL_CANCELAR']	= site_url('painel/Equipe');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
-		$data['LIST_EVENTOS']	= array();
 
-		$eventos = $this->PadraoM->fmSearch('evento', 'evenome', []);
-
-		if($eventos){
-			foreach($eventos as $r){
-				$data['LIST_EVENTOS'][] = array(	
-					'idevento' 	=> $r->id,
-					'evenome' 	=> $r->evenome,
-				);
-			}
-		}
+		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
 
 		$data['id'] 		= null;
 		$data['equnome'] 	= null;
-		$data['equlogo'] 	= null;
-		$data['idevento_selecionado'] = null;
+		$data['equlogo'] 	= 'assets/img/equipe_default.png';
+		$data['idevento'] = $idevento_ativo;
 
-		$this->parser->parse('painel/equipe-form', $data);
+		$this->parser->parse('painel/equipe/equipe-form', $data);
 	}
 
 
 	public function salvar(){
-		$fileupload = new FileUploader('equlogo', $_FILES['equlogo']);
-		
-		if ($fileupload) {
-			$upload_res = $fileupload->upload();
+		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
 
-			if (!$upload_res) {
-				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar arquivo'));
-			}
-		} else {
-			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao inicar upload'));
-		}
-		
 		//Inicializando variáveis com dados enviados
 		foreach($this->input->post() as $chave => $valor){
 			$valor = ($valor) ? $valor : null;
@@ -103,13 +77,29 @@ class Equipe extends CI_Controller {
 			if(substr($chave, 0, 3) == 'equ') {
 				$itens[$chave] = $valor;
 			}
-
 		}
 
+		//Verifica equipe logo
+		if($_FILES['equlogo']['error'] == 0 && $_FILES['equlogo']['size'] > 0){
+			$fileupload = new FileUploader('equlogo', $_FILES['equlogo']);
+			
+			if ($fileupload) {
+				$upload_res = $fileupload->upload();
+				$itens['equlogo'] = $upload_res['files'][0]['file'];
+
+				if (!$upload_res) {
+					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar arquivo'));
+				}
+			} else {
+				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao inicar upload'));
+			}
+		} else {
+			$itens['equlogo'] = 'assets/img/equipe_default.png';
+		}
+		
 		//Tratamento dos itens
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
-		$itens['idevento'] = $idevento;
-		$itens['equlogo'] = $upload_res['files'][0]['file'];
+		$itens['idevento'] = $idevento_ativo;
 		
 		//Verifica se o nome já existe
 		$filtro_verifica = ($id) ? " AND id <> $id" : null;
@@ -173,18 +163,6 @@ class Equipe extends CI_Controller {
 		$data['URL_CANCELAR']	= site_url('painel/Equipe');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
-		$data['LIST_EVENTOS']	= array();
-
-		$eventos = $this->PadraoM->fmSearch('evento', 'evenome', []);
-
-		if($eventos){
-			foreach($eventos as $r){
-				$data['LIST_EVENTOS'][] = array(	
-					'idevento' 	=> $r->id,
-					'evenome' 	=> $r->evenome,
-				);
-			}
-		}
 		
 		//Buscando dados no Banco
 		$res = $this->PadraoM->fmSearch($this->tabela, null, array('id' => $id), TRUE);
@@ -193,13 +171,12 @@ class Equipe extends CI_Controller {
 			foreach($res as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
-			$data['idevento_selecionado'] = $data['idevento'];
 		}
 		else 
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
 
 
-		$this->parser->parse('painel/equipe-form', $data);
+		$this->parser->parse('painel/equipe/equipe-form', $data);
 	}
 
 

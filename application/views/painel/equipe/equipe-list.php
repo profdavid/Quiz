@@ -44,8 +44,6 @@
                                     <tr>
                                         <th>Nome</th>
                                         <th>Logo</th>
-                                        <th>Evento</th>
-                                        <th>Atualizado em</th>
                                         <th data-sortable="false" width="60" class="text-center">Ações</th>
                                     </tr>
                                 </thead>
@@ -54,8 +52,6 @@
                                     <tr {COR_INATIVO}>
                                         <td><a href="{URL_EDITAR}">{equnome}</a></td>
                                         <td><img width='35px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
-                                        <td>{evenome}</td>
-                                        <td>{atualizado_em}</td>
                                         <td class="text-center d-flex justify-content-end">
                                             <button type="button" {BTN_DESLOGAR} class="tabledit-delete-button btn btn-default mr-4" onclick="chamaDeslogar({id}, '{equnome}')">
                                             <span class="feather icon-log-out text-secondary-subtle f-16"></span>
