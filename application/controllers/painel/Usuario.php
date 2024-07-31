@@ -45,7 +45,7 @@ class Usuario extends CI_Controller {
 			//print_r($data['LIST_DADOS']);
 		}
 		
-		$this->parser->parse('painel/usuario-list', $data);
+		$this->parser->parse('painel/usuario/usuario-list', $data);
 	}
 	
 	public function novo(){
@@ -61,7 +61,7 @@ class Usuario extends CI_Controller {
 		$data['usuemail'] 	= null;
 		$data['ativo'] 		= 'checked="checked"';
 
-		$this->parser->parse('painel/usuario-form', $data);
+		$this->parser->parse('painel/usuario/usuario-form', $data);
 	}
 	
 	public function edita($id){
@@ -85,7 +85,7 @@ class Usuario extends CI_Controller {
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
 
 
-		$this->parser->parse('painel/usuario-form', $data);
+		$this->parser->parse('painel/usuario/usuario-form', $data);
 	}
 
 	public function excluir(){

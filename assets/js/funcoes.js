@@ -10,6 +10,12 @@ function chamaDeslogar(id, str){
     $('#txt-deslogar').html(str);
 }
 
+// function chamaAnularQuestao(id, str){
+//     $('#modalAnular').modal('show');
+//     $('#idanular').val(id);
+//     $('#txt-anular').html(str);
+// }
+
 function notify(from, align, icon, type, animIn, animOut, title, message) {
     $.growl({
         icon: icon,

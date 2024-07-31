@@ -13,6 +13,7 @@ class Equipe extends CI_Controller {
 		$this->load->model('/Padrao_Model', 'PadraoM');
 		$this->load->model('/LogSistema_Model', 'LogM');
 		$this->load->helpers('/fileuploader_helper');
+		$this->load->helpers('/gerenciador_helper');
 	}
 
 	public function index(){
@@ -55,20 +56,16 @@ class Equipe extends CI_Controller {
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
 
-		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
-
 		$data['id'] 		= null;
 		$data['equnome'] 	= null;
-		$data['equlogo'] 	= 'assets/img/equipe_default.png';
-		$data['idevento'] = $idevento_ativo;
+		$data['equlogada']  = 'checked="checked"';
+		$data['equlogo'] 	= 'assets/img/equipe.png';
 
 		$this->parser->parse('painel/equipe/equipe-form', $data);
 	}
 
 
 	public function salvar(){
-		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
-
 		//Inicializando variáveis com dados enviados
 		foreach($this->input->post() as $chave => $valor){
 			$valor = ($valor) ? $valor : null;
@@ -79,31 +76,35 @@ class Equipe extends CI_Controller {
 			}
 		}
 
+		$quizDir = replaceSpacesAndLowerCase($this->session->userdata('quiz_evenome'));
+		$equNameDir = replaceSpacesAndLowerCase($equnome);
+
 		//Verifica equipe logo
 		if($_FILES['equlogo']['error'] == 0 && $_FILES['equlogo']['size'] > 0){
-			$fileupload = new FileUploader('equlogo', $_FILES['equlogo']);
+			$fileupload = new FileUploader('equlogo', [
+				$_FILES['equlogo'], 
+				'uploadDir' => 'assets/uploads/'.$quizDir.'/',
+				'title' => $equNameDir
+			]);
 			
 			if ($fileupload) {
 				$upload_res = $fileupload->upload();
 				$itens['equlogo'] = $upload_res['files'][0]['file'];
-
-				if (!$upload_res) {
-					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar arquivo'));
-				}
-			} else {
-				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao inicar upload'));
-			}
+			} else 
+				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
-			$itens['equlogo'] = 'assets/img/equipe_default.png';
+			$itens['equlogo'] = 'assets/img/equipe.png';
 		}
+
+		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
 		
 		//Tratamento dos itens
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
 		$itens['idevento'] = $idevento_ativo;
 		
-		//Verifica se o nome já existe
+		//Verifica se o nome já existe no evento
 		$filtro_verifica = ($id) ? " AND id <> $id" : null;
-		$res = $this->PadraoM->fmSearchQuery("SELECT * FROM equipe WHERE equnome = '".$equnome."' $filtro_verifica");
+		$res = $this->PadraoM->fmSearchQuery("SELECT * FROM equipe WHERE equnome = '".$equnome."' AND idevento = '".$idevento_ativo."' $filtro_verifica");
 		if($res){
 			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'O nome já existe!'));
 			
@@ -171,6 +172,7 @@ class Equipe extends CI_Controller {
 			foreach($res as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
+			$data['equlogada'] = ($data['equlogada'] == 1) ? 'checked="checked"' : null;
 		}
 		else 
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
@@ -211,7 +213,7 @@ class Equipe extends CI_Controller {
 		
 		if($res){
 			//--- Grava Log ---
-			$log = "Exclui ". $this->tabela ." | Id: $id";
+			$log = "Desloga ". $this->tabela ." | Id: $id";
 			$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
 			$res_log = $this->LogM->fmNew($itens_log);
 			//--- Fim Log ---

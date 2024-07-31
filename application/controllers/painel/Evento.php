@@ -49,7 +49,7 @@ class Evento extends CI_Controller {
 			//print_r($data['LIST_DADOS']);
 		}
 		
-		$this->parser->parse('painel/evento-list', $data);
+		$this->parser->parse('painel/evento/evento-list', $data);
 	}
 	
 	public function novo(){
@@ -64,7 +64,7 @@ class Evento extends CI_Controller {
 		$data['evenome'] 	= null;
 		$data['evesituacao']= null;
 
-		$this->parser->parse('painel/evento-form', $data);
+		$this->parser->parse('painel/evento/evento-form', $data);
 	}
 	
 	public function edita($id){
@@ -86,7 +86,7 @@ class Evento extends CI_Controller {
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
 
 
-		$this->parser->parse('painel/evento-form', $data);
+		$this->parser->parse('painel/evento/evento-form', $data);
 	}
 
 	public function excluir(){
@@ -139,8 +139,12 @@ class Evento extends CI_Controller {
 		if($res_id){
 			if($id) //Edição
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
-			else //Novo
+			else { //Novo
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados inseridos.'));
+				$evenomeDir = replaceSpacesAndLowerCase($evenome);
+				$quizDir = 'assets/uploads/' . $evenomeDir;
+				mkdir($quizDir);
+			}
 			
 			//--- Grava Log ---
 			$log = ($id) ? "Edita ".$this->tabela." | Id: ".$res_id : "Novo ". $this->tabela." | Id: ".$res_id;

@@ -42,16 +42,18 @@
                             <table id="tabListagem" class="table table-striped table-bordered nowrap">
                                 <thead>
                                     <tr>
+                                        <th width="75">Logo</th>
                                         <th>Nome</th>
-                                        <th>Logo</th>
+                                        <th>Criado em</th>
                                         <th data-sortable="false" width="60" class="text-center">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {LIST_DADOS}
                                     <tr {COR_INATIVO}>
+                                        <td><img width='40px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
                                         <td><a href="{URL_EDITAR}">{equnome}</a></td>
-                                        <td><img width='35px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
+                                        <td>{criado_em}</td>
                                         <td class="text-center d-flex justify-content-end">
                                             <button type="button" {BTN_DESLOGAR} class="tabledit-delete-button btn btn-default mr-4" onclick="chamaDeslogar({id}, '{equnome}')">
                                             <span class="feather icon-log-out text-secondary-subtle f-16"></span>

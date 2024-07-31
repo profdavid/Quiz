@@ -58,6 +58,12 @@ function diffDateMinutos($minutos){
 	}
 }
 
+function replaceSpacesAndLowerCase($str, $maxLength = 20) {
+	$res = preg_replace('/\s/', '_', strtolower($str));
+	$res = substr($res, 0, $maxLength);
+	return $res;
+}
+
 function diffDateDias($dt1, $dt2){ //formato da data yyyy-mm-dd
 	$diferenca = strtotime($dt1) - strtotime($dt2); //diferença em segundos
 

@@ -42,6 +42,12 @@
     <!-- data tables css -->
     <link rel="stylesheet" href="<?=base_url('assets/plugins/data-tables/css/datatables.min.css') ?>">
 
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
     <!-- notification css -->
     <link rel="stylesheet" href="<?=base_url('assets/plugins/notification/css/notification.min.css') ?>">
     
@@ -60,6 +66,10 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/style.css') ?>">
 
     <style>
+        .tox .tox-editor-header {
+            z-index: 0 !important;
+        }
+
         .b-title {
             font-size: 20px !important;
         }
@@ -80,6 +90,18 @@
             margin: 0; 
             padding: 0; 
             border:0;
+        }
+        .ui-sortable-helper {
+            cursor: grabbing !important;
+            opacity: 0.3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+        }
+        .table-questao tbody tr:hover {
+            cursor: grab;
+            background-color: #3bab2c10;
+        }
+        .table-questao .questao-texto {
+            white-space: wrap;
         }
     </style>
     <style media="screen">
@@ -104,6 +126,9 @@
             .sidenav-horizontal:after {
                 display: none;
             }
+            .table-questao .questao-texto {
+                white-space: nowrap;
+            }
         }
     </style>
 
@@ -122,7 +147,7 @@
     <nav class="pcoded-navbar menupos-fixed navbar-collapsed">
         <div class="navbar-wrapper">
             <div class="navbar-brand header-logo">
-                <a href="<?=site_url()?>" class="b-brand">
+                <a href="<?=site_url('painel/Home')?>" class="b-brand">
                    <div class="b-bg">
                         <span>Quiz</span>
                     </div>
@@ -139,7 +164,7 @@
                     </li>
                     
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(2) == 'Home') ? 'active' : null ?>">
-                        <a href="<?=site_url() ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+                        <a href="<?=site_url('painel/Home')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
                     </li>
                     
                     <li data-username="Usuario" class="nav-item <?php echo ($this->uri->segment(2) == 'Usuario') ? 'active' : null ?>"><a href="<?=site_url('painel/Usuario')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Usuários</span></a></li>
@@ -147,6 +172,8 @@
                     <li data-username="Evento" class="nav-item <?php echo ($this->uri->segment(2) == 'Evento') ? 'active' : null ?>"><a href="<?=site_url('painel/Evento')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Eventos</span></a></li>
 
                     <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-shield"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
+
+                    <li data-username="Questao" class="nav-item <?php echo ($this->uri->segment(2) == 'Questao') ? 'active' : null ?>"><a href="<?=site_url('painel/Questao')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-help-circle"></i></span><span class="pcoded-mtext">Questões</span></a></li>
                 </ul>
             </div>
         </div>
@@ -214,8 +241,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-notification">
                             <div class="pro-head">
-                                <!-- <img src="../assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image"> -->
-                                <i class="feather feather feather icon-user" style="font-size: 25px;"></i>
+                                <i class="bi bi-person-circle" style="font-size: 25px"></i>
                                 <span><?=$this->session->userdata('quiz_usunome')?></span>
                                 <a href="<?=site_url('painel/Login/logout')?>" class="dud-logout" title="Sair">
                                     <i class="feather icon-log-out"></i>
@@ -254,6 +280,8 @@
 
     <!-- File Uploader -->
     <script src="<?php echo base_url('assets/plugins/fileuploader/jquery.fileuploader.js') ?>"></script>
+
+    <script src="<?php echo base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
 
     <!-- Mask -->
     <script src="<?php echo base_url('assets/plugins/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js') ?>"></script>

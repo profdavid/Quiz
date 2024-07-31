@@ -35,26 +35,40 @@
                                     
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-6">
                                                 <div class="form-row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label for="equnome">Nome: *</label>
                                                             <input type="text" class="form-control" id="equnome" name="equnome" required value="{equnome}">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label for="equlogo">Logo:
-                                                            <img width='20px' src="<?=base_url('{equlogo}')?>">
-                                                        </label>
-                                                        <input class="form-control" id="equlogo" type="file" name="equlogo" size="20"/>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12 mt-4">
+                                                        <label>Logada: </label>
+                                                        <div class="switch switch-success d-inline m-r-10">
+                                                            <input type="checkbox" id="equlogada" name="equlogada" value="1" {equlogada}>
+                                                            <label for="equlogada" class="cr"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-row">
+                                                    <div class="col-md-12">
+                                                        <label for="equlogo">Logo:</label>
+                                                        <div class="form-control d-flex justify-content-center">
+                                                            <img id="image-preview" width="80px" src="<?=base_url('{equlogo}')?>" alt="">
+                                                        </div>
+                                                        <input class="mt-2" id="equlogo" type="file" name="equlogo" size="20" onchange="previewImage(event)"/>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="card-footer">
+                                    <div class="card-footer d-flex justify-content-end">
                                         <a class="btn btn-danger" href="{URL_CANCELAR}"><i class="feather icon-x"></i>CANCELAR</a>
                                         <button type="submit" class="btn btn-success"><i class="feather icon-save"></i>SALVAR</button> 
                                     </div>
@@ -73,8 +87,17 @@
 <!-- [ Main Content ] end -->
 
 <script>
-window.onload = function(){
-    {RES_OK}
-    $("#usunome").focus();
-}
+    window.onload = function(){
+        {RES_OK}
+    }
+
+    function previewImage(event) {
+        var file = event.target.files[0];
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('image-preview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
 </script>
