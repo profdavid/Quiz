@@ -91,17 +91,28 @@
             padding: 0; 
             border:0;
         }
+
         .ui-sortable-helper {
             cursor: grabbing !important;
             opacity: 0.3;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
         }
+
         .table-questao tbody tr:hover {
             cursor: grab;
             background-color: #3bab2c10;
         }
-        .table-questao .questao-texto {
+
+        .table-questao-texto {
             white-space: wrap;
+        }
+
+        .img-questao-form-wrapper {
+            height: 225px;
+        }
+        
+        b, strong {
+            font-weight: bolder;
         }
     </style>
     <style media="screen">
@@ -126,12 +137,11 @@
             .sidenav-horizontal:after {
                 display: none;
             }
-            .table-questao .questao-texto {
+            .table-questao-texto {
                 white-space: nowrap;
             }
         }
     </style>
-
 </head>
 
 <body>
@@ -174,6 +184,8 @@
                     <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-shield"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
 
                     <li data-username="Questao" class="nav-item <?php echo ($this->uri->segment(2) == 'Questao') ? 'active' : null ?>"><a href="<?=site_url('painel/Questao')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-help-circle"></i></span><span class="pcoded-mtext">Questões</span></a></li>
+
+                    <li data-username="Dinamica" class="nav-item <?php echo ($this->uri->segment(2) == 'Dinamica') ? 'active' : null ?>"><a href="<?=site_url('')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-flag"></i></span><span class="pcoded-mtext">Dinâmica</span></a></li>
                 </ul>
             </div>
         </div>

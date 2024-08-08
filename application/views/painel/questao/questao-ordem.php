@@ -30,42 +30,46 @@
               <div class="col-sm-12">
                 {RES_ERRO}
                 <div id="sortable-items-container" class="card">
-                  <div id="confirm-order" class="row p-4">
-                    <div class="col-sm-12 col-md-6">
-                      <p class="f-18">Ordenar questões</p>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="f-18">Ordenar questões</p>
+                      </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 d-flex justify-content-end">
-                      <button id="confirm-order-button" class="btn btn-success" style="display: none;">
-                        <i class="feather icon-check"></i> Confirmar nova ordem
-                      </button>
-                    </div>
-                  </div>
-                  <form>
-                    <div class="card-body">
+                    <form>
                       <div class="dt-responsive table-responsive">
                         <table id="tabListagem" class="table table-striped table-bordered nowrap table-questao">
                           <thead>
                             <tr>
-                              <th width="30px">ID</th>
+                              <th class="d-none">ID</th>
                               <th width="30px">Ordem</th>
                               <th>Pontuação</th>
+                              <th>Tempo</th>
                               <th>Texto da questão</th>
                             </tr>
                           </thead>
                           <tbody id="sortable-items">
                             {LIST_DADOS}
                             <tr data-id="{id}">
-                              <td>{id}</td>
-                              <td id="ordem">{queordem}°</td>
+                              <td class="d-none">{id}</td>
+                              <td id="ordem">{queordem}</td>
                               <td>{queponto} pontos</td>
-                              <td><div class="questao-texto">{quetexto}</div></td>
+                              <td>{quetempo} segundos</td>
+                              <td><div class="table-questao-texto">{quetexto}</div></td>
                             </tr>
                             {/LIST_DADOS}
                           </tbody>
                         </table>
+                      </div>            
+                    </form>
+                    <div id="confirm-order" class="row pt-2">
+                      <div class="col-sm-12 d-flex justify-content-end">
+                        <button id="confirm-order-button" class="btn btn-success" style="display: none;">
+                          <i class="feather icon-check"></i> Confirmar ordem
+                        </button>
                       </div>
-                    </div>                
-                  </form>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

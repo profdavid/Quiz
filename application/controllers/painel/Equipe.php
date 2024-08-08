@@ -7,6 +7,8 @@ class Equipe extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 
+		if(!$this->session->userdata('quiz_logado')) redirect('painel/Login');
+		
 		date_default_timezone_set('America/Sao_Paulo');
 
 		$this->layout = LAYOUT_PAINEL;
@@ -93,7 +95,8 @@ class Equipe extends CI_Controller {
 			} else 
 				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
-			$itens['equlogo'] = 'assets/img/equipe.png';
+			//Atribui a imagem padrão caso não feito upload
+			if (!$id) $itens['equlogo'] = 'assets/img/equipe.png';
 		}
 
 		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');

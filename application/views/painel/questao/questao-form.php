@@ -36,23 +36,25 @@
                     
                     <div class="card-body">
                       <div class="row mb-2">
-                        <div class="col-md-7">
+                        <div class="col-md-12">
                           <div class="form-row">
-                            <div class="form-group col-md-2">
-                              <label for="queordem">Ordem:</label>
-                              <input type="text" class="form-control" id="queordem" name="queordem" readonly value="{queordem}">
+                            <div class="form-group col-md-12">
+                                <h5>Questão {queordem}</h5>
                             </div>
-                            <div class="form-group col-md-5">
-                              <label for="quetempo">Tempo (segundos): *</label>
-                              <input type="number" class="form-control" id="quetempo" name="quetempo" required value="{quetempo}">
-                            </div>
-                            <div class="form-group col-md-5">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-row">
+                            <input type="hidden" class="form-control" id="queordem" name="queordem" readonly value="{queordem}">
+                            <div class="form-group col-md-12">
                               <label for="queponto">Pontuação: *</label>
                               <input type="number" class="form-control" id="queponto" name="queponto" required value="{queponto}">
                             </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
+                              <label for="quetempo">Tempo (segundos): *</label>
+                              <input type="number" class="form-control" id="quetempo" name="quetempo" required value="{quetempo}">
+                            </div>
+                            <div class="form-group col-md-12">
                               <label for="quesituacao">Situação: *</label>
                               <select class="form-control" name="quesituacao" id="quesituacao">
                                 <option value="0">Não liberada</option>
@@ -61,11 +63,11 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-8">
                           <div class="form-group col-md-12">
                             <label for="queimg">Imagem inicial:</label>
-                            <div class="form-control d-flex justify-content-center">
-                              <img id="image-preview" width="80px" src="<?=base_url('{queimg}')?>" alt="">
+                            <div class="form-control d-flex justify-content-center img-questao-form-wrapper">
+                              <img id="image-preview" class="img-fluid" src="<?=base_url('{queimg}')?>" alt="">
                             </div>
                             <input class="mt-2" id="queimg" type="file" name="queimg" size="20" onchange="previewImage(event)"/>
                           </div>
@@ -75,9 +77,9 @@
                         <div class="col-md-12">
                           <div class="form-row">
                             <div class="form-group col-md-12">
-                              <label for="quetexto">Texto: *</label>
+                              <label for="quetexto">Texto da questão: *</label>
                               <textarea class="form-control" id="quetexto" name="quetexto" required>
-                                <?php echo $quetexto ?>
+                                {quetexto}
                               </textarea>
                             </div>
                           </div>
@@ -113,7 +115,7 @@
 
   tinymce.init({
     selector: '#quetexto',
-    height: 480,
+    height: 320,
     plugins:[
         'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'anchor', 'pagebreak',
         'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 

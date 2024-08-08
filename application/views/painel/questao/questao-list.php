@@ -46,11 +46,9 @@
                         <thead>
                           <tr>
                             <th>Ordem</th>
-                            <th>Texto</th>
-                            <th>Tempo</th>
                             <th>Pontuação</th>
-                            <th>Situação</th>
-                            <th>Data de liberação</th>
+                            <th>Tempo</th>
+                            <th>Texto</th>
                             <th data-sortable="false" width="60" class="text-center">Ações
                             </th>
                           </tr>
@@ -58,12 +56,10 @@
                         <tbody>
                           {LIST_DADOS}
                           <tr {COR_LIBERADA}>
-                            <td><a href="{URL_EDITAR}">{queordem}°</td>
-                            <td><div style="white-space: wrap;">{quetexto}</div></td>
-                            <td><a href="{URL_EDITAR}">{quetempo} segundos</td>
+                            <td><a href="{URL_EDITAR}">Questão {queordem}</td>
                             <td><a href="{URL_EDITAR}">{queponto} pontos</a></td>
-                            <td><a href="{URL_EDITAR}">{quesituacao}</a></td>
-                            <td><a href="{URL_EDITAR}">{quedtliberacao}</td>
+                            <td><a href="{URL_EDITAR}">{quetempo} segundos</td>
+                            <td><div class="table-questao-texto">{quetexto}</div></td>
                             <td class="text-center d-flex justify-content-end">
                             <button type="button" class="tabledit-delete-button btn btn-default mr-4"
                                 onclick="chamaAnular({id}, '{queordem}')">

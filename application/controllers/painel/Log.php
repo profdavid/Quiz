@@ -7,7 +7,7 @@ class Log extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 
-		if(!$this->session->userdata('quiz_logado')) redirect('Login');
+		if(!$this->session->userdata('quiz_logado')) redirect('painel/Login');
 		
 		$this->layout = LAYOUT_PAINEL;
 		$this->load->model('/Padrao_Model', 'PadraoM');

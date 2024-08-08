@@ -7,6 +7,8 @@ class Questao extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 
+		if(!$this->session->userdata('quiz_logado')) redirect('painel/Login');
+
 		date_default_timezone_set('America/Sao_Paulo');
 
 		$this->layout = LAYOUT_PAINEL;
@@ -62,9 +64,11 @@ class Questao extends CI_Controller {
 
 		// Incremento da ordem
 		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
-		$res = $this->PadraoM->fmExecQuery("SELECT COUNT(*) AS proxima_ordem FROM questao WHERE idevento = '".$idevento_ativo."'");
-		$row = $res->row();
-		$proxima_ordem = $row->proxima_ordem + 1;
+		$cond = array('idevento' => $idevento_ativo);
+		$order = 'queordem DESC';
+
+		$res = $this->PadraoM->fmSearch($this->tabela, $order, $cond, TRUE);
+		$proxima_ordem = $res ? $res->queordem + 1 : 1;
 
 		$data['id'] = null;
 		$data['quedtliberacao'] = null;
@@ -82,11 +86,9 @@ class Questao extends CI_Controller {
 
 	public function salvar(){
 		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
-		$situacao = null;
 
 		//Inicializando variáveis com dados enviados
 		foreach($this->input->post() as $chave => $valor){	
-			if($chave === 'quesituacao') $situacao = $valor;
 			$valor = ($valor) ? $valor : null;
 			$$chave = $valor;
 			
@@ -109,13 +111,23 @@ class Questao extends CI_Controller {
 			} else 
 				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
-			$itens['queimg'] = 'assets/img/questao_image.png';
+			//Atribui a imagem padrao caso nao feito upload
+			if (!$id) $itens['queimg'] = 'assets/img/questao_image.png';
 		}
 		
 		//Tratamento dos itens
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
-		$itens['quesituacao'] = $situacao;
+		$itens['quesituacao'] = $this->input->post('quesituacao');
 		$itens['idevento'] = $idevento_ativo;
+
+		//Tratamento da data liberacao e data limite
+		if ($itens['quesituacao'] == 1) {
+			$itens['quedtliberacao'] = date("Y-m-d H:i:s");
+			$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $itens['quetempo']);
+		} else {
+			$itens['quedtliberacao'] = null;
+			$itens['quedtlimite'] = null;
+		}
 		
 		//Salvando os dados
 		if($id){ //Edição
