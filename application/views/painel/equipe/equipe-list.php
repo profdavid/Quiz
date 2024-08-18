@@ -44,7 +44,6 @@
                                     <tr>
                                         <th width="75">Logo</th>
                                         <th>Nome</th>
-                                        <th>Criado em</th>
                                         <th data-sortable="false" width="60" class="text-center">Ações</th>
                                     </tr>
                                 </thead>
@@ -53,10 +52,9 @@
                                     <tr {COR_INATIVO}>
                                         <td><img width='40px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
                                         <td><a href="{URL_EDITAR}">{equnome}</a></td>
-                                        <td>{criado_em}</td>
                                         <td class="text-center d-flex justify-content-end">
                                             <button type="button" {BTN_DESLOGAR} class="tabledit-delete-button btn btn-default mr-4" onclick="chamaDeslogar({id}, '{equnome}')">
-                                            <span class="feather icon-log-out text-secondary-subtle f-16"></span>
+                                            <span class="feather icon-log-out text-warning f-16"></span>
                                             </button>
                                             <a href="{URL_EDITAR}" class="tabledit-delete-button mr-4">
                                             <span class="feather icon-edit f-16"></span>

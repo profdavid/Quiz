@@ -58,9 +58,8 @@ function diffDateMinutos($minutos){
 	}
 }
 
-function replaceSpacesAndLowerCase($str, $maxLength = 20) {
+function replaceSpacesAndLowerCase($str) {
 	$res = preg_replace('/\s/', '_', strtolower($str));
-	$res = substr($res, 0, $maxLength);
 	return $res;
 }
 

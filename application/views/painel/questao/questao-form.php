@@ -35,7 +35,7 @@
                     <input type="hidden" id="id" name="id" value="{id}" />
                     
                     <div class="card-body">
-                      <div class="row mb-2">
+                      <div class="row mb-4">
                         <div class="col-md-12">
                           <div class="form-row">
                             <div class="form-group col-md-12">
@@ -73,11 +73,11 @@
                           </div>
                         </div>
                       </div>
-                      <div class="row">
+                      <div class="row mb-5">
                         <div class="col-md-12">
                           <div class="form-row">
                             <div class="form-group col-md-12">
-                              <label for="quetexto">Texto da questão: *</label>
+                              <label for="quetexto">Texto: *</label>
                               <textarea class="form-control" id="quetexto" name="quetexto" required>
                                 {quetexto}
                               </textarea>
@@ -85,6 +85,53 @@
                           </div>
                         </div>
                       </div>
+
+                      <div class="d-flex flex-column mb-4">
+                        <label>Respostas: *</label>
+                        <p class="text-muted">
+                          Ao criar as opções de resposta para a sua questão, é obrigatório que você marque ( <input type="radio" checked> ) qual delas é a resposta correta.
+                        </p>
+                      </div>
+                      
+                      <div id="respostas-container">
+                        {LIST_RESPOSTAS}
+                        <div class="resposta-item row" id="resposta_{index}">
+                          <div class="form-group col-12">
+                            <input type="hidden" name="respostas[{index}][id]" value="{id}">
+                            <input type="hidden" name="respostas[{index}][qrordem]" value="{qrordem}">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <input type="radio" 
+                                    name="resposta_correta" 
+                                    value="{qrordem}"
+                                    required
+                                    {RES_CORRETA}
+                                  >
+                                  <span class="ml-3 f-w-600 resposta-ordem">{qrordem}</span>
+                                </div>
+                              </div>
+                              <input class="form-control"
+                                type="text" 
+                                name="respostas[{index}][qrtexto]" 
+                                value="{qrtexto}"
+                                required
+                              >
+                              <div class="input-group-append">
+                                <button style="display: none" type="button" class="btn btn-sm btn-remove-resposta" onclick="removeResposta(this)">
+                                  <span class="feather icon-trash-2 f-16 text-c-red"></span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/LIST_RESPOSTAS}
+                      </div>
+                      <button type="button" id="add-resposta"
+                        class="btn btn-sm btn-add-resposta text-success text-center w-100 mb-4"
+                        onclick="addResposta()">
+                        <i class="feather icon-plus"></i>Adicionar Resposta
+                      </button>
                     </div>
 
                     <div class="card-footer d-flex justify-content-end">
@@ -104,15 +151,19 @@
 </div>
 <!-- [ Main Content ] end -->
 
- <!-- tinymce -->
- <script src="<?php echo base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
+<!-- tinymce -->
+<script src="<?php echo base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
 
 <script>
+  let rcount = {RESPOSTAS_COUNT};
+
   window.onload = function () {
     {RES_OK}
     $("#quesituacao").val({quesituacao});
+    enableLastBtn();
   }
 
+  //Inicializa editor de texto da questao
   tinymce.init({
     selector: '#quetexto',
     height: 320,
@@ -132,6 +183,7 @@
     branding: false
   });
 
+  //Exibe a imagem do upload
   function previewImage(event) {
     var file = event.target.files[0];
     var reader = new FileReader();
@@ -141,4 +193,66 @@
     reader.readAsDataURL(file);
   }
 
+  //Adiciona uma nova opcao de resposta
+  function addResposta() {
+    disableBtns();
+    const letra = String.fromCharCode(65 + rcount);
+    const respostaHtml = `
+      <div class="resposta-item row" id="resposta_${rcount}">
+        <div class="form-group col-12">
+          <input type="hidden" respostas[${rcount}][id]" value="null">
+          <input type="hidden" name="respostas[${rcount}][qrordem]" value="${letra}">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="radio" 
+                  name="resposta_correta" 
+                  value="${letra}"
+                  required
+                  {RES_CORRETA}
+                >
+                <span class="ml-3 f-w-600 resposta-ordem">${letra}</span>
+              </div>
+            </div>
+            <input class="form-control"
+              type="text"
+              name="respostas[${rcount}][qrtexto]" 
+              value=""
+              required
+            >
+            <div class="input-group-append">
+              <button type="button" class="btn btn-sm btn-remove-resposta" onclick="removeResposta(this)">
+                <span class="feather icon-trash-2 f-16 text-c-red"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('respostas-container').insertAdjacentHTML('beforeend', respostaHtml);
+    rcount++;
+  };
+
+  function removeResposta(button) {
+    let respostaItem = button.closest('.resposta-item');
+    respostaItem.remove();
+    rcount--;
+    enableLastBtn();
+  }
+
+  function disableBtns() {
+    if (rcount > 0) {
+      document.querySelectorAll('.btn-remove-resposta').forEach(button => {
+          button.style.display = 'none';
+      });
+    }
+  }
+
+  function enableLastBtn() {
+    const lastRemoveButton = document.querySelector('.resposta-item:last-child .btn-remove-resposta');
+    if (lastRemoveButton) {
+      lastRemoveButton.style.display = 'block';
+    }
+  }
 </script>

@@ -1,0 +1,1 @@
+Diretório definido para armazenar todos os uploads feitos no sistema.

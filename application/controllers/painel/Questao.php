@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Questao extends CI_Controller {
 	private $tabela ='questao';
+	private $tabela_resposta ='questaoresposta';
 		
 	public function __construct(){
 		parent::__construct();
@@ -20,6 +21,7 @@ class Questao extends CI_Controller {
 
 	public function index(){
 		$data = array();
+		$data['URL_RELATORIO'] 	= site_url('painel/Questao/relatorio');
 		$data['URL_ORDEM'] 		= site_url('painel/Questao/ordem');
 		$data['URL_NOVO'] 		= site_url('painel/Questao/novo');
 		$data['URL_EXCLUIR']	= site_url('painel/Questao/excluir');
@@ -39,13 +41,6 @@ class Questao extends CI_Controller {
 					'quetempo' 		=> $r->quetempo,
 					'queponto' 		=> $r->queponto,
 					'quetexto' 		=> $r->quetexto,
-					'queimg' 		=> $r->queimg,
-					'quedtliberacao' 	=> ($r->quedtliberacao) ? $r->quedtliberacao : '-',
-					'quedtlimite' 		=> ($r->quedtlimite) ? $r->quedtlimite : '-',
-					'quesituacao' 		=> ($r->quesituacao == 0) ? 'Não liberada' : 'Liberada',
-					'idevento' 			=> $r->idevento,
-					'criado_em' 		=> $r->criado_em,
-					'atualizado_em' 	=> $r->atualizado_em,
 					'COR_LIBERADA'	=> ($r->quesituacao == 1) ? 'style="background-color:#d4edda;"' : null,
 					'URL_EDITAR'	=> site_url('painel/Questao/edita/'.$r->id)
 				);
@@ -61,13 +56,12 @@ class Questao extends CI_Controller {
 		$data['URL_CANCELAR']	= site_url('painel/Questao');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
+		$data['LIST_RESPOSTAS']	= array();
+		$data['RESPOSTAS_COUNT'] = 0;
 
 		// Incremento da ordem
-		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
-		$cond = array('idevento' => $idevento_ativo);
-		$order = 'queordem DESC';
-
-		$res = $this->PadraoM->fmSearch($this->tabela, $order, $cond, TRUE);
+		$cond = array('idevento' => $this->session->userdata('quiz_ideventoativo'));
+		$res = $this->PadraoM->fmSearch($this->tabela, 'queordem DESC', $cond, TRUE);
 		$proxima_ordem = $res ? $res->queordem + 1 : 1;
 
 		$data['id'] = null;
@@ -78,15 +72,13 @@ class Questao extends CI_Controller {
 		$data['queordem'] = $proxima_ordem;
 		$data['quetempo'] = 30;
 		$data['queponto'] = 10;
-		$data['queimg'] = 'assets/img/questao_image.png';
+		$data['queimg'] = 'assets/img/questao_image.jpg';
 
 		$this->parser->parse('painel/questao/questao-form', $data);
 	}
 
 
 	public function salvar(){
-		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
-
 		//Inicializando variáveis com dados enviados
 		foreach($this->input->post() as $chave => $valor){	
 			$valor = ($valor) ? $valor : null;
@@ -112,13 +104,13 @@ class Questao extends CI_Controller {
 				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
 			//Atribui a imagem padrao caso nao feito upload
-			if (!$id) $itens['queimg'] = 'assets/img/questao_image.png';
+			if (!$id) $itens['queimg'] = 'assets/img/questao_image.jpg';
 		}
 		
 		//Tratamento dos itens
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
 		$itens['quesituacao'] = $this->input->post('quesituacao');
-		$itens['idevento'] = $idevento_ativo;
+		$itens['idevento'] = $this->session->userdata('quiz_ideventoativo');
 
 		//Tratamento da data liberacao e data limite
 		if ($itens['quesituacao'] == 1) {
@@ -155,6 +147,11 @@ class Questao extends CI_Controller {
 			$res_log = $this->LogM->fmNew($itens_log);
 			//--- Fim Log ---
 
+			//Insert das respostas
+			$respostas = $this->input->post('respostas');
+			$resposta_correta = $this->input->post('resposta_correta');
+			$this->salvarRespostas($res_id, $respostas, $resposta_correta);
+
 			//Redireciona
 			redirect('painel/Questao');
 		}
@@ -177,6 +174,8 @@ class Questao extends CI_Controller {
 		$data['URL_CANCELAR']	= site_url('painel/Questao');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
+		$data['LIST_RESPOSTAS']	= array();
+		$data['RESPOSTAS_COUNT'] = 0;
 		
 		//Buscando dados no Banco
 		$res = $this->PadraoM->fmSearch($this->tabela, null, array('id' => $id), TRUE);
@@ -189,14 +188,31 @@ class Questao extends CI_Controller {
 		else 
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
 
+		//Buscando respostas da questao
+		$res_respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $id));
+		
+		if($res_respostas){
+			$data['RESPOSTAS_COUNT'] = count($res_respostas);
+			foreach($res_respostas as $index => $r){
+				$data['LIST_RESPOSTAS'][] = array(
+					'id' 			=> $r->id,
+					'index'			=> $index,
+					'qrordem'		=> $r->qrordem,
+					'qrtexto' 		=> $r->qrtexto,
+					'qrcorreta' 	=> $r->qrcorreta,
+					'qrimg' 		=> $r->qrimg,
+					'RES_CORRETA'	=> ($r->qrcorreta == 1) ? 'checked' : null
+				);
+			}
+		}
 
 		$this->parser->parse('painel/questao/questao-form', $data);
 	}
 
 
 	public function excluir(){
-		$id = $this->input->post('idexcluir');	
-		$cond = array('id' => $id);	
+		$id = $this->input->post('idexcluir'); 
+		$cond = array('id' => $id); 
 			
 		$res = $this->PadraoM->fmDelete($this->tabela, $cond);
 		
@@ -208,6 +224,14 @@ class Questao extends CI_Controller {
 			//--- Fim Log ---
 			
 			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Registro excluído.'));
+
+			//Refaz a ordenação das questões
+			$questoes = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
+
+			if($questoes) {
+				$ids = array_column($questoes, 'id');
+				$trans = $this->PadraoM->fmUpdateIncrementCount($this->tabela, $ids, 'queordem');
+			}
 		}
 		else
 			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao excluir o registro.'));
@@ -215,13 +239,16 @@ class Questao extends CI_Controller {
 		redirect('painel/Questao');
 	}
 
+
 	public function ordem(){
 		$data = array();
-		$data['LABEL_ACAO'] 	= 'Ordenacao';
+		$data['LABEL_ACAO'] 	= 'Ordenação';
 		$data['URL_FRM'] 		= site_url('painel/Questao/ordenar');
 		$data['URL_CANCELAR']	= site_url('painel/Questao');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
+		$data['LIST_DADOS']	= array();
+		$data['SEM_DADOS'] 	= null;
 
 		$res = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
 		
@@ -239,31 +266,138 @@ class Questao extends CI_Controller {
 		$this->parser->parse('painel/questao/questao-ordem', $data);
 	}
 	
-	
+
 	public function ordenar(){
-		if (isset($_GET['order'])) {
-			$newOrder = explode(',', $_GET['order']);
-			$orderMapping = array_flip($newOrder);
+		if (!isset($_GET['ordem'])) {
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Falhou ao encontrar ordem.'));
+			redirect('painel/Questao/ordem');
 		}
 
-		$res = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
+		$ordem = explode(',', $_GET['ordem']);
+		$trans = $this->PadraoM->fmUpdateIncrementCount($this->tabela, $ordem, 'queordem');
 
-		if($res){
-			foreach($res as $r){
-				if (isset($orderMapping[$r->id])) {
-					// $r->ordem = $orderMapping[$r->id];
-					$itens['queordem'] = $orderMapping[$r->id] + 1;
-					$cond = array('id' => $r->id);
-					$res_update = $this->PadraoM->fmUpdate($this->tabela, $cond, $itens);
-				}
-			}
-			// $res = $this->PadraoM->fmUpdateIncrement(); INCREMENT CAMPO ORDEM
-		} else {
-			$this->session->set_flashdata('reserro', fazNotificacao('error', 'Erro ao atualizar dados.'));
-			redirect('painel/Questao');
+		if(!$trans) {
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao reordenar questões.'));
+			redirect('painel/Questao/ordem');
 		}
 
 		$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
 		redirect('painel/Questao');
 	}
+
+
+	public function salvarRespostas($idquestao, $respostas, $resposta_correta){
+		$this->excluirRespostas($idquestao, $respostas);
+
+		if($respostas) {
+			foreach($respostas as $re) {
+				$itens['qrordem'] = $re['qrordem'];
+				$itens['qrtexto'] = $re['qrtexto'];
+				$itens['qrcorreta'] = ($resposta_correta == $re['qrordem'] ? 1 : 0);
+				$itens['idquestao'] = $idquestao;
+
+				//Salvando os dados
+				if(isset($re['id']) && !empty($re['id'])){ //Edição
+					$itens['atualizado_em'] = date("Y-m-d H:i:s");
+					$cond = array('id' => $re['id']);
+					$res_id = $this->PadraoM->fmUpdate($this->tabela_resposta, $cond, $itens);
+				}
+				else //Novo
+					$res_id = $this->PadraoM->fmNew($this->tabela_resposta, $itens);
+				
+				//Se dados salvos no BD com sucesso
+				if($res_id){
+					//--- Grava Log ---
+					$log = ($re['id']) ? "Edita ".$this->tabela_resposta." | Id: ".$res_id : "Novo ". $this->tabela_resposta." | Id: ".$res_id;
+					$log .= " | Valores: ";
+					foreach($itens as $key => $val)
+						$log .= $key."=".$val.", ";
+					$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
+					$res_log = $this->LogM->fmNew($itens_log);
+					//--- Fim Log ---
+				} else {
+					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao realizar a operação.'));
+					
+					if($re['id']) //Edição
+						redirect('painel/Questao/edita/'.$idquestao);
+					else //Novo
+						redirect('painel/Questao/novo');
+				}
+			}
+		}
+	}
+
+
+	public function excluirRespostas($idquestao, $respostas){
+		$cond = array('idquestao' => $idquestao);
+		$ids = array();
+
+		if($respostas) {
+			foreach ($respostas as $r) {
+				if (isset($r['id']) && !empty($r['id']))
+					$ids[] = $r['id'];
+			}
+			
+			if(!empty($ids)){
+				$res = $this->PadraoM->fmDeleteNotInWithCond($this->tabela_resposta, $cond, $ids);
+				if(!$res)
+					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao excluir questões.'));
+			}
+		} else {
+			$this->PadraoM->fmDelete($this->tabela_resposta, $cond);
+		}
+	}
+
+
+	public function relatorio(){
+		$this->layout = LAYOUT_RELATORIO;
+		$data = array();
+		$data['RES_ERRO']	= $this->session->flashdata('reserro');
+		$data['RES_OK']		= $this->session->flashdata('resok');
+		$data['LIST_QUESTOES']	= array();
+		$data['SEM_DADOS'] 	= null;
+		$data['evenome'] = $this->session->userdata('quiz_evenome');
+		$data['datereq'] = date("d/m/Y")." às ".date("H:i");
+
+		//Buscando dados no Banco
+		$res_questoes = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
+		
+		if($res_questoes){
+			foreach ($res_questoes as $q) {
+				$res_respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $q->id));
+
+				$respostas = [];
+				if ($res_respostas) {
+					foreach ($res_respostas as $r) {
+						$respostas[] = array(
+							'id'           => $r->id,
+							'qrordem'      => $r->qrordem,
+							'qrtexto'      => $r->qrtexto,
+							'qrcorreta'    => $r->qrcorreta,
+							'qrimg'        => $r->qrimg,
+							'RES_CORRETA'  => ($r->qrcorreta == 1) ? 'badge-success' : 'badge-secondary',
+						);
+					}
+				}
+
+				$data['LIST_QUESTOES'][] = array(
+					'id'           => $q->id,
+					'queordem'     => $q->queordem,
+					'quetempo'     => $q->quetempo,
+					'queponto'     => $q->queponto,
+					'quetexto'     => $q->quetexto,
+					'queimg'       => $q->queimg,
+					'quesituacao'  => ($q->quesituacao == 0) ? 'Não liberada' : 'Liberada',
+					'situacao'	=> ($q->quesituacao == 0) ? 'badge-danger' : 'badge-success',
+					'respostas'    => $respostas
+				);
+			}
+		}
+
+		// var_dump($data['LIST_QUESTOES']);
+		// exit;
+
+		$this->parser->parse('painel/questao/questao-relatorio', $data);
+	}
+
 }

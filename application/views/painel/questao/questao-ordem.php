@@ -52,7 +52,7 @@
                             {LIST_DADOS}
                             <tr data-id="{id}">
                               <td class="d-none">{id}</td>
-                              <td id="ordem">{queordem}</td>
+                              <td id="ordem" class="f-w-700">Questão {queordem}</td>
                               <td>{queponto} pontos</td>
                               <td>{quetempo} segundos</td>
                               <td><div class="table-questao-texto">{quetexto}</div></td>
@@ -62,9 +62,9 @@
                         </table>
                       </div>            
                     </form>
-                    <div id="confirm-order" class="row pt-2">
+                    <div id="confirm-ordem" class="row pt-2">
                       <div class="col-sm-12 d-flex justify-content-end">
-                        <button id="confirm-order-button" class="btn btn-success" style="display: none;">
+                        <button id="confirm-ordem-button" class="btn btn-success" style="display: none;">
                           <i class="feather icon-check"></i> Confirmar ordem
                         </button>
                       </div>
@@ -90,24 +90,23 @@
     {RES_OK}
   }
 
-  $(document).ready(function() {
+  $(document).ready(function(){
     $("#sortable-items").sortable({
         axis: "y",
-          update: function(event, ui) {
-            var order = $(this).sortable('toArray', { attribute: 'data-id' });
-            var confirmButton = $("#confirm-order-button");
+        update: function(event, ui){
+          var ordem = $(this).sortable('toArray', {attribute: 'data-id'});
+          var confirmButton = $("#confirm-ordem-button");
+          // console.log(ordem);
 
-            $('#sortable-items tr').each(function(index) {
-              $(this).find('td#ordem').text(index + 1 + '°');
-            });
+          $('#sortable-items tr').each(function(index){
+            $(this).find('td#ordem').text('Questão ' + (index + 1));
+          });
 
-            confirmButton.css("display", "block");
-            confirmButton.off().click(function() {
-              window.location.href = "{URL_FRM}?order=" + order.join(',');
-            });
-
-            // console.log(order);
-          }
+          confirmButton.css("display", "block");
+          confirmButton.off().click(function(){
+            window.location.href = "{URL_FRM}?ordem=" + ordem.join(',');
+          });
+        }
     });
   });
 </script>

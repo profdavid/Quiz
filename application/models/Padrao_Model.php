@@ -45,6 +45,24 @@ class Padrao_Model extends CI_Model {
 		else
 			return FALSE;
 	}
+
+	public function fmUpdateIncrementCount($tabela, $ids, $campo) {
+        if (empty($ids) || !is_array($ids))
+            return false;
+
+		$count = 1;
+
+        $this->db->trans_start();
+        foreach ($ids as $id) {
+            $this->db->set($campo, $count, FALSE);
+            $this->db->where('id', $id);
+            $this->db->update($tabela);
+			$count++;
+        }
+        $this->db->trans_complete();
+		
+		return $this->db->trans_status();
+    }
 	
 	public function fmDelete($tabela, $cond){
 		$this->db->where($cond, FALSE);
@@ -57,6 +75,12 @@ class Padrao_Model extends CI_Model {
 	}
 
 	public function fmDeleteNotIn($tabela, $ids){
+		$this->db->where_not_in('id', $ids, FALSE);
+		return $this->db->delete($tabela);
+	}
+
+	public function fmDeleteNotInWithCond($tabela, $cond, $ids){
+		$this->db->where($cond);
 		$this->db->where_not_in('id', $ids, FALSE);
 		return $this->db->delete($tabela);
 	}

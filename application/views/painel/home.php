@@ -26,15 +26,15 @@
                                 {RES_ERRO}
 
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="text-success">Quiz Ifes</h3>
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h3 class="text-success m-0">Quiz Ifes</h3>
+                                        <img width="150px" src="<?=base_url('assets/img/logo_cor.png')?>" alt="logo_ifes">
                                     </div>
                                     <div class="card-body">
-                                        <p class="f-16">Jogo - Motivação - Interação - Integração</p>
+                                        <span class="f-16">Jogo - Motivação - Interação - Integração</span>
                                     </div>
-                                    <div class="card-footer d-flex justify-content-between align-items-end">
-                                        <p class="text-danger">Desenvolvido por: Prof. David Paolini Develly e Aluno Luis Gustavo Leal Rossim - Campus Colatina</p>
-                                        <img width="150px" src="<?=base_url('assets/img/logo_cor.png')?>" alt="logo_ifes">
+                                    <div class="card-footer">
+                                        <span class="text-danger">Desenvolvido por: Prof. David Paolini Develly e Aluno Luis Gustavo Leal Rossim - Campus Colatina</span>
                                     </div>
                                 </div>
                             </div>

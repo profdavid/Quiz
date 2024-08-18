@@ -3,10 +3,8 @@
   <div class="row align-items-center w-100 align-items-stretch bg-white">
     <div class="col-lg-4 col-md-6 col-sm-12 mx-auto align-items-stret h-100 ad-flex justify-content-center">
       <div class="auth-content">
-        <div class="row">
-          <div class="col-12 align-self-center text-center my-3">
-            <img width="95px" src="<?=base_url('assets/img/quiz_logo.png') ?>" alt="" class="img-fluid">
-          </div>
+        <div class="d-flex justify-content-center mb-4">
+          <img width="110px" src="<?=base_url('assets/img/quiz_logo.png') ?>" alt="" class="img-fluid">
         </div>
         
         <h5 class="mb-3 f-w-400">Dados de Acesso</h5>
@@ -31,12 +29,9 @@
           <button type="submit" class="btn btn-primary btn-block mb-4">Acessar</button>
         </form>
 
-        <div class="d-flex justify-content-between">
-          <a href="#" class="text-primary" data-toggle="modal" data-target="#modalRecSenha">
+        <a href="#" class="text-primary" data-toggle="modal" data-target="#modalRecSenha">
             <small>Esqueceu a senha?</small>
           </a>
-          <button class="btn btn-sm btn-secondary" href="">Entrar como equipe</button>
-        </div>
       </div>
     </div>
   </div>

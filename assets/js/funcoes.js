@@ -10,11 +10,11 @@ function chamaDeslogar(id, str){
     $('#txt-deslogar').html(str);
 }
 
-// function chamaAnularQuestao(id, str){
-//     $('#modalAnular').modal('show');
-//     $('#idanular').val(id);
-//     $('#txt-anular').html(str);
-// }
+function chamaAnular(id, str){
+    $('#modalAnular').modal('show');
+    $('#idanular').val(id);
+    $('#txt-anular').html(str);
+}
 
 function notify(from, align, icon, type, animIn, animOut, title, message) {
     $.growl({
@@ -70,3 +70,7 @@ $('.notifications.btn').on('click', function(e) {
     var msg = $(this).attr('data-msg');
     notify(nFrom, nAlign, nIcons, nType, nAnimIn, nAnimOut, title, msg);
 });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

@@ -100,7 +100,7 @@
 
         .table-questao tbody tr:hover {
             cursor: grab;
-            background-color: #3bab2c10;
+            background-color: #00ACC120;
         }
 
         .table-questao-texto {
@@ -113,6 +113,19 @@
         
         b, strong {
             font-weight: bolder;
+        }
+
+        .btn, a {
+            transition: all 0.15s ease-in-out;
+        }
+
+        .btn-add-resposta {
+            padding: 6px 0px;
+            border: 1px dashed #3aab2c;
+        }
+
+        .btn-add-resposta:hover {
+            background-color: #3aab2c15;
         }
     </style>
     <style media="screen">
@@ -276,6 +289,8 @@
 
     <!-- Required Js -->
     <script src="<?=base_url('assets/js/vendor-all.min.js') ?>"></script>
+    <script src="<?php echo base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="<?=base_url('assets/plugins/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?=base_url('assets/js/pcoded.min.js') ?>"></script>
     
@@ -292,8 +307,6 @@
 
     <!-- File Uploader -->
     <script src="<?php echo base_url('assets/plugins/fileuploader/jquery.fileuploader.js') ?>"></script>
-
-    <script src="<?php echo base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
 
     <!-- Mask -->
     <script src="<?php echo base_url('assets/plugins/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js') ?>"></script>

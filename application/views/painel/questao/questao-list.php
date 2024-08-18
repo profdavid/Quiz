@@ -32,13 +32,13 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row mb-2">
-                      <div class="col-6">
+                      <div class="col-md-4">
                         <p class="f-18">Listagem de Questões</p>
                       </div>
-                      <div class="col-6 text-right">
-                      <a class="btn btn-secondary" href="{URL_ORDEM}"><i class="feather icon-file"></i>Relatório</a>
+                      <div class="col-md-8 text-right">
+                        <a class="btn btn-secondary" target="_blank" href="{URL_RELATORIO}"><i class="feather icon-file-text"></i>Impressão</a>
                         <a class="btn btn-info" href="{URL_ORDEM}"><i class="feather icon-move"></i>Ordenação</a>
-                        <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-plus"></i>Nova questão</a>
+                        <a class="btn btn-success" href="{URL_NOVO}"><i class="feather icon-plus"></i>Novo</a>
                       </div>
                     </div>
                     <div class="dt-responsive table-responsive">
@@ -61,14 +61,19 @@
                             <td><a href="{URL_EDITAR}">{quetempo} segundos</td>
                             <td><div class="table-questao-texto">{quetexto}</div></td>
                             <td class="text-center d-flex justify-content-end">
-                            <button type="button" class="tabledit-delete-button btn btn-default mr-4"
+                              <button type="button" data-toggle="tooltip" data-placement="top"
+                                title="Anular questão" 
+                                class="tabledit-delete-button btn btn-default mr-4"
                                 onclick="chamaAnular({id}, '{queordem}')">
-                                <span class="feather icon-slash f-16"></span>
+                                <span class="feather icon-slash f-16 text-warning"></span>
                               </button>
-                              <a href="{URL_EDITAR}" class="tabledit-delete-button mr-4">
+                              <a href="{URL_EDITAR}" data-toggle="tooltip" data-placement="top"
+                                title="Editar questão" class="tabledit-delete-button mr-4">
                                 <span class="feather icon-edit f-16"></span>
                               </a>
-                              <button type="button" class="tabledit-delete-button btn btn-default"
+                              <button type="button"
+                                data-toggle="tooltip" data-placement="top"
+                                title="Excluir questão" class="tabledit-delete-button btn btn-default"
                                 onclick="chamaExcluir({id}, '{queordem}')">
                                 <span class="feather icon-trash-2 f-16 text-c-red"></span>
                               </button>
@@ -130,9 +135,10 @@
             aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <p>Deseja anular a questão? Isso fará com que todas as equipes do evento adquiram nota máxima nessa questão.</p>
+        <p>Deseja anular a questão?</p>
+        <p>Isso fará com que todas as equipes do evento adquiram nota máxima nessa questão.</p>
         <p>
-          <span class="feather icon-slash f-16 mr-2"></span>
+          <span class="feather icon-slash f-16 text-warning mr-2"></span>
           Questão
           <span id="txt-anular"></span>
         </p>
@@ -160,10 +166,4 @@
       "aaSorting": []
     });
   };
-
-  function chamaAnular(id, str){
-    $('#modalAnular').modal('show');
-    $('#idanular').val(id);
-    $('#txt-anular').html(str);
-  }
 </script>
