@@ -56,9 +56,6 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/plugins/fileuploader/jquery.fileuploader.css') ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/plugins/fileuploader/jquery.fileuploader-theme-thumbnails.css') ?>">
 
-    <!-- loading -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/pages/loading-bar.css') ?>">
-
     <!-- Select2 -->
     <link rel="stylesheet" href="<?php echo base_url('assets/plugins/select2/css/select2.min.css') ?>">
 
@@ -95,68 +92,9 @@
             padding: 0; 
             border:0;
         }
-
-        .ui-sortable-helper {
-            cursor: grabbing !important;
-            opacity: 0.3;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-        }
-
-        .table-questao tbody tr:hover {
-            cursor: grab;
-            background-color: #00ACC120;
-        }
-
-        .table-questao-texto {
-            white-space: wrap;
-        }
-
-        .img-questao-form-wrapper {
-            height: 225px;
-        }
         
         b, strong {
             font-weight: bolder;
-        }
-
-        .btn, a {
-            transition: all 0.15s ease-in-out;
-        }
-
-        .btn-add-resposta {
-            padding: 6px 0px;
-            border: 1px dashed #3aab2c;
-        }
-
-        .btn-add-resposta:hover {
-            background-color: #3aab2c15;
-        }
-
-        .card-countdown {
-            position: relative;
-        }
-
-        .count {
-            position: absolute;
-            top: 52%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .bg-gray {
-            background-color: #f1f1f1; 
-        }
-
-        .ldBar.label-center > .ldBar-label {
-            opacity: 0;
-        }
-
-        .bg-ranking {
-            background-image: url("<?=base_url('assets/img/ranking.png') ?>");
-            background-size: cover;
-            background-repeat: no-repeat;
-            opacity: 0;
-            transform: translateY(100px);
         }
     </style>
     <style media="screen">
@@ -181,9 +119,6 @@
             .sidenav-horizontal:after {
                 display: none;
             }
-            .table-questao-texto {
-                white-space: nowrap;
-            }
         }
     </style>
 </head>
@@ -201,7 +136,7 @@
     <nav class="pcoded-navbar menupos-fixed navbar-collapsed">
         <div class="navbar-wrapper">
             <div class="navbar-brand header-logo">
-                <a href="<?=site_url('painel/Home')?>" class="b-brand">
+                <a href="<?=site_url('dinamica/Jogo')?>" class="b-brand">
                    <div class="b-bg">
                         <span>Quiz</span>
                     </div>
@@ -214,30 +149,12 @@
             <div class="navbar-content scroll-div">
                 <ul class="nav pcoded-inner-navbar">
                     <li class="nav-item pcoded-menu-caption">
-                        <label class="text-white f-14 text-uppercase">Cadastros</label>
-                    </li>
-                    
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(2) == 'Home') ? 'active' : null ?>">
-                        <a href="<?=site_url('painel/Home')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
-                    </li>
-                    
-                    <li data-username="Usuario" class="nav-item <?php echo ($this->uri->segment(2) == 'Usuario') ? 'active' : null ?>"><a href="<?=site_url('painel/Usuario')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Usuários</span></a></li>
-
-                    <li data-username="Evento" class="nav-item <?php echo ($this->uri->segment(2) == 'Evento') ? 'active' : null ?>"><a href="<?=site_url('painel/Evento')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Eventos</span></a></li>
-
-                    <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-shield"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
-
-                    <li data-username="Questao" class="nav-item <?php echo ($this->uri->segment(2) == 'Questao') ? 'active' : null ?>"><a href="<?=site_url('painel/Questao')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-help-circle"></i></span><span class="pcoded-mtext">Questões</span></a></li>
-
-                    <li class="nav-item pcoded-menu-caption">
                         <label class="text-white f-14 text-uppercase">Dinâmica</label>
                     </li>
-
-                    <li data-username="Acompanhamento" class="nav-item <?php echo ($this->uri->segment(3) == 'questao') ? 'active' : null ?>"><a href="<?=site_url('painel/Acompanhamento')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-flag"></i></span><span class="pcoded-mtext">Acompanhamento</span></a></li>
-
-                    <li data-username="Pontuacao" class="nav-item <?php echo ($this->uri->segment(3) == 'pontuacao') ? 'active' : null ?>"><a href="<?=site_url('painel/Acompanhamento/pontuacao')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star"></i></span><span class="pcoded-mtext">Pontuação</span></a></li>
-
-                    <li data-username="Ranking" class="nav-item <?php echo ($this->uri->segment(3) == 'ranking') ? 'active' : null ?>"><a href="<?=site_url('painel/Acompanhamento/ranking')?>" class="nav-link"><span class="pcoded-micon"><i class="bi bi-trophy"></i></span><span class="pcoded-mtext">Ranking</span></a></li>
+                    
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == '') ? 'active' : null ?>">
+                        <a href="<?=site_url('dinamica/Jogo')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-flag"></i></span><span class="pcoded-mtext">Questões</span></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -253,8 +170,6 @@
                     <img src="<?=base_url('assets/img/ico2.png')?>">
                 </div>
                 <span class="b-title"><span class="text-success">Quiz</span> <br> Ifes</span>
-                <!-- <img class="img-fluid horizontal-dasktop" src="../assets/images/logo-dark.png" alt="Theme-Logo" />
-                <img class="img-fluid horizontal-mobile" src="../assets/images/logo.png" alt="Theme-Logo" /> -->
             </a>
         </div>
         <div style="margin-left: 30px;">
@@ -291,11 +206,8 @@
             
             <ul class="navbar-nav ml-auto">
                 <li>
-                    <p class="text-primary"><?=$this->session->userdata('quiz_evenome')?></p>
+                    <p class="text-primary"><?=$this->session->userdata('equipe_equnome')?></p>
                 </li>
-                
-                <!-- Menu Seleção de Eventos -->
-                <?=listEventos()?>
 
                 <!-- Menu Superior Config -->
                 <li>
@@ -305,16 +217,14 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-notification">
                             <div class="pro-head">
-                                <i class="bi bi-person-circle mr-2" style="font-size: 25px"></i>
-                                <span><?=$this->session->userdata('quiz_usunome')?></span>
-                                <a href="<?=site_url('painel/Login/logout')?>" class="dud-logout" title="Sair">
+                                <i class="bi bi-shield" style="font-size: 25px; margin-right: 5px"></i>
+                                <span><?=$this->session->userdata('equipe_equnome')?></span>
+                                <a href="<?=site_url('acesso/Gerenciador/logout')?>" class="dud-logout" title="Sair">
                                     <i class="feather icon-log-out"></i>
                                 </a>
                             </div>
                             <ul class="pro-body">
-                                <!-- <li><a href="<?=site_url('painel/MeusDados')?>" class="dropdown-item"><i class="feather feather icon-edit-1"></i> Meus Dados</a></li> -->
-
-                                <li><a href="<?=site_url('painel/Log')?>" class="dropdown-item"><i class="feather icon-align-justify"></i> Log</a></li>
+                                <li><a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="dropdown-item"><i class="feather icon-align-justify"></i> Meus Dados</a></li>
                             </ul>
                         </div>
                     </div>
@@ -332,9 +242,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="<?=base_url('assets/plugins/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?=base_url('assets/js/pcoded.min.js') ?>"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
     
     <!-- prism Js -->
     <script src="<?=base_url('assets/plugins/prism/js/prism.min.js') ?>"></script>
@@ -342,9 +249,6 @@
     <!-- datatable Js -->
     <script src="<?=base_url('assets/plugins/data-tables/js/datatables.min.js') ?>"></script>
     <script src="<?=base_url('assets/js/pages/data-basic-custom.js') ?>"></script>
-
-    <!-- loading -->
-    <script src="<?=base_url('assets/js/loading-bar.js') ?>"></script>
 
     <!-- notification Js -->
     <script src="<?=base_url('assets/plugins/notification/js/bootstrap-growl.min.js')?>"></script>

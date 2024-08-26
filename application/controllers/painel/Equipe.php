@@ -60,7 +60,7 @@ class Equipe extends CI_Controller {
 
 		$data['id'] 		= null;
 		$data['equnome'] 	= null;
-		$data['equlogada']  = 'checked="checked"';
+		$data['equlogada']  = '';
 		$data['equlogo'] 	= 'assets/img/equipe.png';
 
 		$this->parser->parse('painel/equipe/equipe-form', $data);

@@ -91,4 +91,8 @@ define('LAYOUT_LOGIN_PAINEL', 'login-painel'); //Template Login Painel
 
 define('LAYOUT_RELATORIO', 'relatorio');//Template dos Relatórios
 
+define('LAYOUT_ACESSO', 'acesso');//Template Acesso das Equipes
+
+define('LAYOUT_JOGO', 'jogo');//Template da dinamica para Equipes
+
 //define('USUADM', [1,3,4,5,6,7]);//Usuários administradores para acesso especial de algumas funcionalidades
