@@ -89,6 +89,7 @@ class Questao extends CI_Controller {
 			}
 		}
 
+		//Salvando imagem no diretorio do evento
 		$quizDir = replaceSpacesAndLowerCase($this->session->userdata('quiz_evenome'));
 
 		if($_FILES['queimg']['error'] == 0 && $_FILES['queimg']['size'] > 0){
@@ -103,7 +104,6 @@ class Questao extends CI_Controller {
 			} else 
 				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
-			//Atribui a imagem padrao caso nao feito upload
 			if (!$id) $itens['queimg'] = 'assets/img/questao_image.jpg';
 		}
 		
@@ -114,8 +114,17 @@ class Questao extends CI_Controller {
 
 		//Tratamento da data liberacao e data limite
 		if ($itens['quesituacao'] == 1) {
-			$itens['quedtliberacao'] = date("Y-m-d H:i:s");
-			$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $itens['quetempo']);
+			if (!empty($id)) {
+				$res_questao = $this->PadraoM->fmSearch($this->tabela, null, ['id' => $id], TRUE);
+		
+				if (isset($res_questao->quesituacao) && $res_questao->quesituacao == 0) {
+					$itens['quedtliberacao'] = date("Y-m-d H:i:s");
+					$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $itens['quetempo']);
+				}
+			} else {
+				$itens['quedtliberacao'] = date("Y-m-d H:i:s");
+				$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $itens['quetempo']);
+			}
 		} else {
 			$itens['quedtliberacao'] = null;
 			$itens['quedtlimite'] = null;
@@ -287,7 +296,7 @@ class Questao extends CI_Controller {
 
 
 	public function salvarRespostas($idquestao, $respostas, $resposta_correta){
-		$this->excluirRespostas($idquestao, $respostas);
+		$this->excluirRespostas($idquestao, $respostas); //Exclui as respostas que foram removidas
 
 		if($respostas) {
 			foreach($respostas as $re) {

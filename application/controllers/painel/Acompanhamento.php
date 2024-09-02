@@ -28,6 +28,7 @@ class Acompanhamento extends CI_Controller {
 		$data['id'] = null;
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
+		$data['URL_QUESTAO'] = site_url('painel/Acompanhamento/questao');;
 		$data['URL_ANTERIOR'] = site_url('painel/Acompanhamento/questao/'.($queordem - 1));
 		$data['URL_PROXIMO'] = site_url('painel/Acompanhamento/questao/'.($queordem + 1));
 		$data['RESPOSTAS'] = [];

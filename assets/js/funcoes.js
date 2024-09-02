@@ -16,6 +16,10 @@ function chamaAnular(id, str){
     $('#txt-anular').html(str);
 }
 
+function chamaViewQuestaoImage(){
+    $('#modalQuestaoImage').modal('show');
+}
+
 function notify(from, align, icon, type, animIn, animOut, title, message) {
     $.growl({
         icon: icon,
