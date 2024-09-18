@@ -89,22 +89,22 @@ class Questao extends CI_Controller {
 			}
 		}
 
-		//Salvando imagem no diretorio do evento
-		$quizDir = replaceSpacesAndLowerCase($this->session->userdata('quiz_evenome'));
+		//Inicializa questaoresposta da questao
+		$questaoresposta = $this->input->post('respostas');
+		$qrcorreta = $this->input->post('resposta_correta');
 
+		//Salvando imagem no diretorio do evento
 		if($_FILES['queimg']['error'] == 0 && $_FILES['queimg']['size'] > 0){
-			$fileupload = new FileUploader('queimg', [
-				$_FILES['queimg'], 
-				'uploadDir' => 'assets/uploads/'.$quizDir.'/'
-			]);
+			$diretorio = retirarAcentos($this->session->userdata('quiz_evenome'));
+
+			$fileupload = new FileUploader('queimg', ['uploadDir' => 'assets/uploads/'.$diretorio.'/']);
+			$upload_res = $fileupload->upload();
 			
-			if ($fileupload) {
-				$upload_res = $fileupload->upload();
+			if($upload_res['isSuccess'])
 				$itens['queimg'] = $upload_res['files'][0]['file'];
-			} else 
-				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
-			if (!$id) $itens['queimg'] = 'assets/img/questao_image.jpg';
+			if (!$id)
+				$itens['queimg'] = 'assets/img/questao_image.jpg';
 		}
 		
 		//Tratamento dos itens
@@ -113,11 +113,15 @@ class Questao extends CI_Controller {
 		$itens['idevento'] = $this->session->userdata('quiz_ideventoativo');
 
 		//Tratamento da data liberacao e data limite
-		if ($itens['quesituacao'] == 1) {
-			if (!empty($id)) {
+		//Caso haja necessidade de editar questao apos ela ser liberada e nao alterar as datas
+		if ($itens['quesituacao'] == 0) {
+			$itens['quedtliberacao'] = null;
+			$itens['quedtlimite'] = null;
+		} else {
+			if ($id) {
 				$res_questao = $this->PadraoM->fmSearch($this->tabela, null, ['id' => $id], TRUE);
 		
-				if (isset($res_questao->quesituacao) && $res_questao->quesituacao == 0) {
+				if ($res_questao && $res_questao->quesituacao == 0) {
 					$itens['quedtliberacao'] = date("Y-m-d H:i:s");
 					$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $itens['quetempo']);
 				}
@@ -125,9 +129,6 @@ class Questao extends CI_Controller {
 				$itens['quedtliberacao'] = date("Y-m-d H:i:s");
 				$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $itens['quetempo']);
 			}
-		} else {
-			$itens['quedtliberacao'] = null;
-			$itens['quedtlimite'] = null;
 		}
 		
 		//Salvando os dados
@@ -156,10 +157,9 @@ class Questao extends CI_Controller {
 			$res_log = $this->LogM->fmNew($itens_log);
 			//--- Fim Log ---
 
-			//Insert das respostas
-			$respostas = $this->input->post('respostas');
-			$resposta_correta = $this->input->post('resposta_correta');
-			$this->salvarRespostas($res_id, $respostas, $resposta_correta);
+			//Tratamento de questaoresposta
+			$this->excluirRespostasNaoIncluidas($res_id, $questaoresposta);
+			$this->salvarRespostas($res_id, $questaoresposta, $qrcorreta);
 
 			//Redireciona
 			redirect('painel/Questao');
@@ -219,36 +219,6 @@ class Questao extends CI_Controller {
 	}
 
 
-	public function excluir(){
-		$id = $this->input->post('idexcluir'); 
-		$cond = array('id' => $id); 
-			
-		$res = $this->PadraoM->fmDelete($this->tabela, $cond);
-		
-		if($res){
-			//--- Grava Log ---
-			$log = "Exclui ". $this->tabela ." | Id: $id";
-			$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
-			$res_log = $this->LogM->fmNew($itens_log);
-			//--- Fim Log ---
-			
-			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Registro excluído.'));
-
-			//Refaz a ordenação das questões
-			$questoes = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
-
-			if($questoes) {
-				$ids = array_column($questoes, 'id');
-				$trans = $this->PadraoM->fmUpdateIncrementCount($this->tabela, $ids, 'queordem');
-			}
-		}
-		else
-			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao excluir o registro.'));
-
-		redirect('painel/Questao');
-	}
-
-
 	public function ordem(){
 		$data = array();
 		$data['LABEL_ACAO'] 	= 'Ordenação';
@@ -273,88 +243,6 @@ class Questao extends CI_Controller {
 			}
 		}
 		$this->parser->parse('painel/questao/questao-ordem', $data);
-	}
-	
-
-	public function ordenar(){
-		if (!isset($_GET['ordem'])) {
-			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Falhou ao encontrar ordem.'));
-			redirect('painel/Questao/ordem');
-		}
-
-		$ordem = explode(',', $_GET['ordem']);
-		$trans = $this->PadraoM->fmUpdateIncrementCount($this->tabela, $ordem, 'queordem');
-
-		if(!$trans) {
-			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao reordenar questões.'));
-			redirect('painel/Questao/ordem');
-		}
-
-		$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
-		redirect('painel/Questao');
-	}
-
-
-	public function salvarRespostas($idquestao, $respostas, $resposta_correta){
-		$this->excluirRespostas($idquestao, $respostas); //Exclui as respostas que foram removidas
-
-		if($respostas) {
-			foreach($respostas as $re) {
-				$itens['qrordem'] = $re['qrordem'];
-				$itens['qrtexto'] = $re['qrtexto'];
-				$itens['qrcorreta'] = ($resposta_correta == $re['qrordem'] ? 1 : 0);
-				$itens['idquestao'] = $idquestao;
-
-				//Salvando os dados
-				if(isset($re['id']) && !empty($re['id'])){ //Edição
-					$itens['atualizado_em'] = date("Y-m-d H:i:s");
-					$cond = array('id' => $re['id']);
-					$res_id = $this->PadraoM->fmUpdate($this->tabela_resposta, $cond, $itens);
-				}
-				else //Novo
-					$res_id = $this->PadraoM->fmNew($this->tabela_resposta, $itens);
-				
-				//Se dados salvos no BD com sucesso
-				if($res_id){
-					//--- Grava Log ---
-					$log = ($re['id']) ? "Edita ".$this->tabela_resposta." | Id: ".$res_id : "Novo ". $this->tabela_resposta." | Id: ".$res_id;
-					$log .= " | Valores: ";
-					foreach($itens as $key => $val)
-						$log .= $key."=".$val.", ";
-					$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
-					$res_log = $this->LogM->fmNew($itens_log);
-					//--- Fim Log ---
-				} else {
-					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao realizar a operação.'));
-					
-					if($re['id']) //Edição
-						redirect('painel/Questao/edita/'.$idquestao);
-					else //Novo
-						redirect('painel/Questao/novo');
-				}
-			}
-		}
-	}
-
-
-	public function excluirRespostas($idquestao, $respostas){
-		$cond = array('idquestao' => $idquestao);
-		$ids = array();
-
-		if($respostas) {
-			foreach ($respostas as $r) {
-				if (isset($r['id']) && !empty($r['id']))
-					$ids[] = $r['id'];
-			}
-			
-			if(!empty($ids)){
-				$res = $this->PadraoM->fmDeleteNotInWithCond($this->tabela_resposta, $cond, $ids);
-				if(!$res)
-					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao excluir questões.'));
-			}
-		} else {
-			$this->PadraoM->fmDelete($this->tabela_resposta, $cond);
-		}
 	}
 
 
@@ -409,4 +297,135 @@ class Questao extends CI_Controller {
 		$this->parser->parse('painel/questao/questao-relatorio', $data);
 	}
 
+
+	public function excluir(){
+		$id = $this->input->post('idexcluir'); 
+		$cond = array('id' => $id); 
+			
+		$res = $this->PadraoM->fmDelete($this->tabela, $cond);
+		
+		if($res){
+			//--- Grava Log ---
+			$log = "Exclui ". $this->tabela ." | Id: $id";
+			$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
+			$res_log = $this->LogM->fmNew($itens_log);
+			//--- Fim Log ---
+
+			$this->ordenar();
+			
+			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Registro excluído.'));
+		}
+		else
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao excluir o registro.'));
+
+		redirect('painel/Questao');
+	}
+
+
+	public function ordenar(){
+		if (isset($_GET['ordem'])) {
+			$ordem = explode(',', $_GET['ordem']);
+		} else {
+			$questoes = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
+			$ordem = $questoes ? array_column($questoes, 'id') : null;
+		}
+
+		$trans = $this->PadraoM->fmUpdateIncrementCount($this->tabela, $ordem, 'queordem');
+
+		if (!$trans) {
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao reordenar questões.'));
+			redirect('painel/Questao');
+		}
+
+		$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
+		redirect('painel/Questao');
+	}
+
+
+	public function salvarRespostas($idquestao, $questaoresposta, $qrcorreta){
+		if($questaoresposta) {
+			//Salvando todas as imagens no diretorio do evento
+			$filtered = array();
+			$positions = array();
+
+			foreach ($_FILES['respostas']['error'] as $index => $error) {
+				if ($error === 0) {
+					$filtered['name'][] = $_FILES['respostas']['name'][$index];
+					$filtered['type'][] = $_FILES['respostas']['type'][$index];
+					$filtered['tmp_name'][] = $_FILES['respostas']['tmp_name'][$index];
+					$filtered['error'][] = $_FILES['respostas']['error'][$index];
+					$filtered['size'][] = $_FILES['respostas']['size'][$index];
+			
+					$positions[] = $index;
+				}
+			}
+
+			$_FILES['respostas'] = array(
+				'name' => $filtered['name'],
+				'type' => $filtered['type'],
+				'tmp_name' => $filtered['tmp_name'],
+				'error' => $filtered['error'],
+				'size' => $filtered['size']
+			);
+
+			$diretorio = retirarAcentos($this->session->userdata('quiz_evenome'));
+			$fileupload = new FileUploader('respostas', ['uploadDir' => 'assets/uploads/'.$diretorio.'/']);
+			$upload_res = $fileupload->upload();
+			
+			if($upload_res['isSuccess']){
+				$imgpath = array();
+
+				foreach ($upload_res['files'] as $path) {
+					$imgpath[] = $path['file'];
+				}
+			}
+
+			//Tratamento dos itens
+			foreach($questaoresposta as $index => $r) {
+				$itens['qrordem'] = $r['qrordem'];
+				$itens['qrtexto'] = $r['qrtexto'];
+				$itens['qrcorreta'] = ($qrcorreta == $r['qrordem'] ? 1 : 0);
+				$itens['idquestao'] = $idquestao;
+				$itens['qrimg'] = null;
+
+				$position_key = array_search($index, $positions);
+				
+				if ($position_key !== false){
+					$itens['qrimg'] = $imgpath[$position_key];
+				} else
+					unset($itens['qrimg']);
+				
+				if(isset($r['id']) && !empty($r['id'])){ //Edição
+					$itens['atualizado_em'] = date("Y-m-d H:i:s");
+					$cond = array('id' => $r['id']);
+
+					$res_id = $this->PadraoM->fmUpdate($this->tabela_resposta, $cond, $itens);
+				} else //Novo
+					$res_id = $this->PadraoM->fmNew($this->tabela_resposta, $itens);
+				
+
+				if(!$res_id)
+					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao salvar questaoresposta.'));
+			}
+		}
+	}
+
+
+	public function excluirRespostasNaoIncluidas($idquestao, $questaoresposta){
+		$cond = array('idquestao' => $idquestao);
+		$ids = array();
+
+		if($questaoresposta) {
+			foreach ($questaoresposta as $r) {
+				if (isset($r['id']) && !empty($r['id']))
+					$ids[] = $r['id'];
+			}
+			
+			if(!empty($ids)){
+				$res = $this->PadraoM->fmDeleteNotInWithCond($this->tabela_resposta, $cond, $ids);
+			}
+		} else {
+			$this->PadraoM->fmDelete($this->tabela_resposta, $cond);
+		}
+	}
 }

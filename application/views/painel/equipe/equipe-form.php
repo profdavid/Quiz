@@ -59,9 +59,9 @@
                                                     <div class="col-md-12">
                                                         <label for="equlogo">Logo:</label>
                                                         <div class="form-control d-flex justify-content-center">
-                                                            <img id="image-preview" width="80px" src="<?=base_url('{equlogo}')?>" alt="">
+                                                            <img id="image-preview" width="150px" src="<?=base_url('{equlogo}')?>" alt="">
                                                         </div>
-                                                        <input class="mt-2" id="equlogo" type="file" name="equlogo" size="20" onchange="previewImage(event)"/>
+                                                        <input class="mt-2" id="equlogo" type="file" name="equlogo" onchange="previewImage(event)"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -93,11 +93,7 @@
 
     function previewImage(event) {
         var file = event.target.files[0];
-
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('image-preview').src = e.target.result;
-        };
-        reader.readAsDataURL(file);
+        if(!file) return;
+        document.getElementById('image-preview').src = URL.createObjectURL(file);
     }
 </script>

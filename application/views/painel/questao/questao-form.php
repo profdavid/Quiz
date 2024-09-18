@@ -66,10 +66,10 @@
                         <div class="col-md-8">
                           <div class="form-group col-md-12">
                             <label for="queimg">Imagem inicial:</label>
-                            <div class="form-control d-flex justify-content-center img-questao-form-wrapper">
-                              <img id="image-preview" class="img-fluid" src="<?=base_url('{queimg}')?>" alt="">
+                            <div style="height:225px" class="form-control d-flex justify-content-center">
+                              <img id="image-preview" class="img-fluid rounded" src="<?=base_url('{queimg}')?>" alt="">
                             </div>
-                            <input class="mt-2" id="queimg" type="file" name="queimg" size="20" onchange="previewImage(event)"/>
+                            <input class="mt-2" id="queimg" type="file" name="queimg" onchange="previewImage(event)"/>
                           </div>
                         </div>
                       </div>
@@ -77,8 +77,8 @@
                         <div class="col-md-12">
                           <div class="form-row">
                             <div class="form-group col-md-12">
-                              <label for="quetexto">Texto: *</label>
-                              <textarea class="form-control" id="quetexto" name="quetexto" required>
+                              <label for="quetexto">Texto:</label>
+                              <textarea class="form-control" id="quetexto" name="quetexto">
                                 {quetexto}
                               </textarea>
                             </div>
@@ -86,10 +86,11 @@
                         </div>
                       </div>
 
-                      <div class="d-flex flex-column mb-4">
-                        <label>Respostas: *</label>
-                        <p class="text-muted">
-                          Ao criar as opções de resposta para a sua questão, é obrigatório que você marque ( <input type="radio" checked> ) qual delas é a resposta correta.
+                      <div class="d-flex flex-column mb-2">
+                        <label>Respostas:</label>
+                        <p> Ao criar as opções de resposta para a sua questão, 
+                          é obrigatório que você marque ( <input type="radio" checked> ) 
+                          qual delas é a resposta correta.
                         </p>
                       </div>
                       
@@ -100,6 +101,7 @@
                             <input type="hidden" name="respostas[{index}][id]" value="{id}">
                             <input type="hidden" name="respostas[{index}][qrordem]" value="{qrordem}">
                             <div class="input-group">
+
                               <div class="input-group-prepend">
                                 <div class="input-group-text">
                                   <input type="radio" 
@@ -111,15 +113,22 @@
                                   <span class="ml-3 f-w-600 resposta-ordem">{qrordem}</span>
                                 </div>
                               </div>
+
+                              <div class="form-control d-flex flex-column" style="max-width:200px">
+                                <img id="qr-preview{index}" class="img-fluid mb-2 rounded" src="<?=base_url('{qrimg}')?>" alt="">
+                                <input class="mb-1" type="file" name="respostas[{index}]" onchange="previewResImage(event, {index})"/>
+                              </div>
+
                               <input class="form-control"
                                 type="text" 
                                 name="respostas[{index}][qrtexto]" 
                                 value="{qrtexto}"
                                 required
                               >
+
                               <div class="input-group-append">
-                                <button style="display: none" type="button" class="btn btn-sm btn-remove-resposta" onclick="removeResposta(this)">
-                                  <span class="feather icon-trash-2 f-16 text-c-red"></span>
+                                <button style="display: none" type="button" class="btn btn-sm btn-danger btn-remove-resposta" onclick="removeResposta(this)">
+                                  <span class="feather icon-trash-2 f-16 text-c-white"></span>
                                 </button>
                               </div>
                             </div>
@@ -127,10 +136,8 @@
                         </div>
                         {/LIST_RESPOSTAS}
                       </div>
-                      <button type="button" id="add-resposta"
-                        class="btn btn-sm btn-add-resposta text-success text-center w-100 mb-4"
-                        onclick="addResposta()">
-                        <i class="feather icon-plus"></i>Adicionar Resposta
+                      <button type="button" id="add-resposta" class="btn btn-add-resposta text-success text-center w-100 mb-4" onclick="addResposta()">
+                        <i class="feather icon-plus"></i>Adicionar
                       </button>
                     </div>
 
@@ -151,11 +158,11 @@
 </div>
 <!-- [ Main Content ] end -->
 
-<!-- tinymce -->
-<script src="<?php echo base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
 
+<script src="<?= base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
 <script>
   let rcount = {RESPOSTAS_COUNT};
+
 
   window.onload = function () {
     {RES_OK}
@@ -163,10 +170,11 @@
     enableLastBtn();
   }
 
+
   //Inicializa editor de texto da questao
   tinymce.init({
     selector: '#quetexto',
-    height: 320,
+    height: 460,
     plugins:[
         'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'anchor', 'pagebreak',
         'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 
@@ -183,15 +191,23 @@
     branding: false
   });
 
-  //Exibe a imagem do upload
+
+  //Exibe queimg do upload
   function previewImage(event) {
     var file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById('image-preview').src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    if(!file) return;
+    document.getElementById('image-preview').src = URL.createObjectURL(file);
   }
+
+
+  //Exibe qrimg do upload
+  function previewResImage(event, index) {
+    var preview = document.getElementById('qr-preview' + index);
+    var file = event.target.files[0];
+    if(!file) return;
+    preview.src = URL.createObjectURL(file);
+  }
+
 
   //Adiciona uma nova opcao de resposta
   function addResposta() {
@@ -214,15 +230,22 @@
                 <span class="ml-3 f-w-600 resposta-ordem">${letra}</span>
               </div>
             </div>
+
+            <div class="form-control d-flex flex-column" style="max-width:200px">
+              <img id="qr-preview${rcount}" class="img-fluid mb-2 rounded" src="" alt="">
+              <input class="mb-1" type="file" name="respostas[${rcount}]" onchange="previewResImage(event, ${rcount})"/>
+            </div>
+
             <input class="form-control"
               type="text"
               name="respostas[${rcount}][qrtexto]" 
               value=""
               required
             >
+
             <div class="input-group-append">
-              <button type="button" class="btn btn-sm btn-remove-resposta" onclick="removeResposta(this)">
-                <span class="feather icon-trash-2 f-16 text-c-red"></span>
+              <button type="button" class="btn btn-sm btn-danger btn-remove-resposta" onclick="removeResposta(this)">
+                <span class="feather icon-trash-2 f-16 text-c-white"></span>
               </button>
             </div>
           </div>
@@ -234,12 +257,14 @@
     rcount++;
   };
 
+
   function removeResposta(button) {
     let respostaItem = button.closest('.resposta-item');
     respostaItem.remove();
     rcount--;
     enableLastBtn();
   }
+
 
   function disableBtns() {
     if (rcount > 0) {
@@ -248,6 +273,7 @@
       });
     }
   }
+
 
   function enableLastBtn() {
     const lastRemoveButton = document.querySelector('.resposta-item:last-child .btn-remove-resposta');

@@ -11,7 +11,7 @@
                                     <h5 class="m-b-10">Ranking</h5>
                                 </div>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#!">Pontuação</a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Geral</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -44,13 +44,19 @@
                                                             >
                                                         </div>
                                                         <div class="align-self-center">
-                                                            <span style="font-size: 18px" class="badge badge-warning mr-2">1°</span>
-                                                            <span style="font-size: 26px"><?= $EQUIPES[0]['equnome'] ?></span>
+                                                            <h4 style="font-size: 26px"><?= $EQUIPES[0]['equnome'] ?></h4>
+                                                        </div>
+                                                        <div class="align-self-center">
+                                                            <strong style="font-size: 18px" class="badge badge-warning mr-2">1°</strong>
+                                                            <span class="text-warning">
+                                                                <i class="feather icon-star"></i>
+                                                                <?= $EQUIPES[0]['pontos'] ?> pontos
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="row mb-3">
+                                                <div class="row mb-4">
                                                     <?php for ($i = 1; $i < 3; $i++): ?>
                                                         <div class="col-6 d-flex flex-column align-items-center px-4 py-1">
                                                             <img
@@ -59,8 +65,14 @@
                                                                 src="<?= base_url($EQUIPES[$i]['equlogo']) ?>" alt="logo"
                                                             >
                                                             <div class="align-self-center">
-                                                                <span style="font-size: 18px" class="badge badge-info mr-2"><?= $EQUIPES[$i]['posicao'] ?>°</span>
-                                                                <span><?= $EQUIPES[$i]['equnome'] ?></span>
+                                                                <h4><?= $EQUIPES[$i]['equnome'] ?></h4>
+                                                            </div>
+                                                            <div class="align-self-center">
+                                                                <strong style="font-size: 16px" class="badge badge-info mr-2"><?= $EQUIPES[$i]['ranking'] ?>°</strong>
+                                                                <span class="text-info">
+                                                                    <i class="feather icon-star"></i>
+                                                                    <?= $EQUIPES[$i]['pontos'] ?> pontos
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     <?php endfor; ?>
@@ -72,17 +84,25 @@
                                                 <?php for ($i = 3; $i < count($EQUIPES); $i++): ?>
                                                     <div class="d-flex px-4 py-1 my-1 bg-gray">
                                                         <img
-                                                            class="border border-secondary rounded-circle m-2"
+                                                            class="rounded-circle m-2"
                                                             width="35"
                                                             src="<?= base_url($EQUIPES[$i]['equlogo']) ?>" alt="logo"
                                                         >
                                                         <div class="align-self-center">
-                                                            <strong><?= $EQUIPES[$i]['posicao'] ?>°</strong> <?= $EQUIPES[$i]['equnome'] ?>
+                                                            <strong>
+                                                                <?= $EQUIPES[$i]['ranking'] ?>° <?= $EQUIPES[$i]['equnome'] ?>
+                                                            </strong>
+                                                            <small class="ml-3">
+                                                                <i class="feather icon-star"></i>
+                                                                <?= $EQUIPES[$i]['pontos'] ?> pontos
+                                                            </small>
                                                         </div>
                                                     </div>
                                                 <?php endfor; ?>
                                             </div>
                                         </div>
+                                    <?php else: ?>
+                                        <span>Nenhum dado encontrado.</span>
                                     <?php endif; ?>
                                     </div>
                                 </div>
@@ -97,36 +117,11 @@
 
 <script>
     window.onload = function() {
-        const duration = 10 * 1000,
-        animationEnd = Date.now() + duration,
-        defaults = { startVelocity: 40, spread: 360, ticks: 60, zIndex: 0, scalar: 1.2 };
-
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
-        }
-
-        const interval = setInterval(function() {
-            const timeLeft = animationEnd - Date.now();
-
-            if (timeLeft <= 0) {
-                return clearInterval(interval);
-            }
-
-            const particleCount = 30 * (timeLeft / duration);
-
-            confetti(
-                Object.assign({}, defaults, {
-                    particleCount,
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                })
-            );
-            confetti(
-                Object.assign({}, defaults, {
-                    particleCount,
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                })
-            );
-        }, 250);
+        confetti({
+            particleCount: 200,
+            spread: 200,
+            origin: { y: 0.6 },
+        });
     };
 
     document.addEventListener("DOMContentLoaded", (event) => {
@@ -134,9 +129,11 @@
             opacity: 1,
             rotateX: 360,
             rotate: 360,
-            scale: 1.2,
-            duration: 5,
-            ease: "elastic.out"
+            scale: 1.3,
+            duration: 3,
+            ease: "elastic.out",
+            repeat: -1,
+            yoyo: true
         });
 
         gsap.to(".bg-ranking", {

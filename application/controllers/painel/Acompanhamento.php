@@ -28,14 +28,14 @@ class Acompanhamento extends CI_Controller {
 		$data['id'] = null;
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
-		$data['URL_QUESTAO'] = site_url('painel/Acompanhamento/questao');;
+		$data['URL_QUESTAO'] = site_url('painel/Acompanhamento/questao');
+		$data['URL_ATUALIZACOES'] = site_url('painel/Acompanhamento/buscaAtualizacoes/?ids=');
 		$data['URL_ANTERIOR'] = site_url('painel/Acompanhamento/questao/'.($queordem - 1));
 		$data['URL_PROXIMO'] = site_url('painel/Acompanhamento/questao/'.($queordem + 1));
 		$data['RESPOSTAS'] = [];
 
 		// Busca todas as questoes
 		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $this->session->userdata('quiz_ideventoativo')], FALSE);
-
 		$data['COUNT_QUESTOES'] = $quetotal ? count($quetotal) : 0;
 
 		// Busca a ordem desejada
@@ -53,11 +53,11 @@ class Acompanhamento extends CI_Controller {
 
 			// Busca as opcoes de resposta da questao
 			$respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $questao->id));
-
 			$data['COUNT_RESPOSTAS'] = $respostas ? count($respostas) : 0;
 
 			if ($respostas) {
 				foreach ($respostas as $r) {
+					$ids[] = $r->id;
 					$data['RESPOSTAS'][] = array(
 						'id'        => $r->id,
 						'qrordem'   => $r->qrordem,
@@ -65,6 +65,7 @@ class Acompanhamento extends CI_Controller {
 						'qrimg'     => $r->qrimg
 					);
 				}
+				$data['URL_ATUALIZACOES'] .= implode(',', $ids);
 			}
 		}
 
@@ -74,7 +75,7 @@ class Acompanhamento extends CI_Controller {
 
 	public function liberarQuestao($id){
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, ['id' => $id], TRUE);
-
+		
 		$itens['quesituacao'] = 1;
 		$itens['quedtliberacao'] = date("Y-m-d H:i:s");
 		$itens['quedtlimite'] = date("Y-m-d H:i:s", strtotime($itens['quedtliberacao']) + $questao->quetempo);
@@ -84,28 +85,133 @@ class Acompanhamento extends CI_Controller {
 		redirect('painel/Acompanhamento/questao/'.$questao->queordem);
 	}
 
+
+	public function buscaAtualizacoes() {
+		$ids = $this->input->get('ids');
+		$ids_array = array_map('intval', explode(',', $ids));
+		$id_list = implode(",", $ids_array);
+
+		$query = "
+			SELECT DISTINCT e.equnome, eqr.criado_em
+			FROM equipe_questaoresposta eqr
+			JOIN equipe e ON eqr.idequipe = e.id
+			WHERE eqr.idquestaoresposta IN ($id_list)
+			ORDER BY eqr.criado_em ASC
+		";
+
+		$att = $this->PadraoM->fmSearchQuery($query);
+		echo json_encode($att);
+
+		exit; // (?)
+	}
+
+
 	public function ranking(){
 		$data = array();
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
-		
-		// ******************************************
-		// Buscar equipes somando pontos e tempo
-		// ******************************************
+		$idevento = $this->session->userdata('quiz_ideventoativo');
 
-		$res = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
-		
-		if($res){
-			foreach($res as $index => $r){
-				$data['EQUIPES'][$index] = array(
-					'id'        => $r->id,
-					'posicao' 	=> ($index + 1),
+		$query_ranking = "
+			SELECT e.equnome, eqr.idequipe, SUM(eqr.eqrponto) AS total_eqrponto, e.equlogo
+			FROM equipe_questaoresposta eqr
+			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+			JOIN questao q ON qr.idquestao = q.id
+			JOIN equipe e ON eqr.idequipe = e.id
+			WHERE q.idevento = $idevento
+			GROUP BY e.equnome, eqr.idequipe, e.equlogo
+			ORDER BY total_eqrponto DESC;
+		";
+
+		$res_ranking = $this->PadraoM->fmSearchQuery($query_ranking);
+
+		if($res_ranking){
+			foreach ($res_ranking as $indice => $r) {
+				$data['EQUIPES'][] = array(
+					'id'        => $r->idequipe,
+					'pontos'	=> $r->total_eqrponto,
+					'ranking'	=> ($indice + 1),
 					'equnome'   => $r->equnome,
 					'equlogo'   => $r->equlogo
 				);
 			}
+
+			$equipes_ids = array_column($data['EQUIPES'], 'id');
+			$posicao = count($data['EQUIPES']) + 1;
+
+			$res_others = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', ['idevento' => $idevento], NULL);
+
+			if($res_others){
+				foreach ($res_others as $o) {
+					if (!in_array($o->id, $equipes_ids)) {
+						$data['EQUIPES'][] = array(
+							'id'        => $o->id,
+							'pontos'    => 0,
+							'ranking'	=> $posicao,
+							'equnome'   => $o->equnome,
+							'equlogo'   => $o->equlogo
+						);
+						$posicao++;
+					}
+				}
+			}
 		}
 
 		$this->parser->parse('painel/ranking', $data);
+	}
+
+
+	public function pontuacao(){
+		$data = array();
+		$data['RES_ERRO']	= $this->session->flashdata('reserro');
+		$data['RES_OK']		= $this->session->flashdata('resok');
+		$idevento = $this->session->userdata('quiz_ideventoativo');
+		$data['PONTUACAO_EQUIPES'] = [];
+		$data['TOTAL_EQRPONTOS'] = [];
+
+		$query = "
+			SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto
+			FROM equipe_questaoresposta eqr
+			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+			JOIN questao q ON qr.idquestao = q.id
+			JOIN equipe e ON eqr.idequipe = e.id
+			WHERE q.idevento = $idevento
+			ORDER BY e.equnome ASC, q.queordem ASC;
+		";
+
+		$res = $this->PadraoM->fmSearchQuery($query);
+
+		$questoes = [];
+		$total_eqrpontos = [];
+
+		if($res){
+			foreach ($res as $r) {
+				$questoes[$r->queordem][] = array(
+					'equnome'   => $r->equnome,
+					'qrordem'   => $r->qrordem,
+					'eqrponto'  => $r->eqrponto
+				);
+
+				if (!isset($total_eqrpontos[$r->equnome])) {
+					$total_eqrpontos[$r->equnome] = 0;
+				}
+
+				$total_eqrpontos[$r->equnome] += $r->eqrponto;
+			}
+
+			$questoes_data = [];
+
+			foreach ($questoes as $queordem => $equipes) {
+				$questoes_data[] = array(
+					'queordem' => $queordem,
+					'equipes'  => $equipes
+				);
+			}
+		
+			$data['PONTUACAO_EQUIPES'] = $questoes_data;
+			$data['TOTAL_EQRPONTOS'] = $total_eqrpontos;
+		}
+
+		$this->parser->parse('painel/pontuacao', $data);
 	}
 }

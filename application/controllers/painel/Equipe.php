@@ -78,25 +78,18 @@ class Equipe extends CI_Controller {
 			}
 		}
 
-		$quizDir = replaceSpacesAndLowerCase($this->session->userdata('quiz_evenome'));
-		$equNameDir = replaceSpacesAndLowerCase($equnome);
-
-		//Verifica equipe logo
+		//Salvando logo da equipe no diretorio do evento
 		if($_FILES['equlogo']['error'] == 0 && $_FILES['equlogo']['size'] > 0){
-			$fileupload = new FileUploader('equlogo', [
-				$_FILES['equlogo'], 
-				'uploadDir' => 'assets/uploads/'.$quizDir.'/',
-				'title' => $equNameDir
-			]);
-			
-			if ($fileupload) {
-				$upload_res = $fileupload->upload();
+			$diretorio = retirarAcentos($this->session->userdata('quiz_evenome'));
+
+			$fileupload = new FileUploader('equlogo', ['uploadDir' => 'assets/uploads/'.$diretorio.'/']);
+			$upload_res = $fileupload->upload();
+
+			if($upload_res['isSuccess'])
 				$itens['equlogo'] = $upload_res['files'][0]['file'];
-			} else 
-				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao salvar imagem!'));
 		} else {
-			//Atribui a imagem padrão caso não feito upload
-			if (!$id) $itens['equlogo'] = 'assets/img/equipe.png';
+			if (!$id)
+				$itens['equlogo'] = 'assets/img/equipe.png';
 		}
 
 		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');

@@ -45,6 +45,7 @@
 
     <!-- jquery ui -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="<?=base_url('assets/plugins/jquery/js/jquery.min.js') ?>"></script>
 
     <!-- bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -95,6 +96,36 @@
         
         b, strong {
             font-weight: bolder;
+        }
+
+        .card-countdown {
+            position: relative;
+        }
+
+        .count {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .card-resposta {
+            transition: all 200ms;
+            border: 3px solid #f1f1f1;
+            background-color: #f1f1f1; 
+        }
+
+        .card-resposta label {
+            cursor: pointer;
+        }
+
+        .card-resposta.selected {
+            border: 3px solid #007bff75;
+            background-color: #007bff20;
+        }
+
+        .ldBar.label-center > .ldBar-label {
+            opacity: 0;
         }
     </style>
     <style media="screen">
@@ -153,7 +184,11 @@
                     </li>
                     
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == '') ? 'active' : null ?>">
-                        <a href="<?=site_url('dinamica/Jogo')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-flag"></i></span><span class="pcoded-mtext">Questões</span></a>
+                        <a href="<?=site_url('dinamica/Jogo')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-align-left"></i></span><span class="pcoded-mtext">Questões</span></a>
+                    </li>
+
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == 'equipeInfo') ? 'active' : null ?>">
+                        <a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star"></i></span><span class="pcoded-mtext">Pontuação</span></a>
                     </li>
                 </ul>
             </div>
@@ -238,7 +273,7 @@
 
     <!-- Required Js -->
     <script src="<?=base_url('assets/js/vendor-all.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
+    <script src="<?=base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="<?=base_url('assets/plugins/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?=base_url('assets/js/pcoded.min.js') ?>"></script>
@@ -249,6 +284,9 @@
     <!-- datatable Js -->
     <script src="<?=base_url('assets/plugins/data-tables/js/datatables.min.js') ?>"></script>
     <script src="<?=base_url('assets/js/pages/data-basic-custom.js') ?>"></script>
+
+    <!-- loading -->
+    <script src="<?=base_url('assets/js/loading-bar.js') ?>"></script>
 
     <!-- notification Js -->
     <script src="<?=base_url('assets/plugins/notification/js/bootstrap-growl.min.js')?>"></script>

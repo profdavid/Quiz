@@ -44,28 +44,31 @@
                                                 <div class="mt-3">
                                                     <strong class="bg-info text-white py-2 px-3 mr-2 rounded">
                                                         <i style="font-size: 18px" class="fa-solid fa-star mr-2"></i>
-                                                        <span>? pontos</span>
+                                                        <span>{TOTAL_EQRPONTO} pontos</span>
                                                     </strong>
                                                     <strong class="bg-warning text-white py-2 px-3 rounded">
                                                         <i class="fa-solid fa-trophy mr-2"></i>
-                                                        <span>?° Ranking</span>
+                                                        <span>{RANKING}° no Ranking</span>
                                                     </strong>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <hr class="my-5">
 
-                                        {LIST_QUESTOES}
-                                            <div style="background-color: #f1f1f1" class="row rounded py-3 px-1 my-3 mx-3">
+                                        {LIST_EQUIPE_QUESTAORESPOSTA}
+                                            <div style="background-color: {BG_ACERTOU}" class="row eqrcard rounded py-2 px-1 my-2 mx-3">
                                                 <div class="col-md-12">
-                                                    <div class="d-flex justify-content-between">
+                                                    <div class="d-flex justify-content-between align-items-center {TEXT_ACERTOU}">
                                                         <strong>Questão {queordem}</strong>
-                                                        <span><i class="feather icon-star"></i> ? de {queponto} pontos</span>
+                                                        <div class="d-flex flex-column text-right">
+                                                            <small><i class="feather icon-check-circle"></i> Letra {qrordem}</small>
+                                                            <strong>
+                                                                <i class="fa-solid fa-star"></i> {eqrponto} de {queponto} pontos
+                                                            </strong>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        {/LIST_QUESTOES}
+                                        {/LIST_EQUIPE_QUESTAORESPOSTA}
                                     </div>
                                 </div>
                             </div>

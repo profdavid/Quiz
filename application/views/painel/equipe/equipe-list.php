@@ -50,7 +50,7 @@
                                 <tbody>
                                     {LIST_DADOS}
                                     <tr {COR_INATIVO}>
-                                        <td><img width='40px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
+                                        <td><img width='60px' src="<?=base_url('{equlogo}')?>"alt="logo"></td>
                                         <td><a href="{URL_EDITAR}">{equnome}</a></td>
                                         <td class="text-center d-flex justify-content-end">
                                             <button type="button" {BTN_DESLOGAR} class="tabledit-delete-button btn btn-default mr-4" onclick="chamaDeslogar({id}, '{equnome}')">

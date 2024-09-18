@@ -111,8 +111,12 @@
             white-space: wrap;
         }
 
-        .img-questao-form-wrapper {
-            height: 225px;
+        input[type="file"] {
+            color: transparent;
+        }
+        
+        input[type="file"]::file-selector-button {
+            cursor: pointer;
         }
         
         b, strong {
@@ -124,7 +128,7 @@
         }
 
         .btn-add-resposta {
-            padding: 6px 0px;
+            padding: 12px 0px;
             border: 1px dashed #3aab2c;
         }
 
@@ -227,7 +231,7 @@
 
                     <li data-username="Equipe" class="nav-item <?php echo ($this->uri->segment(2) == 'Equipe') ? 'active' : null ?>"><a href="<?=site_url('painel/Equipe')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-shield"></i></span><span class="pcoded-mtext">Equipes</span></a></li>
 
-                    <li data-username="Questao" class="nav-item <?php echo ($this->uri->segment(2) == 'Questao') ? 'active' : null ?>"><a href="<?=site_url('painel/Questao')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-help-circle"></i></span><span class="pcoded-mtext">Questões</span></a></li>
+                    <li data-username="Questao" class="nav-item <?php echo ($this->uri->segment(2) == 'Questao') ? 'active' : null ?>"><a href="<?=site_url('painel/Questao')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-align-left"></i></span><span class="pcoded-mtext">Questões</span></a></li>
 
                     <li class="nav-item pcoded-menu-caption">
                         <label class="text-white f-14 text-uppercase">Dinâmica</label>
@@ -328,7 +332,7 @@
 
     <!-- Required Js -->
     <script src="<?=base_url('assets/js/vendor-all.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
+    <script src="<?=base_url('assets/plugins/jquery-ui/js/jquery-ui.js') ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="<?=base_url('assets/plugins/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?=base_url('assets/js/pcoded.min.js') ?>"></script>

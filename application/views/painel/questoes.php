@@ -90,8 +90,8 @@
 
                                                             <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
                                                                 {RESPOSTAS}
-                                                                    <div class="bg-gray my-2">
-                                                                        <span style="font-size: 20px; width: 55px" class="badge badge-primary rounded-0 mr-3">
+                                                                    <div class="d-flex align-items-center py-2 px-3 bg-gray my-2 rounded">
+                                                                        <span style="font-size: 24px;" class="badge badge-primary rounded-circle mr-3">
                                                                             {qrordem}
                                                                         </span>
                                                                         {qrtexto}
@@ -129,8 +129,10 @@
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <strong>Atualizações</strong> <hr>
+                                                            <h5>Atualizações de envio</h5>
+                                                            <hr>
                                                         </div>
+                                                        <div id="dataContainer"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -147,7 +149,6 @@
     </div>
 </div>
 
-<!-- QUESTAO DA IMAGEM -->
 <div id="modalQuestaoImage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
@@ -168,7 +169,6 @@
     window.onload = function(){
         $("#questao").val({queordem});
 
-        var now = new Date().getTime();
         var quedtliberacao = new Date("{quedtliberacao}").getTime();
         var quedtlimite = new Date("{quedtlimite}").getTime();
 
@@ -176,16 +176,55 @@
         var countdowncard = document.querySelector(".card-countdown");
         var countdown = document.getElementById("countdown");
 
+
+        //Exibe na tela as atualizacoes das equipes
+        function exibeAtualizacoes(data) {
+            var container = document.getElementById('dataContainer');
+            container.innerHTML = '';
+
+            if (data.length > 0) {
+                var ol = document.createElement('ol');
+
+                data.forEach(function(item) {
+                    var li = document.createElement('li');
+                    li.textContent = item.equnome;
+                    ol.appendChild(li);
+                });
+
+                container.appendChild(ol);
+            }
+        }
+
+
+        //Busca no banco as atualizacoes da questao liberada
+        function buscaAtualizacoes() {
+            fetch('{URL_ATUALIZACOES}', { method: 'GET' } )
+            .then(response => {
+                if (!response.ok) { throw new Error('Erro ao realizar operação.') }
+                return response.json();
+            })
+            .then(data => { exibeAtualizacoes(data) })
+            .catch(error => { console.error('Erro ao buscar atualizações:', error) });
+        }
+
+        buscaAtualizacoes();
+
+
+        //Confere se questao liberada
         if(quedtlimite){
+            var now = new Date().getTime();
+
             if (now > quedtlimite) {
                 countdown.innerHTML = "Tempo esgotado!";
                 countdowncard.classList.add("bg-danger");
             } else {
                 countdowncard.classList.add("bg-primary");
-
                 var totalTime = quedtlimite - quedtliberacao;
 
-                var x = setInterval(function() {
+                buscaAtualizacoes();
+                var att = setInterval(buscaAtualizacoes, 1500);
+
+                var count = setInterval(function() {
                     var now = new Date().getTime();
                     var tempo = quedtlimite - now;
 
@@ -201,7 +240,9 @@
 
                     // Confere se tempo esgotou
                     if (tempo < 0) {
-                        clearInterval(x);
+                        clearInterval(count);
+                        clearInterval(att);
+                        buscaAtualizacoes();
                         countdown.innerHTML = "Tempo esgotado!";
                         countdowncard.classList.add("bg-danger");
                     }
@@ -212,9 +253,8 @@
             countdown.innerHTML = "Aguarde!";
         }
     }
-</script>
 
-<script>
+    
     function carregarQuestao() {
         var ordem = document.getElementById('questao').value;
         window.location.href = '{URL_QUESTAO}/' + ordem;

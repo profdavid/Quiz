@@ -141,8 +141,8 @@ class Evento extends CI_Controller {
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
 			else { //Novo
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados inseridos.'));
-				$evenomeDir = replaceSpacesAndLowerCase($evenome);
-				$quizDir = 'assets/uploads/' . $evenomeDir;
+				$evenomeDir = retirarAcentos($evenome);
+				$quizDir = 'assets/uploads/'.$evenomeDir;
 				mkdir($quizDir);
 			}
 			
