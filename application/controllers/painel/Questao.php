@@ -344,50 +344,7 @@ class Questao extends CI_Controller {
 
 	public function salvarRespostas($idquestao, $questaoresposta, $qrcorreta){
 		if($questaoresposta) {
-			$imagesIsValid = false;
-			$filtered = array();
-			$positions = array();
-
-			foreach ($_FILES['respostas']['error'] as $error) {
-				if ($error == 0) {
-					$imagesIsValid = true;
-					break;
-				}
-			}
-
-			if($imagesIsValid) {
-				foreach ($_FILES['respostas']['error'] as $index => $error) {
-					if ($error == 0) {
-						$filtered['name'][] = $_FILES['respostas']['name'][$index];
-						$filtered['type'][] = $_FILES['respostas']['type'][$index];
-						$filtered['tmp_name'][] = $_FILES['respostas']['tmp_name'][$index];
-						$filtered['error'][] = $_FILES['respostas']['error'][$index];
-						$filtered['size'][] = $_FILES['respostas']['size'][$index];
-				
-						$positions[] = $index;
-					}
-				}
-	
-				$_FILES['respostas'] = array(
-					'name' => $filtered['name'],
-					'type' => $filtered['type'],
-					'tmp_name' => $filtered['tmp_name'],
-					'error' => $filtered['error'],
-					'size' => $filtered['size']
-				);
-	
-				$diretorio = retirarAcentos($this->session->userdata('quiz_evenome'));
-				$fileupload = new FileUploader('respostas', ['uploadDir' => 'assets/uploads/'.$diretorio.'/']);
-				$upload_res = $fileupload->upload();
-
-				if($upload_res['isSuccess']){
-					$imgpath = array();
-	
-					foreach ($upload_res['files'] as $path) {
-						$imgpath[] = $path['file'];
-					}
-				}
-			}
+			$diretorio = retirarAcentos($this->session->userdata('quiz_evenome'));
 
 			//Tratamento dos itens
 			foreach($questaoresposta as $index => $r) {
@@ -397,12 +354,24 @@ class Questao extends CI_Controller {
 				$itens['idquestao'] = $idquestao;
 				$itens['qrimg'] = null;
 
-				$position_key = array_search($index, $positions);
-				
-				if ($position_key !== false){
-					$itens['qrimg'] = $imgpath[$position_key];
-				} else
-					unset($itens['qrimg']);
+				if($_FILES['respostas']['error'][$index] == 0) {
+					$_FILES['r'] = array(
+						'name' => $_FILES['respostas']['name'][$index],
+						'type' => $_FILES['respostas']['type'][$index],
+						'tmp_name' => $_FILES['respostas']['tmp_name'][$index],
+						'error' => $_FILES['respostas']['error'][$index],
+						'size' => $_FILES['respostas']['size'][$index]
+					);
+
+					$fileupload = new FileUploader('r', ['uploadDir' => 'assets/uploads/'.$diretorio.'/']);
+					$upload_res = $fileupload->upload();
+
+					if($upload_res['isSuccess']){
+						$itens['qrimg'] = $upload_res['files'][0]['file'];
+					}
+				} else {
+					unset($itens['qrimg']);	
+				}
 				
 				if(isset($r['id']) && !empty($r['id'])){ //Edição
 					$itens['atualizado_em'] = date("Y-m-d H:i:s");
