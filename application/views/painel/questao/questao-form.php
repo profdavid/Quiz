@@ -86,52 +86,45 @@
                         </div>
                       </div>
 
-                      <div class="d-flex flex-column mb-2">
-                        <label>Respostas:</label>
-                        <p> Ao criar as opções de resposta para a sua questão, 
-                          é obrigatório que você marque ( <input type="radio" checked> ) 
-                          qual delas é a resposta correta.
-                        </p>
-                      </div>
+                      <label class="mb-3">Alternativas:</label>
                       
                       <div id="respostas-container">
                         {LIST_RESPOSTAS}
-                        <div class="resposta-item row" id="resposta_{index}">
-                          <div class="form-group col-12">
+                        <div class="resposta-item" id="resposta_{index}">
+                          <div class="form-group d-flex flex-column flex-sm-row mb-4">
+
                             <input type="hidden" name="respostas[{index}][id]" value="{id}">
                             <input type="hidden" name="respostas[{index}][qrordem]" value="{qrordem}">
-                            <div class="input-group">
 
-                              <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                  <input type="radio" 
-                                    name="resposta_correta" 
-                                    value="{qrordem}"
-                                    required
-                                    {RES_CORRETA}
-                                  >
-                                  <span class="ml-3 f-w-600 resposta-ordem">{qrordem}</span>
-                                </div>
-                              </div>
+                            <div class="d-flex align-self-center">
+                              <input type="radio" class="mr-3"
+                                name="resposta_correta" 
+                                value="{qrordem}"
+                                required
+                                {RES_CORRETA}
+                              >
+                              <span style="font-size: 24px" class="badge badge-primary rounded-circle resposta-ordem">
+                                {qrordem}
+                              </span>
+                            </div>
 
-                              <div class="form-control d-flex flex-column" style="max-width:200px">
-                                <img id="qr-preview{index}" class="img-fluid mb-2 rounded" src="<?=base_url('{qrimg}')?>" alt="">
-                                <input class="mb-1" type="file" name="respostas[{index}]" onchange="previewResImage(event, {index})"/>
-                              </div>
-
+                            <div class="input-group ml-0 ml-sm-3 my-2 my-sm-0">
                               <input class="form-control"
                                 type="text" 
                                 name="respostas[{index}][qrtexto]" 
                                 value="{qrtexto}"
                                 required
                               >
-
-                              <div class="input-group-append">
-                                <button style="display: none" type="button" class="btn btn-sm btn-danger btn-remove-resposta" onclick="removeResposta(this)">
-                                  <span class="feather icon-trash-2 f-16 text-c-white"></span>
-                                </button>
-                              </div>
                             </div>
+
+                            <div class="form-control qrimg d-flex flex-column mx-0 mx-sm-1 my-sm-0 my-1 p-2">
+                              <img id="qr-preview{index}" class="img-fluid mb-2 rounded" src="<?=base_url('{qrimg}')?>" alt="">
+                              <input class="mb-1" type="file" name="respostas[{index}]" onchange="previewResImage(event, {index})"/>
+                            </div>
+
+                            <button style="display: none" type="button" class="btn btn-sm btn-danger btn-remove-resposta m-0" onclick="removeResposta(this)">
+                              <span class="feather icon-trash-2 f-16 text-c-white"></span>
+                            </button>
                           </div>
                         </div>
                         {/LIST_RESPOSTAS}
@@ -214,41 +207,40 @@
     disableBtns();
     const letra = String.fromCharCode(65 + rcount);
     const respostaHtml = `
-      <div class="resposta-item row" id="resposta_${rcount}">
-        <div class="form-group col-12">
-          <input type="hidden" respostas[${rcount}][id]" value="null">
+      <div class="resposta-item" id="resposta_${rcount}">
+        <div class="form-group d-flex flex-column flex-sm-row mb-4">
+
           <input type="hidden" name="respostas[${rcount}][qrordem]" value="${letra}">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input type="radio" 
-                  name="resposta_correta" 
-                  value="${letra}"
-                  required
-                  {RES_CORRETA}
-                >
-                <span class="ml-3 f-w-600 resposta-ordem">${letra}</span>
-              </div>
-            </div>
 
-            <div class="form-control d-flex flex-column" style="max-width:200px">
-              <img id="qr-preview${rcount}" class="img-fluid mb-2 rounded" src="" alt="">
-              <input class="mb-1" type="file" name="respostas[${rcount}]" onchange="previewResImage(event, ${rcount})"/>
-            </div>
+          <div class="d-flex align-self-center">
+            <input type="radio" class="mr-3"
+              name="resposta_correta" 
+              value="${letra}"
+              required
+              {RES_CORRETA}
+            >
+            <span style="font-size: 24px" class="badge badge-primary rounded-circle resposta-ordem">
+              ${letra}
+            </span>
+          </div>
 
+          <div class="input-group ml-0 ml-sm-3 my-2 my-sm-0">
             <input class="form-control"
-              type="text"
+              type="text" 
               name="respostas[${rcount}][qrtexto]" 
               value=""
               required
             >
-
-            <div class="input-group-append">
-              <button type="button" class="btn btn-sm btn-danger btn-remove-resposta" onclick="removeResposta(this)">
-                <span class="feather icon-trash-2 f-16 text-c-white"></span>
-              </button>
-            </div>
           </div>
+
+          <div class="form-control qrimg d-flex flex-column mx-0 mx-sm-1 my-sm-0 my-1 p-2">
+            <img id="qr-preview${rcount}" class="img-fluid mb-2 rounded" src="" alt="">
+            <input class="mb-1" type="file" name="respostas[${rcount}]" onchange="previewResImage(event, ${rcount})"/>
+          </div>
+
+          <button type="button" class="btn btn-sm btn-danger btn-remove-resposta m-0" onclick="removeResposta(this)">
+            <span class="feather icon-trash-2 f-16 text-c-white"></span>
+          </button>
         </div>
       </div>
     `;

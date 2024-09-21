@@ -147,6 +147,10 @@
             transform: translate(-50%, -50%);
         }
 
+        .qrimg {
+            max-width: 200px;
+        }
+
         .bg-gray {
             background-color: #f1f1f1; 
         }
@@ -187,6 +191,11 @@
             }
             .table-questao-texto {
                 white-space: nowrap;
+            }
+        }
+        @media only screen and (max-width: 575px){
+            .qrimg {
+                max-width: 100%;
             }
         }
     </style>
