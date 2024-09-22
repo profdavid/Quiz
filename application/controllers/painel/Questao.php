@@ -72,7 +72,7 @@ class Questao extends CI_Controller {
 		$data['queordem'] = $proxima_ordem;
 		$data['quetempo'] = 30;
 		$data['queponto'] = 10;
-		$data['queimg'] = 'assets/img/questao_image.jpg';
+		$data['queimg'] = 'assets/img/questao_image.png';
 
 		$this->parser->parse('painel/questao/questao-form', $data);
 	}
@@ -104,7 +104,7 @@ class Questao extends CI_Controller {
 				$itens['queimg'] = $upload_res['files'][0]['file'];
 		} else {
 			if (!$id)
-				$itens['queimg'] = 'assets/img/questao_image.jpg';
+				$itens['queimg'] = 'assets/img/questao_image.png';
 		}
 		
 		//Tratamento dos itens

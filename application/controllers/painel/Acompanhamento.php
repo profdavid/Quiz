@@ -33,10 +33,23 @@ class Acompanhamento extends CI_Controller {
 		$data['URL_ANTERIOR'] = site_url('painel/Acompanhamento/questao/'.($queordem - 1));
 		$data['URL_PROXIMO'] = site_url('painel/Acompanhamento/questao/'.($queordem + 1));
 		$data['RESPOSTAS'] = [];
+		$data['COUNT_QUESTOES'] = 0;
 
 		// Busca todas as questoes
 		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $this->session->userdata('quiz_ideventoativo')], FALSE);
-		$data['COUNT_QUESTOES'] = $quetotal ? count($quetotal) : 0;
+
+		if($quetotal) {
+			$data['COUNT_QUESTOES'] = count($quetotal);
+		
+			foreach ($quetotal as $q) {
+				$data['QUESTOES'][] = array(
+					'queid'      => $q->id,
+					'queordem'   => $q->queordem,
+					'LIBERADA'	 => ($q->quesituacao == '1') ? 'badge-success' : 'badge-secondary',
+					'ATUAL'		 => ($q->queordem == $queordem) ? 'badge-selected' : 'badge-custom'
+				);
+			}
+		}
 
 		// Busca a ordem desejada
 		$cond['idevento'] = $this->session->userdata('quiz_ideventoativo');

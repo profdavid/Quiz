@@ -64,7 +64,7 @@
                           </div>
                         </div>
                         <div class="col-md-8">
-                          <div class="form-group col-md-12">
+                          <div class="form-group">
                             <label for="queimg">Imagem inicial:</label>
                             <div style="height:225px" class="form-control d-flex justify-content-center">
                               <img id="image-preview" class="img-fluid rounded" src="<?=base_url('{queimg}')?>" alt="">
@@ -94,18 +94,18 @@
                           <div class="form-group d-flex flex-column flex-sm-row mb-4">
 
                             <input type="hidden" name="respostas[{index}][id]" value="{id}">
-                            <input type="hidden" name="respostas[{index}][qrordem]" value="{qrordem}">
+                            <input type="hidden" name="respostas[{index}][qrordem]" class="resposta-ordem-input" value="{qrordem}">
 
                             <div class="d-flex align-self-center">
-                              <input type="radio" class="mr-3"
+                              <input type="radio" id="radio_{index}" class="resposta-ordem-radio mr-2"
                                 name="resposta_correta" 
                                 value="{qrordem}"
                                 required
                                 {RES_CORRETA}
                               >
-                              <span style="font-size: 24px" class="badge badge-primary rounded-circle resposta-ordem">
+                              <label for="radio_{index}" class="badge badge-primary rounded-circle m-0 resposta-ordem resposta-ordem-label">
                                 {qrordem}
-                              </span>
+                              </label>
                             </div>
 
                             <div class="input-group ml-0 ml-sm-3 my-2 my-sm-0">
@@ -113,7 +113,6 @@
                                 type="text" 
                                 name="respostas[{index}][qrtexto]" 
                                 value="{qrtexto}"
-                                required
                               >
                             </div>
 
@@ -122,7 +121,7 @@
                               <input class="mb-1" type="file" name="respostas[{index}]" onchange="previewResImage(event, {index})"/>
                             </div>
 
-                            <button style="display: none" type="button" class="btn btn-sm btn-danger btn-remove-resposta m-0" onclick="removeResposta(this)">
+                            <button type="button" class="btn btn-sm btn-danger btn-remove-resposta m-0" onclick="removeResposta(this)">
                               <span class="feather icon-trash-2 f-16 text-c-white"></span>
                             </button>
                           </div>
@@ -151,20 +150,17 @@
 </div>
 <!-- [ Main Content ] end -->
 
-
 <script src="<?= base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
+
 <script>
   let rcount = {RESPOSTAS_COUNT};
-
 
   window.onload = function () {
     {RES_OK}
     $("#quesituacao").val({quesituacao});
-    enableLastBtn();
   }
 
 
-  //Inicializa editor de texto da questao
   tinymce.init({
     selector: '#quetexto',
     height: 460,
@@ -185,7 +181,6 @@
   });
 
 
-  //Exibe queimg do upload
   function previewImage(event) {
     var file = event.target.files[0];
     if(!file) return;
@@ -193,7 +188,6 @@
   }
 
 
-  //Exibe qrimg do upload
   function previewResImage(event, index) {
     var preview = document.getElementById('qr-preview' + index);
     var file = event.target.files[0];
@@ -202,26 +196,41 @@
   }
 
 
-  //Adiciona uma nova opcao de resposta
+  function reordenarRespostas() {
+    const respostas = document.querySelectorAll('.resposta-item');
+
+    respostas.forEach((resposta, index) => {
+        const ordemAtualizada = String.fromCharCode(65 + index);
+        const ordemInput = resposta.querySelector('.resposta-ordem-input');
+        ordemInput.value = ordemAtualizada;
+        const ordemLabel = resposta.querySelector('.resposta-ordem-label');
+        ordemLabel.textContent = ordemAtualizada;
+        const radioInput = resposta.querySelector('.resposta-ordem-radio');
+        radioInput.value = ordemAtualizada;
+    });
+  }
+
+  reordenarRespostas();
+
+
   function addResposta() {
-    disableBtns();
     const letra = String.fromCharCode(65 + rcount);
     const respostaHtml = `
       <div class="resposta-item" id="resposta_${rcount}">
         <div class="form-group d-flex flex-column flex-sm-row mb-4">
 
-          <input type="hidden" name="respostas[${rcount}][qrordem]" value="${letra}">
+          <input type="hidden" name="respostas[${rcount}][qrordem]" class="resposta-ordem-input" value="${letra}">
 
           <div class="d-flex align-self-center">
-            <input type="radio" class="mr-3"
+            <input type="radio" id="radio_${rcount}" class="resposta-ordem-radio mr-2"
               name="resposta_correta" 
               value="${letra}"
               required
               {RES_CORRETA}
             >
-            <span style="font-size: 24px" class="badge badge-primary rounded-circle resposta-ordem">
+            <label for="radio_${rcount}" class="badge badge-primary rounded-circle resposta-ordem resposta-ordem-label">
               ${letra}
-            </span>
+            </label>
           </div>
 
           <div class="input-group ml-0 ml-sm-3 my-2 my-sm-0">
@@ -247,30 +256,13 @@
 
     document.getElementById('respostas-container').insertAdjacentHTML('beforeend', respostaHtml);
     rcount++;
+    reordenarRespostas();
   };
 
 
   function removeResposta(button) {
     let respostaItem = button.closest('.resposta-item');
     respostaItem.remove();
-    rcount--;
-    enableLastBtn();
-  }
-
-
-  function disableBtns() {
-    if (rcount > 0) {
-      document.querySelectorAll('.btn-remove-resposta').forEach(button => {
-          button.style.display = 'none';
-      });
-    }
-  }
-
-
-  function enableLastBtn() {
-    const lastRemoveButton = document.querySelector('.resposta-item:last-child .btn-remove-resposta');
-    if (lastRemoveButton) {
-      lastRemoveButton.style.display = 'block';
-    }
+    reordenarRespostas();
   }
 </script>

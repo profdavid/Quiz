@@ -142,13 +142,46 @@
 
         .count {
             position: absolute;
-            top: 52%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
         .qrimg {
             max-width: 200px;
+        }
+
+        .resposta-ordem {
+            width: 35px;
+            font-size: 24px;
+        }
+
+        .card-resposta {
+            transition: all 200ms;
+            border: 3px solid #f1f1f1;
+            background-color: #f1f1f1; 
+        }
+        
+        .badge-small {
+            font-size: 14px;
+            margin: 3px;
+        }
+
+        .badge-large {
+            font-size: 20px;
+            margin: 3px;
+        }
+
+        .badge-custom {
+            font-size: 16px;
+            margin: 3px;
+            opacity: 75%;
+        }
+
+        .badge-selected{
+            font-size: 16px;
+            margin: 3px;
+            border: 2px solid black;
         }
 
         .bg-gray {

@@ -98,13 +98,34 @@
             font-weight: bolder;
         }
 
+        .resposta-ordem {
+            width: 35px;
+            font-size: 24px;
+        }
+
+        .badge-small {
+            font-size: 14px;
+            margin: 3px;
+        }
+
+        .badge-large {
+            font-size: 20px;
+            margin: 3px;
+        }
+
+        .badge-custom {
+            font-size: 16px;
+            margin: 3px;
+            opacity: 75%;
+        }
+
         .card-countdown {
             position: relative;
         }
 
         .count {
             position: absolute;
-            top: 52%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
