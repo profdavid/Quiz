@@ -20,10 +20,10 @@ class Acompanhamento extends CI_Controller {
 	}
 
 	public function index(){
-		$this->questao(1);
+		redirect('painel/Acompanhamento/questao/1');
 	}
 
-	public function questao($queordem){
+	public function questao($queordem, $showResults = false){
 		$data = array();
 		$data['id'] = null;
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
@@ -33,14 +33,15 @@ class Acompanhamento extends CI_Controller {
 		$data['URL_ANTERIOR'] = site_url('painel/Acompanhamento/questao/'.($queordem - 1));
 		$data['URL_PROXIMO'] = site_url('painel/Acompanhamento/questao/'.($queordem + 1));
 		$data['RESPOSTAS'] = [];
+		$data['RESULTS'] = [];
 		$data['COUNT_QUESTOES'] = 0;
+		$data['COUNT_RESPOSTAS'] = 0;
+		$data['SHOW_RESULTS'] = $showResults;
+		$ideventoativo = $this->session->userdata('quiz_ideventoativo');
 
 		// Busca todas as questoes
-		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $this->session->userdata('quiz_ideventoativo')], FALSE);
-
+		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $ideventoativo], FALSE);
 		if($quetotal) {
-			$data['COUNT_QUESTOES'] = count($quetotal);
-		
 			foreach ($quetotal as $q) {
 				$data['QUESTOES'][] = array(
 					'queid'      => $q->id,
@@ -49,36 +50,87 @@ class Acompanhamento extends CI_Controller {
 					'ATUAL'		 => ($q->queordem == $queordem) ? 'badge-selected' : 'badge-custom'
 				);
 			}
+			$data['COUNT_QUESTOES'] = count($quetotal);
 		}
 
+
 		// Busca a ordem desejada
-		$cond['idevento'] = $this->session->userdata('quiz_ideventoativo');
+		$cond['idevento'] = $ideventoativo;
 		$cond['queordem'] = $queordem;
 
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
-
 		if($questao) {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
-
+			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
 			$data['URL_LIBERAR'] = site_url('painel/Acompanhamento/liberarQuestao/'.$questao->id);
+			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
 
-			// Busca as opcoes de resposta da questao
+
+			// Busca as alternativas
 			$respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $questao->id));
-			$data['COUNT_RESPOSTAS'] = $respostas ? count($respostas) : 0;
-
 			if ($respostas) {
 				foreach ($respostas as $r) {
 					$ids[] = $r->id;
+
+					if($r->qrcorreta){
+						$data['CORRETA_qrordem'] = $r->qrordem;
+						$data['CORRETA_qrtexto'] = $r->qrtexto;
+						$data['CORRETA_qrimg'] = $r->qrimg;
+					}
+
 					$data['RESPOSTAS'][] = array(
 						'id'        => $r->id,
 						'qrordem'   => $r->qrordem,
 						'qrtexto'   => $r->qrtexto,
+						'qrcorreta' => $r->qrcorreta,
 						'qrimg'     => $r->qrimg
 					);
 				}
+				$data['COUNT_RESPOSTAS'] = count($respostas);
 				$data['URL_ATUALIZACOES'] .= implode(',', $ids);
+			}
+
+
+			//Busca os resultados
+			if($showResults) {
+				$query_results = "
+					SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto, eqr.eqttempo
+					FROM equipe_questaoresposta eqr
+					JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+					JOIN questao q ON qr.idquestao = q.id
+					JOIN equipe e ON eqr.idequipe = e.id
+					WHERE q.idevento = $ideventoativo
+					AND q.id = $questao->id
+					ORDER BY eqr.eqttempo ASC;
+				";
+
+				$results = $this->PadraoM->fmSearchQuery($query_results);
+				if($results) {
+					foreach ($results as $index => $result) {
+						
+						if($result->qrordem == $data['CORRETA_qrordem']){
+							$COR_EQRSITUACAO = 'bg-success-50';
+
+							if($result->eqttempo > $questao->quetempo){
+								$COR_EQRSITUACAO = 'bg-warning-50';
+							}
+						} else {
+							$COR_EQRSITUACAO = 'bg-danger-50';
+						}
+
+						$data['RESULTS'][] = array(
+							'ordem'		=> $index + 1,
+							'equnome'   => $result->equnome,
+							'queordem'   => $result->queordem,
+							'qrordem'   => $result->qrordem,
+							'eqrponto'   => $result->eqrponto,
+							'eqttempo'     => $result->eqttempo,
+							'COR_EQRSITUACAO' => $COR_EQRSITUACAO
+						);
+					}
+				}
 			}
 		}
 

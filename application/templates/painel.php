@@ -157,9 +157,13 @@
         }
 
         .card-resposta {
-            transition: all 200ms;
             border: 3px solid #f1f1f1;
             background-color: #f1f1f1; 
+        }
+
+        .card-resposta-correta {
+            border: 1px solid #28A745;
+            background-color: #28A74515; 
         }
         
         .badge-small {
@@ -173,19 +177,33 @@
         }
 
         .badge-custom {
-            font-size: 16px;
+            font-size: 14px;
             margin: 3px;
-            opacity: 75%;
+            opacity: 60%;
+            padding: 6px 9px;
         }
 
-        .badge-selected{
-            font-size: 16px;
+        .badge-selected {
+            font-size: 14px;
             margin: 3px;
-            border: 2px solid black;
+            padding: 6px 9px;
+            border: 2px solid green;
         }
 
         .bg-gray {
             background-color: #f1f1f1; 
+        }
+
+        .bg-success-50 {
+            background-color: #4CAF5050 !important; 
+        }
+
+        .bg-warning-50 {
+            background-color: #FF980050 !important; 
+        }
+
+        .bg-danger-50 {
+            background-color: #F4433650 !important; 
         }
 
         .ldBar.label-center > .ldBar-label {

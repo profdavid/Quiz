@@ -32,15 +32,18 @@
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="d-flex flex-column align-items-center flex-sm-row">
-                                                                <h4 class="mr-0 mr-sm-4 mb-0">
+                                                            <div class="d-flex flex-column align-items-center justify-content-between mt-2 mt-sm-0 flex-sm-row">
+                                                                <h3 class="mb-0 text-{LIBERADA}">
                                                                     Questão {queordem}
-                                                                </h4>
-                                                                <div class="d-flex mt-2 mt-sm-0 ">
-                                                                    <div class="badge badge-small text-info w-100 mr-2">
+                                                                </h3>
+                                                                <div class="d-flex mt-3 mt-sm-0">
+                                                                    <div class="badge badge-small text-{LIBERADA} w-100">
+                                                                        <i class="fa-solid fa-circle-info mr-2"></i>{SITUACAO}
+                                                                    </div>
+                                                                    <div class="badge badge-small text-info w-100 mx-2">
                                                                         <i class="fa-solid fa-star mr-2"></i>{queponto} pontos
                                                                     </div>
-                                                                    <div class="badge badge-small text-warning w-100">
+                                                                    <div class="badge badge-small text-danger w-100">
                                                                         <i class="fa-solid fa-clock mr-2"></i>{quetempo} segundos
                                                                     </div>
                                                                 </div>
@@ -65,7 +68,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 my-4">
                                                             <?php if(!$quesituacao): ?>
-                                                                <a class="btn btn-sm btn-primary" href="{CHECK_LIBERACAO}/{queordem}">
+                                                                <a class="btn btn-sm btn-info" href="{CHECK_LIBERACAO}/{queordem}">
                                                                     <i class="feather icon-refresh-ccw"></i>Checar liberação
                                                                 </a>
                                                             <?php endif ?>
@@ -78,13 +81,13 @@
                                                                                 <input type="radio" name="equipe_resposta" id="resposta_<?= $resposta['qrid'] ?>" class="d-none" value="<?= $resposta['qrid'] ?>" required>
                                                                                 
                                                                                 <label for="resposta_<?= $resposta['qrid'] ?>" class="d-flex align-items-center p-3 w-100 mb-0">
-                                                                                    <span class="badge badge-primary rounded-circle mr-3 resposta-ordem">
+                                                                                    <span class="badge badge-primary rounded-circle resposta-ordem">
                                                                                         <?= $resposta['qrordem'] ?>
                                                                                     </span>
 
                                                                                     <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
                                                                                         <?php if (!empty($resposta['qrimg'])): ?>
-                                                                                            <img style="max-width: 100px" class="img-fluid rounded" src="<?= base_url($resposta['qrimg']) ?>" alt="qrimg">
+                                                                                            <img style="max-width: 100px" class="img-fluid rounded mx-3" src="<?= base_url($resposta['qrimg']) ?>" alt="qrimg">
                                                                                         <?php endif; ?>
                                                                                         <div class="mx-3 my-1"><?= $resposta['qrtexto'] ?></div>
                                                                                     </div>

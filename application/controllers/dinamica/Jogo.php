@@ -48,28 +48,23 @@ class Jogo extends CI_Controller {
 		$data['CHECK_LIBERACAO'] = site_url('dinamica/Jogo/questao');
 		$data['SAVE_RESPOSTA'] = site_url('dinamica/Jogo/salvarEquipeResposta');
 		$data['RESPOSTAS'] = [];
-
-		// Busca todas as questoes
-		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $this->session->userdata('equipe_ideventoativo')], FALSE);
-
-		$data['COUNT_QUESTOES'] = $quetotal ? count($quetotal) : 0;
+		$data['COUNT_RESPOSTAS'] = 0;
 
 		// Busca a ordem desejada
 		$cond['idevento'] = $this->session->userdata('equipe_ideventoativo');
 		$cond['queordem'] = $queordem;
 
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
-
 		if($questao) {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
 
+			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
+			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
+
 			// Busca as opcoes de resposta da questao
 			$respostas = $this->PadraoM->fmSearch($this->tabela_questaoresposta, 'qrordem', array('idquestao' => $questao->id));
-
-			$data['COUNT_RESPOSTAS'] = $respostas ? count($respostas) : 0;
-
 			if ($respostas) {
 				foreach ($respostas as $r) {
 					$data['RESPOSTAS'][] = array(
@@ -79,6 +74,7 @@ class Jogo extends CI_Controller {
 						'qrimg'     => $r->qrimg
 					);
 				}
+				$data['COUNT_RESPOSTAS'] = count($respostas);
 			}
 		}
 

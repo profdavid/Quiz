@@ -1,3 +1,9 @@
+<style>
+    table td {
+        padding: 0.5rem 0.75rem !important;
+    }
+</style>
+
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
@@ -25,36 +31,6 @@
                         <?php if($id): ?>
                             <div class="row">
                                 {RES_ERRO}
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body d-flex justify-content-between">
-                                            <div>
-                                                <?php foreach($QUESTOES as $questao): ?>
-                                                    <a href="{URL_QUESTAO}/<?= $questao['queordem']; ?>">
-                                                        <span class="badge <?= $questao['ATUAL']; ?> <?= $questao['LIBERADA']; ?>">
-                                                            <?= $questao['queordem']; ?>
-                                                        </span>
-                                                    </a>
-                                                <?php endforeach; ?>
-                                            </div>
-                                            <div class="ml-4 text-right">
-                                                <?php if($queordem > 1): ?>
-                                                    <a class="text-secondary" href="{URL_ANTERIOR}">
-                                                        <span style="font-size: 28px" class="fa-solid fa-circle-arrow-left"></span>
-                                                    </a>
-                                                <?php endif ?>
-                                                <?php if($queordem < $COUNT_QUESTOES): ?>
-                                                    <a class="ml-2 text-secondary" href="{URL_PROXIMO}">
-                                                        <span style="font-size: 28px" class="fa-solid fa-circle-arrow-right"></span>
-                                                    </a>
-                                                <?php endif ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-md-9">
@@ -62,15 +38,32 @@
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="d-flex flex-column align-items-center flex-sm-row">
-                                                                <h4 class="mr-0 mr-sm-4 mb-0">
-                                                                    Questão {queordem}
-                                                                </h4>
-                                                                <div class="d-flex mt-2 mt-sm-0 ">
-                                                                    <div class="badge badge-small text-info w-100 mr-2">
+                                                            <div class="d-flex flex-column align-items-center justify-content-between mt-2 mt-sm-0 flex-sm-row">
+                                                                <div class="d-flex align-items-center mr-0 mr-sm-4">
+                                                                    <?php if($queordem > 1): ?>
+                                                                        <a class="mr-3 text-dark" href="{URL_ANTERIOR}">
+                                                                            <span style="font-size: 14px" class="fa-solid fa-chevron-left"></span>
+                                                                        </a>
+                                                                    <?php endif ?>
+                                                                    
+                                                                    <h3 class="mb-0 text-{LIBERADA}">
+                                                                        Questão {queordem}
+                                                                    </h3>
+
+                                                                    <?php if($queordem < $COUNT_QUESTOES): ?>
+                                                                        <a class="ml-3 text-dark" href="{URL_PROXIMO}">
+                                                                            <span style="font-size: 14px" class="fa-solid fa-chevron-right"></span>
+                                                                        </a>
+                                                                    <?php endif ?>
+                                                                </div>
+                                                                <div class="d-flex mt-3 mt-sm-0">
+                                                                    <div class="badge badge-small text-{LIBERADA} w-100">
+                                                                        <i class="fa-solid fa-circle-info mr-2"></i>{SITUACAO}
+                                                                    </div>
+                                                                    <div class="badge badge-small text-info w-100 mx-2">
                                                                         <i class="fa-solid fa-star mr-2"></i>{queponto} pontos
                                                                     </div>
-                                                                    <div class="badge badge-small text-warning w-100">
+                                                                    <div class="badge badge-small text-danger w-100">
                                                                         <i class="fa-solid fa-clock mr-2"></i>{quetempo} segundos
                                                                     </div>
                                                                 </div>
@@ -96,19 +89,19 @@
                                                         <div class="col-md-12 my-4">
                                                             <?php if(!$quesituacao): ?>
                                                                 <a class="btn btn-sm btn-primary" href="{URL_LIBERAR}">
-                                                                    <i class="feather icon-play"></i>Liberar questão
+                                                                    <i class="fa-solid fa-play"></i>Liberar questão
                                                                 </a>
                                                             <?php endif ?>
 
                                                             <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
                                                                 <?php foreach($RESPOSTAS as $resposta): ?>
                                                                     <div class="card-resposta d-flex align-items-center p-3 my-2 rounded">
-                                                                        <span class="badge badge-primary rounded-circle mr-3 resposta-ordem">
+                                                                        <span class="badge badge-primary rounded-circle resposta-ordem">
                                                                             <?= $resposta['qrordem'] ?>
                                                                         </span>
                                                                         <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
                                                                             <?php if (!empty($resposta['qrimg'])): ?>
-                                                                                <img style="max-width: 100px" class="img-fluid rounded" src="<?= base_url($resposta['qrimg']) ?>" alt="qrimg">
+                                                                                <img style="max-width: 100px" class="img-fluid rounded mx-3" src="<?= base_url($resposta['qrimg']) ?>" alt="qrimg">
                                                                             <?php endif; ?>
                                                                             <div class="mx-3 my-1"><?= $resposta['qrtexto'] ?></div>
                                                                         </div>
@@ -119,35 +112,107 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Atualizacoes start -->
-                                        <div class="col-md-3 d-flex flex-column">
-                                            <div style="max-height: 150px" class="card card-countdown">
-                                                <div class="card-body p-2 d-flex flex-column text-center align-items-center justify-content-center">
-                                                    <div class="count text-white" id="countdown"></div>
-                                                    <div class="myBar ldBar label-center text-center"
-                                                        data-value="0"
-                                                        data-preset="circle"
-                                                        data-stroke="white"
-                                                        data-stroke-width="5"
-                                                        style="width: 100px; height: 100px" 
-                                                    ></div>
-                                                </div>
-                                            </div>
-
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <h6 class="mb-3">Atualizações</h6>
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <h6 class="mb-0"><i class="fa-solid fa-check-circle text-secondary mr-2"></i>Resultados</h6>
+                                                                <?php if($SHOW_RESULTS): ?>
+                                                                    <a href="{URL_QUESTAO}/{queordem}" class="btn btn-sm btn-secondary m-0">
+                                                                        <i class="fa-solid fa-eye-slash"></i>Esconder resultados
+                                                                    </a>
+                                                                <?php else: ?>
+                                                                    <a href="{URL_QUESTAO}/{queordem}/true" class="btn btn-sm btn-info m-0">
+                                                                        <i class="fa-solid fa-eye"></i>Mostrar resultados
+                                                                    </a>
+                                                                <?php endif ?>
+                                                            </div><hr>
+
+                                                            <?php if($SHOW_RESULTS): ?>
+                                                                <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
+                                                                    <span class="badge badge-success rounded-circle resposta-ordem">
+                                                                        {CORRETA_qrordem}
+                                                                    </span>
+                                                                    <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
+                                                                        <?php if (!empty($CORRETA_qrimg)): ?>
+                                                                            <img style="max-width: 100px" class="img-fluid rounded mx-3" src="<?= base_url('{CORRETA_qrimg}') ?>" alt="qrimg">
+                                                                        <?php endif; ?>
+                                                                        <div class="mx-3 my-1 text-success">{CORRETA_qrtexto}</div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="dt-responsive table-responsive">
+                                                                    <table id="tabListagem" class="table table-striped table-bordered nowrap">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Ordem</th>
+                                                                                <th>Equipe</th>
+                                                                                <th>Resposta</th>
+                                                                                <th>Tempo</th>
+                                                                                <th>Pontuação</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {RESULTS}
+                                                                            <tr class="{COR_EQRSITUACAO}">
+                                                                                <td>{ordem}</td>
+                                                                                <td>{equnome}</td>
+                                                                                <td>{qrordem}</td>
+                                                                                <td>{eqttempo}</td>
+                                                                                <td>{eqrponto}</td>
+                                                                            </tr>
+                                                                            {/RESULTS}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            <?php endif ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Painel, Countdown e Atualizacoes start -->
+                                        <div class="col-md-3 d-flex flex-column">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <?php foreach($QUESTOES as $questao): ?>
+                                                        <a href="{URL_QUESTAO}/<?= $questao['queordem']; ?>">
+                                                            <span class="badge badge-pill <?= $questao['ATUAL']; ?> <?= $questao['LIBERADA']; ?>">
+                                                                <?= $questao['queordem']; ?>
+                                                            </span>
+                                                        </a>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div style="max-height: 200px" class="card-countdown">
+                                                    <div class="p-2 d-flex flex-column text-center align-items-center justify-content-center">
+                                                        <div class="count text-white" id="countdown"></div>
+                                                        <div class="myBar ldBar label-center text-center"
+                                                            data-value="0"
+                                                            data-preset="circle"
+                                                            data-stroke="white"
+                                                            data-stroke-width="5"
+                                                            style="width: 150px; height: 150px" 
+                                                        ></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h6><i class="fa-solid fa-clock text-secondary mr-2"></i>Atualizações</h6>
+                                                            <hr>
                                                         </div>
                                                         <div id="dataContainer"></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Atualizacoes end -->
+                                        <!-- Painel, Countdown e Atualizacoes end -->
                                     </div>
                                 </div>
                             </div>
@@ -178,6 +243,13 @@
 <script>
     window.onload = function(){
         $("#questao").val({queordem});
+
+        $('#tabListagem').DataTable({
+            "language": {
+                "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"
+            },
+            "aaSorting": []        
+        });
 
         var quedtliberacao = new Date("{quedtliberacao}").getTime();
         var quedtlimite = new Date("{quedtlimite}").getTime();
