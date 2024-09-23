@@ -145,6 +145,22 @@
             background-color: #007bff20;
         }
 
+        .bg-finish {
+            height: 70vh;
+            border-radius: 6px;
+            background-image: url("<?=base_url('assets/img/finish.png') ?>");
+            background-size: cover;
+            background-position: top center;
+            background-repeat: no-repeat;
+        }
+
+        .finish-text {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(6px);
+            padding: 20px 5px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
         .ldBar.label-center > .ldBar-label {
             opacity: 0;
         }

@@ -178,14 +178,15 @@ class Acompanhamento extends CI_Controller {
 		$idevento = $this->session->userdata('quiz_ideventoativo');
 
 		$query_ranking = "
-			SELECT e.equnome, eqr.idequipe, SUM(eqr.eqrponto) AS total_eqrponto, e.equlogo
+			SELECT
+				e.equnome, eqr.idequipe, SUM(eqr.eqrponto) AS total_eqrponto, SUM(eqr.eqttempo) AS total_eqttempo, e.equlogo
 			FROM equipe_questaoresposta eqr
 			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
 			JOIN questao q ON qr.idquestao = q.id
 			JOIN equipe e ON eqr.idequipe = e.id
 			WHERE q.idevento = $idevento
 			GROUP BY e.equnome, eqr.idequipe, e.equlogo
-			ORDER BY total_eqrponto DESC;
+			ORDER BY total_eqrponto DESC, total_eqttempo ASC;
 		";
 
 		$res_ranking = $this->PadraoM->fmSearchQuery($query_ranking);
@@ -195,6 +196,7 @@ class Acompanhamento extends CI_Controller {
 				$data['EQUIPES'][] = array(
 					'id'        => $r->idequipe,
 					'pontos'	=> $r->total_eqrponto,
+					'tempo'	=> $r->total_eqttempo,
 					'ranking'	=> ($indice + 1),
 					'equnome'   => $r->equnome,
 					'equlogo'   => $r->equlogo
@@ -212,6 +214,7 @@ class Acompanhamento extends CI_Controller {
 						$data['EQUIPES'][] = array(
 							'id'        => $o->id,
 							'pontos'    => 0,
+							'tempo'     => 0,
 							'ranking'	=> $posicao,
 							'equnome'   => $o->equnome,
 							'equlogo'   => $o->equlogo
@@ -232,10 +235,10 @@ class Acompanhamento extends CI_Controller {
 		$data['RES_OK']		= $this->session->flashdata('resok');
 		$idevento = $this->session->userdata('quiz_ideventoativo');
 		$data['PONTUACAO_EQUIPES'] = [];
-		$data['TOTAL_EQRPONTOS'] = [];
+		$data['TOTAL_INFOEQUIPE'] = [];
 
 		$query = "
-			SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto
+			SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto, eqr.eqttempo
 			FROM equipe_questaoresposta eqr
 			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
 			JOIN questao q ON qr.idquestao = q.id
@@ -247,34 +250,22 @@ class Acompanhamento extends CI_Controller {
 		$res = $this->PadraoM->fmSearchQuery($query);
 
 		$questoes = [];
-		$total_eqrpontos = [];
-
 		if($res){
 			foreach ($res as $r) {
 				$questoes[$r->queordem][] = array(
 					'equnome'   => $r->equnome,
 					'qrordem'   => $r->qrordem,
-					'eqrponto'  => $r->eqrponto
+					'eqrponto'  => $r->eqrponto,
+					'eqttempo'  => $r->eqttempo
 				);
-
-				if (!isset($total_eqrpontos[$r->equnome])) {
-					$total_eqrpontos[$r->equnome] = 0;
-				}
-
-				$total_eqrpontos[$r->equnome] += $r->eqrponto;
 			}
-
-			$questoes_data = [];
-
+			
 			foreach ($questoes as $queordem => $equipes) {
-				$questoes_data[] = array(
+				$data['PONTUACAO_EQUIPES'][] = array(
 					'queordem' => $queordem,
 					'equipes'  => $equipes
 				);
 			}
-		
-			$data['PONTUACAO_EQUIPES'] = $questoes_data;
-			$data['TOTAL_EQRPONTOS'] = $total_eqrpontos;
 		}
 
 		$this->parser->parse('painel/pontuacao', $data);

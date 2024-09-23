@@ -1,3 +1,7 @@
+<style>
+    table td { padding: 0.5rem 0.75rem !important }
+</style>
+
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
@@ -28,38 +32,19 @@
                                 <div class="card">
                                     <div class="card-body">
 
+                                    <p class="f-18 mb-4">Relatório das questões</p>
+
                                     <?php if (!empty($PONTUACAO_EQUIPES)): ?>
-                                        <div class="mb-5">
-                                            <p class="f-18">Pontuação geral das equipes</p>
-                                            <div class="dt-responsive table-responsive">
-                                                <table id="tabListagem" class="table table-striped table-bordered nowrap">
+                                        {PONTUACAO_EQUIPES}
+                                        <div class="border border-success rounded mb-5">
+                                            <h5 class="text-center text-md-left bg-success text-white mb-0 px-3 py-2">Questão {queordem}</h5>
+                                            <div class="dt-responsive table-responsive py-2 px-3 my-3">
+                                                <table class="table table-striped tabListagem table-bordered nowrap">
                                                     <thead>
                                                         <tr>
                                                             <th>Equipe</th>
-                                                            <th>Pontuação</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php foreach ($TOTAL_EQRPONTOS as $equipe => $total): ?>
-                                                        <tr>
-                                                            <td><?php echo htmlspecialchars($equipe); ?></td>
-                                                            <td><?php echo intval($total); ?></td>
-                                                        </tr>
-                                                        <?php endforeach; ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <p class="f-18">Relatório das questões</p>
-                                            {PONTUACAO_EQUIPES}
-                                            <div class="dt-responsive table-responsive">
-                                                <table class="table table-striped table-bordered nowrap">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Questão {queordem}</th>
                                                             <th>Resposta</th>
+                                                            <th>Tempo (s)</th>
                                                             <th>Pontuação</th>
                                                         </tr>
                                                     </thead>
@@ -68,14 +53,15 @@
                                                         <tr>
                                                             <td>{equnome}</td>
                                                             <td>{qrordem}</td>
+                                                            <td>{eqttempo}</td>
                                                             <td>{eqrponto}</td>
                                                         </tr>
                                                         {/equipes}
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            {/PONTUACAO_EQUIPES}
                                         </div>
+                                        {/PONTUACAO_EQUIPES}
 
                                     <?php else: ?>
                                         <span>Nenhum dado encontrado.</span>
@@ -96,7 +82,7 @@
     window.onload = function() {
         {RES_OK}
 
-        $('#tabListagem').DataTable({
+        $('.tabListagem').DataTable({
             "language": {
                 "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"
             },

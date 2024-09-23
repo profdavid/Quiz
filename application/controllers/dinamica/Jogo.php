@@ -35,8 +35,30 @@ class Jogo extends CI_Controller {
 		}
 	}
 	
+	// Verifica a ultima questao respondida pela equipe
 	public function index(){
-		$this->questao(1);
+		$idevento = $this->session->userdata('equipe_ideventoativo');
+		$idequipe = $this->session->userdata('equipe_idequipe');
+
+		$query_checkOrdem = "
+			SELECT q.queordem AS ultima_respondida
+			FROM equipe_questaoresposta eqr
+			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+			JOIN questao q ON qr.idquestao = q.id
+			WHERE eqr.idequipe = $idequipe
+			AND q.idevento = $idevento
+			ORDER BY q.queordem DESC
+			LIMIT 1
+		";
+
+		$res = $this->PadraoM->fmSearchQuery($query_checkOrdem);
+
+		if($res){
+			$ord = $res[0]->ultima_respondida + 1;
+			$this->questao($ord);
+		}
+		else
+			$this->questao(1);
 	}
 
 
@@ -83,41 +105,59 @@ class Jogo extends CI_Controller {
 
 
 	public function salvarEquipeResposta(){
+		$equipe_id = $this->session->userdata('equipe_idequipe');
 		$questao_id = $this->input->post('id');
 		$equiperesposta_id = $this->input->post('equipe_resposta');
 
-		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, ['id' => $questao_id], TRUE);
+		// Verifica se a equipe ja respondeu a questao
+		$query_equipeJaRespondeu = "
+			SELECT eqr.*
+			FROM equipe_questaoresposta eqr
+			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+			WHERE eqr.idequipe = $equipe_id
+			AND qr.idquestao = $questao_id;
+		";
 
-		if($questao){
-			$itens['idequipe'] = $this->session->userdata('equipe_idequipe');
-			$itens['idquestaoresposta'] = $equiperesposta_id;
-			$itens['criado_em'] = date("Y-m-d H:i:s");
+		$res_equipeJaRespondeu = $this->PadraoM->fmSearchQuery($query_equipeJaRespondeu);
 
-			//Tratamento do tempo
-			$quedtliberacao = new DateTime($questao->quedtliberacao);
-			$criado = new DateTime($itens['criado_em']);
+		if ($res_equipeJaRespondeu) {
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'A equipe já respondeu a questão selecionada.'));
+			redirect('dinamica/Jogo');
+		}
+		else {
+			$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, ['id' => $questao_id], TRUE);
 
-			$diferenca = $criado->getTimestamp() - $quedtliberacao->getTimestamp();
-			$itens['eqttempo'] = $diferenca;
-
-			//Tratamento da pontuacao
-			$cond = [];
-			$cond['qrcorreta'] = 1;
-			$cond['idquestao'] = $questao->id;
-
-			$resposta_correta = $this->PadraoM->fmSearch($this->tabela_questaoresposta, NULL, $cond, TRUE);
-
-			$itens['eqrponto'] = 0;
-
-			if (($resposta_correta->id == $equiperesposta_id) && ($diferenca <= $questao->quetempo)) {
-				$itens['eqrponto'] = $questao->queponto;
+			if($questao){
+				$itens['idequipe'] = $equipe_id;
+				$itens['idquestaoresposta'] = $equiperesposta_id;
+				$itens['criado_em'] = date("Y-m-d H:i:s");
+	
+				//Tratamento do tempo
+				$quedtliberacao = new DateTime($questao->quedtliberacao);
+				$criado = new DateTime($itens['criado_em']);
+	
+				$diferenca = $criado->getTimestamp() - $quedtliberacao->getTimestamp();
+				$itens['eqttempo'] = $diferenca;
+	
+				//Tratamento da pontuacao
+				$cond = [];
+				$cond['qrcorreta'] = 1;
+				$cond['idquestao'] = $questao->id;
+	
+				$resposta_correta = $this->PadraoM->fmSearch($this->tabela_questaoresposta, NULL, $cond, TRUE);
+	
+				$itens['eqrponto'] = 0;
+	
+				if (($resposta_correta->id == $equiperesposta_id) && ($diferenca <= $questao->quetempo)) {
+					$itens['eqrponto'] = $questao->queponto;
+				}
+	
+				//Registra resposta no banco
+				$res_id = $this->PadraoM->fmNew($this->tabela_equipe_questaoresposta, $itens);
+	
+				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Resposta registrada.'));
+				redirect('dinamica/Jogo');
 			}
-
-			//Registra resposta no banco
-			$res_id = $this->PadraoM->fmNew($this->tabela_equipe_questaoresposta, $itens);
-
-			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Resposta registrada.'));
-			redirect('dinamica/Jogo/questao/'.$questao->queordem);
 		}
 	}
 
@@ -155,7 +195,7 @@ class Jogo extends CI_Controller {
 					'qrordem' 	=> $r->qrordem,
 					'eqrponto' 	=> $r->eqrponto,
 					'TEXT_ACERTOU' 	=> ($r->eqrponto == 0) ? 'text-danger' : 'text-success',
-					'BG_ACERTOU' 	=> ($r->eqrponto == 0) ? '#F4433610' : '#4CAF5010'
+					'ACERTOU' 	=> ($r->eqrponto == 0) ? '#F44336' : '#4CAF50'
 				);
 			}
 			$data['TOTAL_EQRPONTO'] = $total_eqrponto;

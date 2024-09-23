@@ -44,35 +44,51 @@
                                                             >
                                                         </div>
                                                         <div class="align-self-center">
-                                                            <h4 style="font-size: 26px"><?= $EQUIPES[0]['equnome'] ?></h4>
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <strong style="font-size: 18px" class="badge badge-warning mr-2">1°</strong>
-                                                            <span class="text-warning">
-                                                                <i class="feather icon-star"></i>
-                                                                <?= $EQUIPES[0]['pontos'] ?> pontos
-                                                            </span>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div>
+                                                                    <strong style="font-size: 18px" class="badge badge-warning mr-2">1°</strong>
+                                                                </div>
+                                                                <h4 style="font-size: 26px"><?= $EQUIPES[0]['equnome'] ?></h4>
+                                                            </div>
+                                                            <div class="d-flex flex-column badge text-warning py-2">
+                                                                <div>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <?= $EQUIPES[0]['pontos'] ?> pontos
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <i class="fa-solid fa-clock"></i>
+                                                                    <?= $EQUIPES[0]['tempo'] ?> segundos
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-4">
                                                     <?php for ($i = 1; $i < 3; $i++): ?>
-                                                        <div class="col-6 d-flex flex-column align-items-center px-4 py-1">
+                                                        <div class="col-6 d-flex flex-column text-center align-items-center px-4 py-1">
                                                             <img
                                                                 style="border: 3px solid #5bc0de" 
                                                                 width="75" class="rounded-circle m-2"
                                                                 src="<?= base_url($EQUIPES[$i]['equlogo']) ?>" alt="logo"
                                                             >
                                                             <div class="align-self-center">
-                                                                <h4><?= $EQUIPES[$i]['equnome'] ?></h4>
-                                                            </div>
-                                                            <div class="align-self-center">
-                                                                <strong style="font-size: 16px" class="badge badge-info mr-2"><?= $EQUIPES[$i]['ranking'] ?>°</strong>
-                                                                <span class="text-info">
-                                                                    <i class="feather icon-star"></i>
-                                                                    <?= $EQUIPES[$i]['pontos'] ?> pontos
-                                                                </span>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <div>
+                                                                        <strong style="font-size: 16px" class="badge badge-info mr-2"><?= $EQUIPES[$i]['ranking'] ?>°</strong>
+                                                                    </div>
+                                                                    <h4><?= $EQUIPES[$i]['equnome'] ?></h4>
+                                                                </div>
+                                                                <div class="d-flex flex-column badge text-info py-2">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-star"></i>
+                                                                        <?= $EQUIPES[$i]['pontos'] ?> pontos
+                                                                    </div>
+                                                                    <div class="mt-2">
+                                                                        <i class="fa-solid fa-clock"></i>
+                                                                        <?= $EQUIPES[$i]['tempo'] ?> segundos
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     <?php endfor; ?>
@@ -88,14 +104,22 @@
                                                             width="35"
                                                             src="<?= base_url($EQUIPES[$i]['equlogo']) ?>" alt="logo"
                                                         >
-                                                        <div class="align-self-center">
+                                                        <div class="d-flex align-self-center align-items-center">
                                                             <strong>
                                                                 <?= $EQUIPES[$i]['ranking'] ?>° <?= $EQUIPES[$i]['equnome'] ?>
                                                             </strong>
-                                                            <small class="ml-3">
-                                                                <i class="feather icon-star"></i>
-                                                                <?= $EQUIPES[$i]['pontos'] ?> pontos
-                                                            </small>
+                                                            <div class="ml-2">
+                                                                <div class="d-flex flex-column badge py-1 px-3">
+                                                                    <div>
+                                                                        <i class="fa-solid fa-star"></i>
+                                                                        <?= $EQUIPES[$i]['pontos'] ?> pontos
+                                                                    </div>
+                                                                    <div class="mt-2">
+                                                                        <i class="fa-solid fa-clock"></i>
+                                                                        <?= $EQUIPES[$i]['tempo'] ?> segundos
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 <?php endfor; ?>

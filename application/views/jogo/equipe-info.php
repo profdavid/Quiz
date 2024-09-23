@@ -41,8 +41,8 @@
                                                     <p><?=$this->session->userdata('equipe_evenome')?></p>
                                                     <h1><?=$this->session->userdata('equipe_equnome')?></h1>
                                                 </div>
-                                                <div class="mt-3">
-                                                    <strong class="bg-info text-white py-2 px-3 mr-2 rounded">
+                                                <div class="mt-3 d-flex flex-column flex-sm-row justify-content-center justify-content-md-start">
+                                                    <strong class="bg-info text-white py-2 px-3 mr-sm-2 mr-0 rounded">
                                                         <i style="font-size: 18px" class="fa-solid fa-star mr-2"></i>
                                                         <span>{TOTAL_EQRPONTO} pontos</span>
                                                     </strong>
@@ -55,7 +55,7 @@
                                         </div>
 
                                         {LIST_EQUIPE_QUESTAORESPOSTA}
-                                            <div style="background-color: {BG_ACERTOU}" class="row eqrcard rounded py-2 px-1 my-2 mx-3">
+                                            <div style="background-color: {ACERTOU}10; border: 1px solid {ACERTOU}50" class="row rounded py-2 px-1 my-2 mx-3">
                                                 <div class="col-md-12">
                                                     <div class="d-flex justify-content-between align-items-center {TEXT_ACERTOU}">
                                                         <strong>Questão {queordem}</strong>

@@ -22,10 +22,10 @@
                 <div class="main-body">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
+                        {RES_ERRO}
                         <?php if($id): ?>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    {RES_ERRO}
                                     <div class="row">
                                         <div class="col-md-9">
                                             <div class="card">
@@ -96,7 +96,7 @@
                                                                         <?php endforeach; ?>
                                                                     <div class="d-flex mt-5 text-sm-right text-center">
                                                                         <button id="btnsave" type="submit" class="btn btn-success w-100 m-0">
-                                                                            <i class="feather icon-check"></i>Salvar resposta
+                                                                            <i class="feather icon-check-circle"></i>Salvar e continuar
                                                                         </button> 
                                                                     </div>
                                                                 </form>
@@ -109,21 +109,29 @@
 
                                          <!-- countdown start -->
                                          <div class="col-md-3 d-flex flex-column">
-                                            <div style="max-height: 150px" class="card card-countdown">
-                                                <div class="card-body p-2 d-flex flex-column text-center align-items-center justify-content-center">
+                                            <div style="max-height: 200px" class="card card-countdown">
+                                                <div class="p-2 d-flex flex-column text-center align-items-center justify-content-center">
                                                     <div class="count text-white" id="countdown"></div>
                                                     <div class="myBar ldBar label-center text-center"
                                                         data-value="0"
                                                         data-preset="circle"
                                                         data-stroke="white"
                                                         data-stroke-width="5"
-                                                        style="width: 100px; height: 100px" 
+                                                        style="width: 150px; height: 150px" 
                                                     ></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- countdown end -->
                                     </div>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="bg-finish w-100">
+                                <div class="d-flex h-100 flex-column justify-content-around text-center">
+                                    <span></span>
+                                    <span></span>
+                                    <h4 class="finish-text text-light">Fim das questões!</h4>
                                 </div>
                             </div>
                         <?php endif; ?>
