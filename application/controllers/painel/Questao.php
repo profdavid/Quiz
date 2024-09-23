@@ -2,8 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Questao extends CI_Controller {
-	private $tabela ='questao';
-	private $tabela_resposta ='questaoresposta';
+	private $tabela = 'questao';
+	private $tabela_equipe = 'equipe';
+	private $tabela_resposta = 'questaoresposta';
+	private $tabela_equipe_questaoresposta = 'equipe_questaoresposta';
 		
 	public function __construct(){
 		parent::__construct();
@@ -24,6 +26,7 @@ class Questao extends CI_Controller {
 		$data['URL_RELATORIO'] 	= site_url('painel/Questao/relatorio');
 		$data['URL_ORDEM'] 		= site_url('painel/Questao/ordem');
 		$data['URL_NOVO'] 		= site_url('painel/Questao/novo');
+		$data['URL_ANULAR'] 	= site_url('painel/Questao/anular');
 		$data['URL_EXCLUIR']	= site_url('painel/Questao/excluir');
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
@@ -339,6 +342,71 @@ class Questao extends CI_Controller {
 
 		$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
 		redirect('painel/Questao');
+	}
+
+	
+	public function anular(){
+		$idanular = $this->input->post('idanular');
+
+		// Busca a questao (tratamento do formulario recebido)
+		$questao = $this->PadraoM->fmSearch($this->tabela, FALSE, array('id' => $idanular), TRUE);
+
+		if($questao) {
+			$idquestao = $questao->id;
+
+			// Busca todas as equipes do evento
+			$equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
+
+			// Busca a resposta correta da questao
+			$cond['idquestao'] = $idquestao;
+			$cond['qrcorreta'] = '1';
+			$correta = $this->PadraoM->fmSearch($this->tabela_resposta, FALSE, $cond, TRUE);
+
+			// Busca as equipes que ja responderam a questao
+			$query_equipesJaResponderam = "
+				SELECT eqr.*
+				FROM equipe_questaoresposta eqr
+				JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+				WHERE qr.idquestao = $idquestao;
+			";
+
+			$equipesJaResponderam = $this->PadraoM->fmSearchQuery($query_equipesJaResponderam);
+			$respondeuMap = [];
+
+			// Cria um array associativo
+			if ($equipesJaResponderam) {
+				foreach ($equipesJaResponderam as $r) {
+					$respondeuMap[$r->idequipe] = $r;
+				}
+			}
+			
+			foreach ($equipes as $equipe) {
+				// Define os itens comuns
+				$itens = [
+					'idquestaoresposta' => $correta->id,
+					'eqrponto' => $questao->queponto,
+					'eqttempo' => 0,
+				];
+
+				if (isset($respondeuMap[$equipe->id])) { // update
+					$respondeu = $respondeuMap[$equipe->id];
+
+					$cond = [
+						'idequipe' => $respondeu->idequipe,
+						'idquestaoresposta' => $respondeu->idquestaoresposta,
+					];
+			
+					$this->PadraoM->fmUpdate($this->tabela_equipe_questaoresposta, $cond, $itens);
+				}
+				else { // novo
+					$itens['idequipe'] = $equipe->id;
+					$this->PadraoM->fmNew($this->tabela_equipe_questaoresposta, $itens);
+				}
+			}
+
+			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Questão anulada.'));
+			redirect('painel/Questao');
+		}
 	}
 
 
