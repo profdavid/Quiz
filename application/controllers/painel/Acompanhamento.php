@@ -53,7 +53,6 @@ class Acompanhamento extends CI_Controller {
 			$data['COUNT_QUESTOES'] = count($quetotal);
 		}
 
-
 		// Busca a ordem desejada
 		$cond['idevento'] = $ideventoativo;
 		$cond['queordem'] = $queordem;
@@ -63,10 +62,23 @@ class Acompanhamento extends CI_Controller {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
+
 			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
 			$data['URL_LIBERAR'] = site_url('painel/Acompanhamento/liberarQuestao/'.$questao->id);
 			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
 
+			// Tratamento do countdown
+			$tempoAtual = date("Y-m-d H:i:s");
+
+			if (!$questao->quedtliberacao) {
+				$data['tempoRestante'] = -1;
+			} else if ($tempoAtual >= $questao->quedtlimite) {
+				$data['tempoRestante'] = 0;
+			} else {
+				$atualTime = strtotime($tempoAtual);
+				$limiteTime = strtotime($questao->quedtlimite);
+				$data['tempoRestante'] = $limiteTime - $atualTime;
+			}
 
 			// Busca as alternativas
 			$respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $questao->id));
@@ -91,7 +103,6 @@ class Acompanhamento extends CI_Controller {
 				$data['COUNT_RESPOSTAS'] = count($respostas);
 				$data['URL_ATUALIZACOES'] .= implode(',', $ids);
 			}
-
 
 			//Busca os resultados
 			if($showResults) {
@@ -244,7 +255,7 @@ class Acompanhamento extends CI_Controller {
 			JOIN questao q ON qr.idquestao = q.id
 			JOIN equipe e ON eqr.idequipe = e.id
 			WHERE q.idevento = $idevento
-			ORDER BY e.equnome ASC, q.queordem ASC;
+			ORDER BY q.queordem ASC;
 		";
 
 		$res = $this->PadraoM->fmSearchQuery($query);

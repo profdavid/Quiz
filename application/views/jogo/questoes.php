@@ -163,49 +163,48 @@
         {RES_OK}
         $("#questao").val({queordem});
 
-        var now = new Date().getTime();
-        var quedtliberacao = new Date("{quedtliberacao}").getTime();
-        var quedtlimite = new Date("{quedtlimite}").getTime();
-
+        var tempoRestante = {tempoRestante};
         var bar = new ldBar(".myBar");
         var countdowncard = document.querySelector(".card-countdown");
         var countdown = document.getElementById("countdown");
 
-        if(quedtlimite){
-            if (now > quedtlimite) {
-                countdown.innerHTML = "Tempo esgotado";
-                countdowncard.classList.add("bg-danger");
-            } else {
-                countdowncard.classList.add("bg-primary");
-
-                var totalTime = quedtlimite - quedtliberacao;
-
-                var x = setInterval(function() {
-                    var now = new Date().getTime();
-                    var tempo = quedtlimite - now;
-
-                    // Atualiza countdown text
-                    var min = Math.floor((tempo % (1000 * 60 * 60)) / (1000 * 60));
-                    var s = Math.floor((tempo % (1000 * 60)) / 1000);
-                    countdown.innerHTML = min + "m " + s + "s ";
-
-                    // Atualiza countdown bar
-                    var tempoDecorrido = totalTime - tempo;
-                    var percent = (tempoDecorrido / totalTime) * 100;
-                    bar.set(100 - percent, false);
-
-                    // Confere se tempo esgotou
-                    if (tempo < 0) {
-                        clearInterval(x);
-                        countdown.innerHTML = "Tempo esgotado";
-                        countdowncard.classList.add("bg-danger");
-                    }
-                }, 500);
+        function iniciarCountdown() {
+            if (tempoRestante == -1){
+                countdown.innerHTML = "Aguarde!";
+                countdowncard.classList.add("bg-warning");
+                return;
             }
-        } else {
-            countdowncard.classList.add("bg-warning");
-            countdown.innerHTML = "Aguarde";
+
+            if (tempoRestante == 0) {
+                countdown.innerHTML = "Tempo esgotado!";
+                countdowncard.classList.add("bg-danger");
+                return;
+            }
+
+            var tempo = tempoRestante;
+            countdowncard.classList.add("bg-primary");
+
+            var count = setInterval(function() {
+                if (tempo <= 0) {
+                    clearInterval(count);
+                    countdown.innerHTML = "Tempo esgotado!";
+                    countdowncard.classList.add("bg-danger");
+                    bar.set(0, false);
+                    return;
+                }
+
+                var m = Math.floor(tempo / 60);
+                var s = tempo % 60;
+                countdown.innerHTML = m + "m " + s + "s ";
+
+                var percent = (tempo / {quetempo}) * 100;
+                bar.set(100 - percent, false);
+
+                tempo--;
+            }, 1000);
         }
+
+        iniciarCountdown();
     }
 
     function selectCard(cardElement) {

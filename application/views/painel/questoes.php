@@ -243,23 +243,19 @@
 <script>
     window.onload = function(){
         $("#questao").val({queordem});
-
         $('#tabListagem').DataTable({
             "language": {
                 "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"
             },
-            "aaSorting": []        
+            "aaSorting": []
         });
 
-        var quedtliberacao = new Date("{quedtliberacao}").getTime();
-        var quedtlimite = new Date("{quedtlimite}").getTime();
-
+        var tempoRestante = {tempoRestante};
         var bar = new ldBar(".myBar");
         var countdowncard = document.querySelector(".card-countdown");
         var countdown = document.getElementById("countdown");
 
 
-        //Exibe na tela as atualizacoes das equipes
         function exibeAtualizacoes(data) {
             var container = document.getElementById('dataContainer');
             container.innerHTML = '';
@@ -278,7 +274,6 @@
         }
 
 
-        //Busca no banco as atualizacoes da questao liberada
         function buscaAtualizacoes() {
             fetch('{URL_ATUALIZACOES}', { method: 'GET' } )
             .then(response => {
@@ -289,50 +284,47 @@
             .catch(error => { console.error('Erro ao buscar atualizações:', error) });
         }
 
-        buscaAtualizacoes();
 
-
-        //Confere se questao liberada
-        if(quedtlimite){
-            var now = new Date().getTime();
-
-            if (now > quedtlimite) {
-                countdown.innerHTML = "Tempo esgotado";
-                countdowncard.classList.add("bg-danger");
-            } else {
-                countdowncard.classList.add("bg-primary");
-                var totalTime = quedtlimite - quedtliberacao;
-
-                buscaAtualizacoes();
-                var att = setInterval(buscaAtualizacoes, 1500);
-
-                var count = setInterval(function() {
-                    var now = new Date().getTime();
-                    var tempo = quedtlimite - now;
-
-                    // Atualiza countdown text
-                    var min = Math.floor((tempo % (1000 * 60 * 60)) / (1000 * 60));
-                    var s = Math.floor((tempo % (1000 * 60)) / 1000);
-                    countdown.innerHTML = min + "m " + s + "s ";
-
-                    // Atualiza countdown bar
-                    var tempoDecorrido = totalTime - tempo;
-                    var percent = (tempoDecorrido / totalTime) * 100;
-                    bar.set(100 - percent, false);
-
-                    // Confere se tempo esgotou
-                    if (tempo < 0) {
-                        clearInterval(count);
-                        clearInterval(att);
-                        buscaAtualizacoes();
-                        countdown.innerHTML = "Tempo esgotado";
-                        countdowncard.classList.add("bg-danger");
-                    }
-                }, 500);
+        function iniciarCountdown() {
+            if (tempoRestante == -1){
+                countdown.innerHTML = "Aguarde!";
+                countdowncard.classList.add("bg-warning");
+                return;
             }
-        } else {
-            countdowncard.classList.add("bg-warning");
-            countdown.innerHTML = "Aguarde";
+
+            if (tempoRestante == 0) {
+                countdown.innerHTML = "Tempo esgotado!";
+                countdowncard.classList.add("bg-danger");
+                buscaAtualizacoes();
+                return;
+            }
+
+            var tempo = tempoRestante;
+            countdowncard.classList.add("bg-primary");
+            var att = setInterval(buscaAtualizacoes, 1500);
+
+            var count = setInterval(function() {
+                if (tempo <= 0) {
+                    clearInterval(count);
+                    clearInterval(att);
+                    buscaAtualizacoes();
+                    countdown.innerHTML = "Tempo esgotado!";
+                    countdowncard.classList.add("bg-danger");
+                    bar.set(0, false);
+                    return;
+                }
+
+                var m = Math.floor(tempo / 60);
+                var s = tempo % 60;
+                countdown.innerHTML = m + "m " + s + "s ";
+
+                var percent = (tempo / {quetempo}) * 100;
+                bar.set(100 - percent, false);
+
+                tempo--;
+            }, 1000);
         }
+
+        iniciarCountdown();
     }
 </script>

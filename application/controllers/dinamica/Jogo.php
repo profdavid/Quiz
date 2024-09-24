@@ -85,6 +85,19 @@ class Jogo extends CI_Controller {
 			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
 			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
 
+			// Tratamento do countdown
+			$tempoAtual = date("Y-m-d H:i:s");
+
+			if (!$questao->quedtliberacao) {
+				$data['tempoRestante'] = -1;
+			} else if ($tempoAtual >= $questao->quedtlimite) {
+				$data['tempoRestante'] = 0;
+			} else {
+				$atualTime = strtotime($tempoAtual);
+				$limiteTime = strtotime($questao->quedtlimite);
+				$data['tempoRestante'] = $limiteTime - $atualTime;
+			}
+
 			// Busca as opcoes de resposta da questao
 			$respostas = $this->PadraoM->fmSearch($this->tabela_questaoresposta, 'qrordem', array('idquestao' => $questao->id));
 			if ($respostas) {
