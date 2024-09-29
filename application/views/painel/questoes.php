@@ -35,7 +35,7 @@
                                     <div class="row">
                                         <div class="col-md-9">
                                             <div class="card">
-                                                <div class="card-body">
+                                                <div class="card-header">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="d-flex flex-column align-items-center justify-content-between mt-2 mt-sm-0 flex-sm-row">
@@ -68,14 +68,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <hr>
                                                         </div>
                                                     </div>
-
+                                                </div>
+                                                <div class="card-body">
                                                     <div class="row mt-3">
                                                         <div class="col-md-12">
                                                             <div class="d-flex flex-column-reverse flex-sm-row justify-content-between text-center text-sm-left">
-                                                                <div>{quetexto}</div>
+                                                                <div class="quetexto">{quetexto}</div>
                                                                 <div class="p-0 my-3 my-sm-0">
                                                                     <button class="btn m-0 p-0" onclick="chamaViewQuestaoImage()">
                                                                         <img style="max-width: 125px" class="img-fluid rounded" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
@@ -113,22 +113,23 @@
                                                 </div>
                                             </div>
                                             <div class="card">
+                                                <div class="card-header">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="mb-0"><i class="fa-solid fa-check-circle text-secondary mr-2"></i>Resultados</h6>
+                                                        <?php if($SHOW_RESULTS): ?>
+                                                            <a href="{URL_QUESTAO}/{queordem}" class="btn btn-sm btn-secondary m-0">
+                                                                <i class="fa-solid fa-eye-slash"></i>Esconder resultados
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <a href="{URL_QUESTAO}/{queordem}/true" class="btn btn-sm btn-info m-0">
+                                                                <i class="fa-solid fa-eye"></i>Mostrar resultados
+                                                            </a>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </div>
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <h6 class="mb-0"><i class="fa-solid fa-check-circle text-secondary mr-2"></i>Resultados</h6>
-                                                                <?php if($SHOW_RESULTS): ?>
-                                                                    <a href="{URL_QUESTAO}/{queordem}" class="btn btn-sm btn-secondary m-0">
-                                                                        <i class="fa-solid fa-eye-slash"></i>Esconder resultados
-                                                                    </a>
-                                                                <?php else: ?>
-                                                                    <a href="{URL_QUESTAO}/{queordem}/true" class="btn btn-sm btn-info m-0">
-                                                                        <i class="fa-solid fa-eye"></i>Mostrar resultados
-                                                                    </a>
-                                                                <?php endif ?>
-                                                            </div><hr>
-
                                                             <?php if($SHOW_RESULTS): ?>
                                                                 <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
                                                                     <span class="badge badge-success rounded-circle resposta-ordem">
@@ -201,14 +202,13 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="card-header">
+                                                    <h6 class="mb-0">
+                                                        <i class="fa-solid fa-clock text-secondary mr-2"></i>Atualizações
+                                                    </h6>
+                                                </div>
                                                 <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <h6><i class="fa-solid fa-clock text-secondary mr-2"></i>Atualizações</h6>
-                                                            <hr>
-                                                        </div>
-                                                        <div id="dataContainer"></div>
-                                                    </div>
+                                                    <div id="dataContainer"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -243,6 +243,7 @@
 <script>
     window.onload = function(){
         $("#questao").val({queordem});
+        $('.quetexto img').addClass('img-fluid');
         $('#tabListagem').DataTable({
             "language": {
                 "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"

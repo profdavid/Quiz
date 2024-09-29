@@ -29,7 +29,7 @@
                                     <div class="row">
                                         <div class="col-md-9">
                                             <div class="card">
-                                                <div class="card-body">
+                                                <div class="card-header">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="d-flex flex-column align-items-center justify-content-between mt-2 mt-sm-0 flex-sm-row">
@@ -48,14 +48,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <hr>
                                                         </div>
                                                     </div>
-
+                                                </div>
+                                                <div class="card-body">
                                                     <div class="row mt-3">
                                                         <div class="col-md-12">
                                                             <div class="d-flex flex-column-reverse flex-sm-row justify-content-between text-center text-sm-left">
-                                                                <div>{quetexto}</div>
+                                                                <div class="quetexto">{quetexto}</div>
                                                                 <div class="p-0 my-3 my-sm-0">
                                                                     <button class="btn m-0 p-0" onclick="chamaViewQuestaoImage()">
                                                                         <img style="max-width: 125px" class="img-fluid rounded" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
@@ -162,6 +162,7 @@
     window.onload = function(){
         {RES_OK}
         $("#questao").val({queordem});
+        $('.quetexto img').addClass('img-fluid');
 
         var tempoRestante = {tempoRestante};
         var bar = new ldBar(".myBar");

@@ -24,12 +24,18 @@
                     </div>
 
                     <div class="card-body">
-                        {quetexto}
+                        <div class="d-flex flex-column-reverse flex-sm-row justify-content-between text-center text-sm-left">
+                            <div>{quetexto}</div>
+                            <div class="p-0 my-3 my-sm-0">
+                                <img style="max-width: 100px" class="img-fluid rounded" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
+                            </div>
+                        </div>
 
-                        <ul class="list-group">
+                        <ul class="list-group my-4">
                             {respostas}
-                            <li class="list-group-item">
-                                <span class="badge {RES_CORRETA} mr-2">{qrordem}</span>
+                            <li {BG_CORRETA} class="list-group-item">
+                                <span class="badge {BADGE_CORRETA} mr-2">{qrordem}</span>
+                                <img style="max-width: 75px" class="img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="">
                                 <span>{qrtexto}</span>
                             </li>
                             {/respostas}

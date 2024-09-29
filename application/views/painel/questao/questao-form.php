@@ -161,10 +161,54 @@
   }
 
 
+
+  // https://www.tiny.cloud/docs/tinymce/latest/file-image-upload/
+  const handleImageUpload = (blobInfo, progress) => new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.open('POST', '{URL_UPLOADTINYMCE}');
+
+    xhr.upload.onprogress = (e) => {
+      progress(e.loaded / e.total * 100);
+    };
+
+    xhr.onload = () => {
+      if (xhr.status === 403) {
+        reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
+        return;
+      }
+
+      if (xhr.status < 200 || xhr.status >= 300) {
+        reject('HTTP Error: ' + xhr.status);
+        return;
+      }
+
+      const json = JSON.parse(xhr.responseText);
+
+      if (!json || typeof json.location != 'string') {
+        reject('Invalid JSON: ' + xhr.responseText);
+        return;
+      }
+
+      resolve(json.location);
+    };
+
+    xhr.onerror = () => {
+      reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+    };
+
+    const formData = new FormData();
+    formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+    xhr.send(formData);
+  });
+
+
+
   tinymce.init({
     selector: '#quetexto',
     height: 460,
-    plugins:[
+    plugins: [
         'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'anchor', 'pagebreak',
         'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 
         'emoticons', 'template', 'codesample'
@@ -177,8 +221,10 @@
     },  
     menubar: 'favs file edit view insert format tools table',
     content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}',
-    branding: false
+    branding: false,
+    images_upload_handler: handleImageUpload
   });
+
 
 
   function previewImage(event) {
@@ -188,12 +234,14 @@
   }
 
 
+
   function previewResImage(event, index) {
     var preview = document.getElementById('qr-preview' + index);
     var file = event.target.files[0];
     if(!file) return;
     preview.src = URL.createObjectURL(file);
   }
+
 
 
   function reordenarRespostas() {
@@ -211,6 +259,7 @@
   }
 
   reordenarRespostas();
+
 
 
   function addResposta() {
@@ -260,6 +309,7 @@
   };
 
 
+  
   function removeResposta(button) {
     let respostaItem = button.closest('.resposta-item');
     respostaItem.remove();

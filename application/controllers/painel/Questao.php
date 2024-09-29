@@ -76,6 +76,7 @@ class Questao extends CI_Controller {
 		$data['quetempo'] = 30;
 		$data['queponto'] = 10;
 		$data['queimg'] = 'assets/img/questao_image.png';
+		$data['URL_UPLOADTINYMCE'] =  site_url('painel/Questao/imageUploadTinyMCE');
 
 		$this->parser->parse('painel/questao/questao-form', $data);
 	}
@@ -91,10 +92,6 @@ class Questao extends CI_Controller {
 				$itens[$chave] = $valor;
 			}
 		}
-
-		//Inicializa questaoresposta da questao
-		$questaoresposta = $this->input->post('respostas');
-		$qrcorreta = $this->input->post('resposta_correta');
 
 		//Salvando imagem no diretorio do evento
 		if($_FILES['queimg']['error'] == 0 && $_FILES['queimg']['size'] > 0){
@@ -161,6 +158,9 @@ class Questao extends CI_Controller {
 			//--- Fim Log ---
 
 			//Tratamento de questaoresposta
+			$questaoresposta = $this->input->post('respostas');
+			$qrcorreta = $this->input->post('resposta_correta');
+			
 			$this->excluirRespostasNaoIncluidas($res_id, $questaoresposta);
 			$this->salvarRespostas($res_id, $questaoresposta, $qrcorreta);
 
@@ -184,6 +184,7 @@ class Questao extends CI_Controller {
 		$data['LABEL_ACAO'] 	= 'Editar';
 		$data['URL_FRM'] 		= site_url('painel/Questao/salvar');
 		$data['URL_CANCELAR']	= site_url('painel/Questao');
+		$data['URL_UPLOADTINYMCE'] =  site_url('painel/Questao/imageUploadTinyMCE');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
 		$data['LIST_RESPOSTAS']	= array();
@@ -275,7 +276,8 @@ class Questao extends CI_Controller {
 							'qrtexto'      => $r->qrtexto,
 							'qrcorreta'    => $r->qrcorreta,
 							'qrimg'        => $r->qrimg,
-							'RES_CORRETA'  => ($r->qrcorreta == 1) ? 'badge-success' : 'badge-secondary',
+							'BADGE_CORRETA'  => ($r->qrcorreta == 1) ? 'badge-success' : 'badge-secondary',
+							'BG_CORRETA'  => ($r->qrcorreta == 1) ? "style='background-color: #4CAF5050'" : ''
 						);
 					}
 				}
@@ -473,5 +475,26 @@ class Questao extends CI_Controller {
 		} else {
 			$this->PadraoM->fmDelete($this->tabela_resposta, $cond);
 		}
+	}
+
+
+	public function imageUploadTinyMCE() {
+		if (!empty($_FILES['file']['name'])) {
+			$diretorio = retirarAcentos($this->session->userdata('quiz_evenome'));
+	
+			$fileupload = new FileUploader('file', ['uploadDir' => 'assets/uploads/'.$diretorio.'/']);
+			$upload_res = $fileupload->upload();
+	
+			if ($upload_res['isSuccess']) {
+				$path = $upload_res['files'][0]['file'];
+				$basepath = base_url($path);
+				echo json_encode(['location' => $basepath]);
+			} else {
+				echo json_encode(['error' => 'Ocorreu um erro no upload']);
+			}
+		} else {
+			echo json_encode(['error' => 'Nenhum arquivo foi recebido']);
+		}
+		exit;
 	}
 }
