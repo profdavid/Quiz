@@ -106,7 +106,8 @@ class Jogo extends CI_Controller {
 						'qrid'     	=> $r->id,
 						'qrordem'   => $r->qrordem,
 						'qrtexto'   => $r->qrtexto,
-						'qrimg'     => $r->qrimg
+						'qrimg'     => $r->qrimg,
+						'SEM_IMAGEM' => (!$r->qrimg) ? 'd-none' : ''
 					);
 				}
 				$data['COUNT_RESPOSTAS'] = count($respostas);

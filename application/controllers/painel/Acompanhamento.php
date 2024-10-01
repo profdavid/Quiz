@@ -28,15 +28,16 @@ class Acompanhamento extends CI_Controller {
 		$data['id'] = null;
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
-		$data['URL_QUESTAO'] = site_url('painel/Acompanhamento/questao');
-		$data['URL_ATUALIZACOES'] = site_url('painel/Acompanhamento/buscaAtualizacoes/?ids=');
+		$data['URL_ATUAL'] = site_url('painel/Acompanhamento/questao/'.$queordem);
 		$data['URL_ANTERIOR'] = site_url('painel/Acompanhamento/questao/'.($queordem - 1));
 		$data['URL_PROXIMO'] = site_url('painel/Acompanhamento/questao/'.($queordem + 1));
+		$data['URL_ATUALIZACOES'] = site_url('painel/Acompanhamento/buscaAtualizacoes/?ids=');
 		$data['RESPOSTAS'] = [];
 		$data['RESULTS'] = [];
 		$data['COUNT_QUESTOES'] = 0;
 		$data['COUNT_RESPOSTAS'] = 0;
 		$data['SHOW_RESULTS'] = $showResults;
+		
 		$ideventoativo = $this->session->userdata('quiz_ideventoativo');
 
 		// Busca todas as questoes
@@ -47,7 +48,8 @@ class Acompanhamento extends CI_Controller {
 					'queid'      => $q->id,
 					'queordem'   => $q->queordem,
 					'LIBERADA'	 => ($q->quesituacao == '1') ? 'badge-success' : 'badge-secondary',
-					'ATUAL'		 => ($q->queordem == $queordem) ? 'badge-selected' : 'badge-custom'
+					'ATUAL'		 => ($q->queordem == $queordem) ? 'badge-selected' : 'badge-custom',
+					'URL_ACCESS' => site_url('painel/Acompanhamento/questao/'.$q->queordem)
 				);
 			}
 			$data['COUNT_QUESTOES'] = count($quetotal);
@@ -97,7 +99,8 @@ class Acompanhamento extends CI_Controller {
 						'qrordem'   => $r->qrordem,
 						'qrtexto'   => $r->qrtexto,
 						'qrcorreta' => $r->qrcorreta,
-						'qrimg'     => $r->qrimg
+						'qrimg'     => $r->qrimg,
+						'SEM_IMAGEM'	=> (!$r->qrimg) ? 'd-none' : ''
 					);
 				}
 				$data['COUNT_RESPOSTAS'] = count($respostas);

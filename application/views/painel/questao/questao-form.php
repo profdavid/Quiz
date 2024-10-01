@@ -222,6 +222,9 @@
     menubar: 'favs file edit view insert format tools table',
     content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}',
     branding: false,
+    relative_urls: false,
+    remove_script_host: false,
+    convert_urls: true,
     images_upload_handler: handleImageUpload
   });
 

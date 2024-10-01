@@ -76,24 +76,24 @@
                                                             <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
                                                                 <form role="form" id="frmacao" name="frmacao" method="post" action="{SAVE_RESPOSTA}">
                                                                     <input type="hidden" id="id" name="id" value="{id}" />
-                                                                        <?php foreach($RESPOSTAS as $resposta): ?>
+                                                                        {RESPOSTAS}
                                                                             <div class="card-resposta d-flex align-items-center my-2 rounded" onclick="selectCard(this)">
-                                                                                <input type="radio" name="equipe_resposta" id="resposta_<?= $resposta['qrid'] ?>" class="d-none" value="<?= $resposta['qrid'] ?>" required>
+                                                                                <input type="radio" name="equipe_resposta" id="resposta_{qrid}" class="d-none" value="{qrid}" required>
                                                                                 
-                                                                                <label for="resposta_<?= $resposta['qrid'] ?>" class="d-flex align-items-center p-3 w-100 mb-0">
+                                                                                <label for="resposta_{qrid}" class="d-flex align-items-center p-3 w-100 mb-0">
                                                                                     <span class="badge badge-primary rounded-circle resposta-ordem">
-                                                                                        <?= $resposta['qrordem'] ?>
+                                                                                        {qrordem}
                                                                                     </span>
 
                                                                                     <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
-                                                                                        <?php if (!empty($resposta['qrimg'])): ?>
-                                                                                            <img style="max-width: 100px" class="img-fluid rounded mx-3" src="<?= base_url($resposta['qrimg']) ?>" alt="qrimg">
-                                                                                        <?php endif; ?>
-                                                                                        <div class="mx-3 my-1"><?= $resposta['qrtexto'] ?></div>
+                                                                                        <img style="max-width: 100px" class="{SEM_IMAGEM} img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="qrimg">
+                                                                                        <div class="mx-3 my-1">
+                                                                                            {qrtexto}
+                                                                                        </div>
                                                                                     </div>
                                                                                 </label>
                                                                             </div>
-                                                                        <?php endforeach; ?>
+                                                                        {/RESPOSTAS}
                                                                     <div class="d-flex mt-5 text-sm-right text-center">
                                                                         <button id="btnsave" type="submit" class="btn btn-success w-100 m-0">
                                                                             <i class="feather icon-check-circle"></i>Salvar e continuar

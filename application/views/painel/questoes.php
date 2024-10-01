@@ -94,19 +94,17 @@
                                                             <?php endif ?>
 
                                                             <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
-                                                                <?php foreach($RESPOSTAS as $resposta): ?>
+                                                                {RESPOSTAS}
                                                                     <div class="card-resposta d-flex align-items-center p-3 my-2 rounded">
                                                                         <span class="badge badge-primary rounded-circle resposta-ordem">
-                                                                            <?= $resposta['qrordem'] ?>
+                                                                            {qrordem}
                                                                         </span>
                                                                         <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
-                                                                            <?php if (!empty($resposta['qrimg'])): ?>
-                                                                                <img style="max-width: 100px" class="img-fluid rounded mx-3" src="<?= base_url($resposta['qrimg']) ?>" alt="qrimg">
-                                                                            <?php endif; ?>
-                                                                            <div class="mx-3 my-1"><?= $resposta['qrtexto'] ?></div>
+                                                                            <img style="max-width: 100px" class="{SEM_IMAGEM} img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="">
+                                                                            <div class="mx-3 my-1">{qrtexto}</div>
                                                                         </div>
                                                                     </div>
-                                                                <?php endforeach; ?>
+                                                                {/RESPOSTAS}
                                                             <?php endif ?>
                                                         </div>
                                                     </div>
@@ -117,11 +115,11 @@
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <h6 class="mb-0"><i class="fa-solid fa-check-circle text-secondary mr-2"></i>Resultados</h6>
                                                         <?php if($SHOW_RESULTS): ?>
-                                                            <a href="{URL_QUESTAO}/{queordem}" class="btn btn-sm btn-secondary m-0">
+                                                            <a href="{URL_ATUAL}" class="btn btn-sm btn-secondary m-0">
                                                                 <i class="fa-solid fa-eye-slash"></i>Esconder resultados
                                                             </a>
                                                         <?php else: ?>
-                                                            <a href="{URL_QUESTAO}/{queordem}/true" class="btn btn-sm btn-info m-0">
+                                                            <a href="{URL_ATUAL}/true" class="btn btn-sm btn-info m-0">
                                                                 <i class="fa-solid fa-eye"></i>Mostrar resultados
                                                             </a>
                                                         <?php endif ?>
@@ -178,13 +176,13 @@
                                         <div class="col-md-3 d-flex flex-column">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <?php foreach($QUESTOES as $questao): ?>
-                                                        <a href="{URL_QUESTAO}/<?= $questao['queordem']; ?>">
-                                                            <span class="badge badge-pill <?= $questao['ATUAL']; ?> <?= $questao['LIBERADA']; ?>">
-                                                                <?= $questao['queordem']; ?>
-                                                            </span>
+                                                    {QUESTOES}
+                                                        <a href="{URL_ACCESS}">
+                                                            <span class="badge badge-pill {ATUAL} {LIBERADA}">{queordem}</span>
                                                         </a>
-                                                    <?php endforeach; ?>
+                                                    {/QUESTOES}
+                                                    <div>
+                                                    </div>
                                                 </div>
                                             </div>
 
