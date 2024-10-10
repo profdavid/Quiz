@@ -21,6 +21,7 @@
     <link rel="icon" href="<?=base_url('assets/img/ico.png') ?>" type="image/x-icon">
     
     <!-- fontawesome icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="<?=base_url('assets/fonts/fontawesome/css/fontawesome-all.min.css') ?>">
     
     <!-- animation css -->
@@ -55,6 +56,18 @@
             padding: 0; 
             border:0;
         }
+
+        .card-resposta-correta {
+            border: 1px solid #28A745;
+            background-color: #28A74515; 
+        }
+
+        .card-resposta-correta code,
+        .card-resposta-correta span,
+        .card-resposta-correta p {
+            color: #28A745;
+        }
+
         @media print {
           .navbar {
               display: block;
@@ -68,7 +81,7 @@
     </style>
 </head>
 
-<body style="background-color: #fff; padding: 50px;">
+<body style="background-color: #eff3f6; padding: 50px;">
 
     {CONTEUDO}
 

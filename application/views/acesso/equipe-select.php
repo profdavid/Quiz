@@ -104,23 +104,24 @@
             rotationX: 180,
             opacity: 1,
             scale: 1.6,
-            duration: 4,
+            duration: 3,
             ease: "elastic.out"
         }).to(".anim-item", {
             rotation: -60,
             rotationX: 360,
             scale: 1.2,
-            duration: 3,
-            ease: "power4.inOut"
+            duration: 4,
+            ease: "elastic.inOut"
         }).to(".anim-item", {
             rotation: -90,
             scale: 1.4,
-            duration: 4,
+            duration: 3,
             ease: "elastic.out"
         }).to(".anim-item", {
-            rotation: 30,
+            rotation: -90,
             scale: 0.5,
-            duration: 5,
+            rotationY: 180,
+            duration: 3,
             opacity: 0,
             ease: "elastic.in"
         })

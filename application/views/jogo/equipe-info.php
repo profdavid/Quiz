@@ -46,25 +46,57 @@
                                                         <i style="font-size: 18px" class="fa-solid fa-star mr-2"></i>
                                                         <span>{TOTAL_EQRPONTO} pontos</span>
                                                     </strong>
-                                                    <strong class="bg-warning text-white py-2 px-3 rounded">
-                                                        <i class="fa-solid fa-trophy mr-2"></i>
-                                                        <span>{RANKING}° no Ranking</span>
+                                                    <strong class="bg-danger text-white py-2 px-3 mt-2 mt-sm-0 rounded">
+                                                        <i class="fa-solid fa-clock mr-2"></i>
+                                                        <span>{TOTAL_EQRTEMPO} segundos</span>
                                                     </strong>
                                                 </div>
                                             </div>
                                         </div>
 
+                                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mx-3 my-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-clock-rotate-left mr-2"></i>
+                                                <label class="mb-0">Respostas:</label>
+                                            </div>
+                                            <div class="d-flex text-center text-md-right mt-3 mt-md-0">
+                                                <small class="mr-2">
+                                                    <i class="fa-solid fa-square text-success"></i>
+                                                    Correta
+                                                </small>
+                                                <small class="mr-2">
+                                                    <i class="fa-solid fa-square text-warning"></i>
+                                                    Correta/Esgotado
+                                                </small>
+                                                <small>
+                                                    <i class="fa-solid fa-square text-danger"></i>
+                                                    Incorreta
+                                                </small>
+                                            </div>
+                                        </div>
+
                                         {LIST_EQUIPE_QUESTAORESPOSTA}
-                                            <div style="background-color: {ACERTOU}10; border: 1px solid {ACERTOU}50" class="row rounded py-2 px-1 my-2 mx-3">
+                                            <div class="row {BG_ACERTOU} rounded py-2 px-1 my-2 mx-3">
                                                 <div class="col-md-12">
-                                                    <div class="d-flex justify-content-between align-items-center {TEXT_ACERTOU}">
-                                                        <strong>Questão {queordem}</strong>
-                                                        <div class="d-flex flex-column text-right">
-                                                            <small><i class="feather icon-check-circle"></i> Letra {qrordem}</small>
-                                                            <strong>
-                                                                <i class="fa-solid fa-star"></i> {eqrponto} de {queponto} pontos
-                                                            </strong>
+                                                    <div class="d-flex flex-column">
+                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                            <strong style="font-size: 18px">Questão {queordem}</strong>
+                                                            <div style="font-size: 14px" class="d-flex flex-column text-right">
+                                                                <strong>
+                                                                    <i class="fa-regular fa-star mr-1"></i>
+                                                                    {eqrponto} de {queponto} pontos
+                                                                </strong>
+                                                                <strong class="mt-1">
+                                                                    <i class="fa-regular fa-clock mr-1"></i>
+                                                                    {eqrtempo} de {quetempo} segundos
+                                                                </strong>
+                                                            </div>
                                                         </div>
+                                                        <div class="{OBJETIVA}">
+                                                            <i class="feather icon-check-circle"></i>
+                                                            <span>Letra {qrordem}</span>
+                                                        </div>
+                                                        <div class="{DISCURSIVA}">{eqrdiscursiva}</div>
                                                     </div>
                                                 </div>
                                             </div>

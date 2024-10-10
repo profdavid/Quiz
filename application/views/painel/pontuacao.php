@@ -31,14 +31,16 @@
                                 {RES_ERRO}
                                 <div class="card">
                                     <div class="card-body">
+                                        <p class="f-18 mb-4">Registros de cada questão</p>
 
-                                    <p class="f-18 mb-4">Relatório das questões</p>
+                                        <?php if (!empty($PONTUACAO_EQUIPES)): ?>
 
-                                    <?php if (!empty($PONTUACAO_EQUIPES)): ?>
                                         {PONTUACAO_EQUIPES}
-                                        <div class="border border-success rounded mb-5">
-                                            <h5 class="text-center text-md-left bg-success text-white mb-0 px-3 py-2">Questão {queordem}</h5>
-                                            <div class="dt-responsive table-responsive py-2 px-3 my-3">
+                                        <div class="border border-success mb-5">
+                                            <h5 class="text-center text-md-left bg-success text-white mb-0 px-3 py-3">
+                                                Questão {queordem}
+                                            </h5>
+                                            <div class="dt-responsive table-responsive py-2 px-3 mt-3">
                                                 <table class="table table-striped tabListagem table-bordered nowrap">
                                                     <thead>
                                                         <tr>
@@ -52,8 +54,15 @@
                                                         {equipes}
                                                         <tr>
                                                             <td>{equnome}</td>
-                                                            <td>{qrordem}</td>
-                                                            <td>{eqttempo}</td>
+                                                            <td>
+                                                                <div class="{OBJETIVA}">
+                                                                    {qrordem}
+                                                                </div>
+                                                                <div class="{DISCURSIVA}">
+                                                                    {eqrdiscursiva}
+                                                                </div>
+                                                            </td>
+                                                            <td>{eqrtempo}</td>
                                                             <td>{eqrponto}</td>
                                                         </tr>
                                                         {/equipes}
@@ -63,9 +72,9 @@
                                         </div>
                                         {/PONTUACAO_EQUIPES}
 
-                                    <?php else: ?>
-                                        <span>Nenhum dado encontrado.</span>
-                                    <?php endif; ?>
+                                        <?php else: ?>
+                                            <span>Nenhum dado encontrado.</span>
+                                        <?php endif; ?>
 
                                     </div>
                                 </div>

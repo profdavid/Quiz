@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Questao extends CI_Controller {
 	private $tabela = 'questao';
 	private $tabela_equipe = 'equipe';
-	private $tabela_resposta = 'questaoresposta';
+	private $tabela_questaoresposta = 'questaoresposta';
 	private $tabela_equipe_questaoresposta = 'equipe_questaoresposta';
 		
 	public function __construct(){
@@ -41,6 +41,7 @@ class Questao extends CI_Controller {
 				$data['LIST_DADOS'][] = array(
 					'id' 			=> $r->id,
 					'queordem' 		=> $r->queordem,
+					'idquestaotipo' => $r->idquestaotipo,
 					'quetempo' 		=> $r->quetempo,
 					'queponto' 		=> $r->queponto,
 					'quetexto' 		=> $r->quetexto,
@@ -57,6 +58,7 @@ class Questao extends CI_Controller {
 		$data['LABEL_ACAO'] 	= 'Novo';
 		$data['URL_FRM'] 		= site_url('painel/Questao/salvar');
 		$data['URL_CANCELAR']	= site_url('painel/Questao');
+		$data['URL_UPLOADTINYMCE'] = site_url('painel/Questao/imageUploadTinyMCE');
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
 		$data['LIST_RESPOSTAS']	= array();
@@ -72,11 +74,12 @@ class Questao extends CI_Controller {
 		$data['quedtlimite'] = null;
 		$data['quetexto'] = null;
 		$data['quesituacao'] = null;
+		$data['quediscursiva'] = null;
+		$data['idquestaotipo'] = 1;
 		$data['queordem'] = $proxima_ordem;
 		$data['quetempo'] = 30;
 		$data['queponto'] = 10;
 		$data['queimg'] = 'assets/img/questao_image.png';
-		$data['URL_UPLOADTINYMCE'] =  site_url('painel/Questao/imageUploadTinyMCE');
 
 		$this->parser->parse('painel/questao/questao-form', $data);
 	}
@@ -110,6 +113,7 @@ class Questao extends CI_Controller {
 		//Tratamento dos itens
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
 		$itens['quesituacao'] = $this->input->post('quesituacao');
+		$itens['idquestaotipo'] = $this->input->post('idquestaotipo');
 		$itens['idevento'] = $this->session->userdata('quiz_ideventoativo');
 
 		//Tratamento da data liberacao e data limite
@@ -157,12 +161,13 @@ class Questao extends CI_Controller {
 			$res_log = $this->LogM->fmNew($itens_log);
 			//--- Fim Log ---
 
-			//Tratamento de questaoresposta
-			$questaoresposta = $this->input->post('respostas');
-			$qrcorreta = $this->input->post('resposta_correta');
-			
-			$this->excluirRespostasNaoIncluidas($res_id, $questaoresposta);
-			$this->salvarRespostas($res_id, $questaoresposta, $qrcorreta);
+			//Tratamento para questao objetiva
+			if($itens['idquestaotipo'] == 1) {
+				$questaoresposta = $this->input->post('respostas');
+				$qrcorreta = $this->input->post('resposta_correta');
+				$this->excluirRespostasNaoIncluidas($res_id, $questaoresposta);
+				$this->salvarRespostas($res_id, $questaoresposta, $qrcorreta);
+			}
 
 			//Redireciona
 			redirect('painel/Questao');
@@ -202,7 +207,7 @@ class Questao extends CI_Controller {
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
 
 		//Buscando respostas da questao
-		$res_respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $id));
+		$res_respostas = $this->PadraoM->fmSearch($this->tabela_questaoresposta, 'qrordem', array('idquestao' => $id));
 		
 		if($res_respostas){
 			$data['RESPOSTAS_COUNT'] = count($res_respostas);
@@ -264,40 +269,50 @@ class Questao extends CI_Controller {
 		$res_questoes = $this->PadraoM->fmSearch($this->tabela, 'queordem', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
 		
 		if($res_questoes){
-			foreach ($res_questoes as $q) {
-				$res_respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $q->id));
+			foreach ($res_questoes as $index => $q) {
+				$data['LIST_QUESTOES'][$index] = array(
+					'id'           	=> $q->id,
+					'queordem'     	=> $q->queordem,
+					'quetempo'     	=> $q->quetempo,
+					'queponto'     	=> $q->queponto,
+					'idquestaotipo'	=> $q->idquestaotipo,
+					'qtdescricao'	=> ($q->idquestaotipo == 1) ? 'Objetiva' : 'Discursiva',
+					'quetexto'     	=> $q->quetexto,
+					'queimg'       	=> $q->queimg,
+					'text_situacao' => ($q->quesituacao == 0) ? 'Não liberada' : 'Liberada',
+					'cor_situacao'	=> ($q->quesituacao == 0) ? 'text-secondary' : 'text-success'
+				);
 
-				$respostas = [];
-				if ($res_respostas) {
-					foreach ($res_respostas as $r) {
-						$respostas[] = array(
-							'id'           => $r->id,
-							'qrordem'      => $r->qrordem,
-							'qrtexto'      => $r->qrtexto,
-							'qrcorreta'    => $r->qrcorreta,
-							'qrimg'        => $r->qrimg,
-							'BADGE_CORRETA'  => ($r->qrcorreta == 1) ? 'badge-success' : 'badge-secondary',
-							'BG_CORRETA'  => ($r->qrcorreta == 1) ? "style='background-color: #4CAF5050'" : ''
-						);
+				if ($q->idquestaotipo == 2){ //discursiva
+					$data['LIST_QUESTOES'][$index]['OBJETIVA'] = 'd-none';
+					$data['LIST_QUESTOES'][$index]['DISCURSIVA'] = 'd-block';
+					$data['LIST_QUESTOES'][$index]['quediscursiva'] = $q->quediscursiva;
+				}
+				else { //objetiva
+					$res_respostas = $this->PadraoM->fmSearch($this->tabela_questaoresposta, 'qrordem', ['idquestao' => $q->id]);
+
+					$respostas = [];
+
+					if ($res_respostas) {
+						foreach ($res_respostas as $r) {
+							$respostas[] = array(
+								'id'           => $r->id,
+								'qrordem'      => $r->qrordem,
+								'qrtexto'      => $r->qrtexto,
+								'qrcorreta'    => $r->qrcorreta,
+								'qrimg'        => $r->qrimg,
+								'BADGE_CORRETA'	=> ($r->qrcorreta == 1) ? 'badge-success' : 'badge-secondary',
+								'BG_CORRETA'  => ($r->qrcorreta == 1) ? 'card-resposta-correta' : ''
+							);
+						}
+
+						$data['LIST_QUESTOES'][$index]['OBJETIVA'] = 'd-block';
+						$data['LIST_QUESTOES'][$index]['DISCURSIVA'] = 'd-none';
+						$data['LIST_QUESTOES'][$index]['respostas'] = $respostas;
 					}
 				}
-
-				$data['LIST_QUESTOES'][] = array(
-					'id'           => $q->id,
-					'queordem'     => $q->queordem,
-					'quetempo'     => $q->quetempo,
-					'queponto'     => $q->queponto,
-					'quetexto'     => $q->quetexto,
-					'queimg'       => $q->queimg,
-					'quesituacao'  => ($q->quesituacao == 0) ? 'Não liberada' : 'Liberada',
-					'situacao'	=> ($q->quesituacao == 0) ? 'badge-danger' : 'badge-success',
-					'respostas'    => $respostas
-				);
 			}
 		}
-
-		// var_dump($data['LIST_QUESTOES']);
-		// exit;
 
 		$this->parser->parse('painel/questao/questao-relatorio', $data);
 	}
@@ -349,59 +364,49 @@ class Questao extends CI_Controller {
 	
 	public function anular(){
 		$idanular = $this->input->post('idanular');
+		$idevento = $this->session->userdata('quiz_ideventoativo');
 
-		// Busca a questao (tratamento do formulario recebido)
-		$questao = $this->PadraoM->fmSearch($this->tabela, FALSE, array('id' => $idanular), TRUE);
+		$questao = $this->PadraoM->fmSearch($this->tabela, FALSE, ['id' => $idanular], TRUE);
 
 		if($questao) {
-			$idquestao = $questao->id;
-
-			// Busca todas as equipes do evento
-			$equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', array('idevento' => $this->session->userdata('quiz_ideventoativo')));
+			$equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', ['idevento' => $idevento]);
 
 			// Busca a resposta correta da questao
-			$cond['idquestao'] = $idquestao;
+			$cond['idquestao'] = $questao->id;
 			$cond['qrcorreta'] = '1';
-			$correta = $this->PadraoM->fmSearch($this->tabela_resposta, FALSE, $cond, TRUE);
+			$correta = $this->PadraoM->fmSearch($this->tabela_questaoresposta, FALSE, $cond, TRUE);
 
 			// Busca as equipes que ja responderam a questao
-			$query_equipesJaResponderam = "
-				SELECT eqr.*
-				FROM equipe_questaoresposta eqr
-				JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
-				WHERE qr.idquestao = $idquestao;
-			";
+			$equipesJaResponderam = $this->PadraoM->fmSearch($this->tabela_equipe_questaoresposta, FALSE, ['idquestao' => $questao->id]);
 
-			$equipesJaResponderam = $this->PadraoM->fmSearchQuery($query_equipesJaResponderam);
-			$respondeuMap = [];
-
-			// Cria um array associativo
+			$respondeuMap = []; // Cria um array associativo
 			if ($equipesJaResponderam) {
 				foreach ($equipesJaResponderam as $r) {
 					$respondeuMap[$r->idequipe] = $r;
 				}
 			}
+
+			$itens = [
+				'idquestaoresposta' => ($correta) ? $correta->id : null,
+				'eqrponto' => $questao->queponto,
+				'eqrtempo' => 0,
+			];
 			
 			foreach ($equipes as $equipe) {
-				// Define os itens comuns
-				$itens = [
-					'idquestaoresposta' => $correta->id,
-					'eqrponto' => $questao->queponto,
-					'eqttempo' => 0,
-				];
-
 				if (isset($respondeuMap[$equipe->id])) { // update
 					$respondeu = $respondeuMap[$equipe->id];
 
 					$cond = [
 						'idequipe' => $respondeu->idequipe,
-						'idquestaoresposta' => $respondeu->idquestaoresposta,
+						'idquestao' => $respondeu->idquestao,
 					];
 			
 					$this->PadraoM->fmUpdate($this->tabela_equipe_questaoresposta, $cond, $itens);
 				}
 				else { // novo
 					$itens['idequipe'] = $equipe->id;
+					$itens['idquestao'] = $questao->id;
+
 					$this->PadraoM->fmNew($this->tabela_equipe_questaoresposta, $itens);
 				}
 			}
@@ -447,9 +452,9 @@ class Questao extends CI_Controller {
 					$itens['atualizado_em'] = date("Y-m-d H:i:s");
 					$cond = array('id' => $r['id']);
 
-					$res_id = $this->PadraoM->fmUpdate($this->tabela_resposta, $cond, $itens);
+					$res_id = $this->PadraoM->fmUpdate($this->tabela_questaoresposta, $cond, $itens);
 				} else //Novo
-					$res_id = $this->PadraoM->fmNew($this->tabela_resposta, $itens);
+					$res_id = $this->PadraoM->fmNew($this->tabela_questaoresposta, $itens);
 				
 
 				if(!$res_id)
@@ -470,10 +475,10 @@ class Questao extends CI_Controller {
 			}
 			
 			if(!empty($ids)){
-				$res = $this->PadraoM->fmDeleteNotInWithCond($this->tabela_resposta, $cond, $ids);
+				$res = $this->PadraoM->fmDeleteNotInWithCond($this->tabela_questaoresposta, $cond, $ids);
 			}
 		} else {
-			$this->PadraoM->fmDelete($this->tabela_resposta, $cond);
+			$this->PadraoM->fmDelete($this->tabela_questaoresposta, $cond);
 		}
 	}
 

@@ -107,7 +107,7 @@
             background-color: #00ACC120;
         }
 
-        .table-questao-texto {
+        .table-questao-texto, .table-questao-discursiva {
             white-space: wrap;
         }
 
@@ -164,6 +164,12 @@
         .card-resposta-correta {
             border: 1px solid #28A745;
             background-color: #28A74515; 
+        }
+
+        .card-resposta-correta code,
+        .card-resposta-correta span,
+        .card-resposta-correta p {
+            color: #28A745;
         }
         
         .badge-small {
@@ -240,7 +246,7 @@
             .sidenav-horizontal:after {
                 display: none;
             }
-            .table-questao-texto {
+            .table-questao-texto, .table-questao-discursiva {
                 white-space: nowrap;
             }
         }

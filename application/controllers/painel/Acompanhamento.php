@@ -5,7 +5,8 @@ class Acompanhamento extends CI_Controller {
 	private $tabela_evento ='evento';
 	private $tabela_equipe ='equipe';
 	private $tabela_questao ='questao';
-	private $tabela_resposta ='questaoresposta';
+	private $tabela_questaoresposta ='questaoresposta';
+	private $tabela_equipe_questaoresposta ='equipe_questaoresposta';
 		
 	public function __construct(){
 		parent::__construct();
@@ -31,7 +32,6 @@ class Acompanhamento extends CI_Controller {
 		$data['URL_ATUAL'] = site_url('painel/Acompanhamento/questao/'.$queordem);
 		$data['URL_ANTERIOR'] = site_url('painel/Acompanhamento/questao/'.($queordem - 1));
 		$data['URL_PROXIMO'] = site_url('painel/Acompanhamento/questao/'.($queordem + 1));
-		$data['URL_ATUALIZACOES'] = site_url('painel/Acompanhamento/buscaAtualizacoes/?ids=');
 		$data['RESPOSTAS'] = [];
 		$data['RESULTS'] = [];
 		$data['COUNT_QUESTOES'] = 0;
@@ -60,13 +60,15 @@ class Acompanhamento extends CI_Controller {
 		$cond['queordem'] = $queordem;
 
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
+
 		if($questao) {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
 
-			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
+			$data['URL_ATUALIZACOES'] = site_url('painel/Acompanhamento/buscaAtualizacoes/'.$questao->id);
 			$data['URL_LIBERAR'] = site_url('painel/Acompanhamento/liberarQuestao/'.$questao->id);
+			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
 			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
 
 			// Tratamento do countdown
@@ -83,11 +85,10 @@ class Acompanhamento extends CI_Controller {
 			}
 
 			// Busca as alternativas
-			$respostas = $this->PadraoM->fmSearch($this->tabela_resposta, 'qrordem', array('idquestao' => $questao->id));
+			$respostas = $this->PadraoM->fmSearch($this->tabela_questaoresposta, 'qrordem', ['idquestao' => $questao->id]);
+
 			if ($respostas) {
 				foreach ($respostas as $r) {
-					$ids[] = $r->id;
-
 					if($r->qrcorreta){
 						$data['CORRETA_qrordem'] = $r->qrordem;
 						$data['CORRETA_qrtexto'] = $r->qrtexto;
@@ -100,55 +101,95 @@ class Acompanhamento extends CI_Controller {
 						'qrtexto'   => $r->qrtexto,
 						'qrcorreta' => $r->qrcorreta,
 						'qrimg'     => $r->qrimg,
-						'SEM_IMAGEM'	=> (!$r->qrimg) ? 'd-none' : ''
+						'SEM_IMAGEM' => (!$r->qrimg) ? 'd-none' : ''
 					);
 				}
 				$data['COUNT_RESPOSTAS'] = count($respostas);
-				$data['URL_ATUALIZACOES'] .= implode(',', $ids);
 			}
 
 			//Busca os resultados
-			if($showResults) {
-				$query_results = "
-					SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto, eqr.eqttempo
-					FROM equipe_questaoresposta eqr
-					JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
-					JOIN questao q ON qr.idquestao = q.id
-					JOIN equipe e ON eqr.idequipe = e.id
-					WHERE q.idevento = $ideventoativo
-					AND q.id = $questao->id
-					ORDER BY eqr.eqttempo ASC;
-				";
-
-				$results = $this->PadraoM->fmSearchQuery($query_results);
-				if($results) {
-					foreach ($results as $index => $result) {
-						
-						if($result->qrordem == $data['CORRETA_qrordem']){
-							$COR_EQRSITUACAO = 'bg-success-50';
-
-							if($result->eqttempo > $questao->quetempo){
-								$COR_EQRSITUACAO = 'bg-warning-50';
-							}
-						} else {
-							$COR_EQRSITUACAO = 'bg-danger-50';
-						}
-
-						$data['RESULTS'][] = array(
-							'ordem'		=> $index + 1,
-							'equnome'   => $result->equnome,
-							'queordem'   => $result->queordem,
-							'qrordem'   => $result->qrordem,
-							'eqrponto'   => $result->eqrponto,
-							'eqttempo'     => $result->eqttempo,
-							'COR_EQRSITUACAO' => $COR_EQRSITUACAO
-						);
-					}
-				}
+			if ($showResults) {
+				$data['RESULTS'] = ($questao->idquestaotipo == 1) 
+					? $this->fetchResultsObjetiva($questao, $data['CORRETA_qrordem'])
+					: $this->fetchResultsDiscursiva($questao);
 			}
 		}
 
 		$this->parser->parse('painel/questoes', $data);
+	}
+
+
+	public function fetchResultsObjetiva($questao, $qrordemCorreta){
+		$resultsObjetiva = [];
+
+		$query = "
+			SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto, eqr.eqrtempo
+			FROM equipe_questaoresposta eqr
+			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+			JOIN questao q ON qr.idquestao = q.id
+			JOIN equipe e ON eqr.idequipe = e.id
+			WHERE q.id = $questao->id
+			ORDER BY eqr.eqrtempo ASC;
+		";
+
+		$results = $this->PadraoM->fmSearchQuery($query);
+
+		if($results) {
+			foreach ($results as $index => $result) {
+				if($result->qrordem == $qrordemCorreta){
+					$COR_EQRSITUACAO = 'bg-success-50';
+
+					if($result->eqrtempo > $questao->quetempo){
+						$COR_EQRSITUACAO = 'bg-warning-50';
+					}
+				} else {
+					$COR_EQRSITUACAO = 'bg-danger-50';
+				}
+
+				$resultsObjetiva[] = array(
+					'ordem'		=> $index + 1,
+					'equnome'   => $result->equnome,
+					'queordem'   => $result->queordem,
+					'qrordem'   => $result->qrordem,
+					'eqrponto'   => $result->eqrponto,
+					'eqrtempo'     => $result->eqrtempo,
+					'COR_EQRSITUACAO' => $COR_EQRSITUACAO
+				);
+			}
+		}
+
+		return $resultsObjetiva;
+	}
+
+
+	public function fetchResultsDiscursiva($questao){
+		$resultsDiscursiva = [];
+
+		$query = "
+			SELECT e.equnome, q.queordem, eqr.eqrponto, eqr.eqrtempo, eqr.eqrdiscursiva
+			FROM equipe_questaoresposta eqr
+			JOIN questao q ON eqr.idquestao = q.id
+			JOIN equipe e ON eqr.idequipe = e.id
+			WHERE q.id = $questao->id
+			ORDER BY eqr.eqrtempo ASC;
+		";
+
+		$results = $this->PadraoM->fmSearchQuery($query);
+
+		if($results) {
+			foreach ($results as $index => $result) {
+				$resultsDiscursiva[] = array(
+					'ordem'		 => $index + 1,
+					'equnome'    => $result->equnome,
+					'queordem'   => $result->queordem,
+					'eqrdiscursiva' => $result->eqrdiscursiva,
+					'eqrponto'   => $result->eqrponto,
+					'eqrtempo'   => $result->eqrtempo
+				);
+			}
+		}
+
+		return $resultsDiscursiva;
 	}
 
 
@@ -165,16 +206,12 @@ class Acompanhamento extends CI_Controller {
 	}
 
 
-	public function buscaAtualizacoes() {
-		$ids = $this->input->get('ids');
-		$ids_array = array_map('intval', explode(',', $ids));
-		$id_list = implode(",", $ids_array);
-
+	public function buscaAtualizacoes($idquestao) {
 		$query = "
 			SELECT DISTINCT e.equnome, eqr.criado_em
 			FROM equipe_questaoresposta eqr
 			JOIN equipe e ON eqr.idequipe = e.id
-			WHERE eqr.idquestaoresposta IN ($id_list)
+			WHERE eqr.idquestao = $idquestao
 			ORDER BY eqr.criado_em ASC
 		";
 
@@ -191,51 +228,33 @@ class Acompanhamento extends CI_Controller {
 		$data['RES_OK']		= $this->session->flashdata('resok');
 		$idevento = $this->session->userdata('quiz_ideventoativo');
 
-		$query_ranking = "
+		$query = "
 			SELECT
-				e.equnome, eqr.idequipe, SUM(eqr.eqrponto) AS total_eqrponto, SUM(eqr.eqttempo) AS total_eqttempo, e.equlogo
-			FROM equipe_questaoresposta eqr
-			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
-			JOIN questao q ON qr.idquestao = q.id
-			JOIN equipe e ON eqr.idequipe = e.id
-			WHERE q.idevento = $idevento
-			GROUP BY e.equnome, eqr.idequipe, e.equlogo
-			ORDER BY total_eqrponto DESC, total_eqttempo ASC;
+				e.equnome,
+				e.id AS idequipe,
+				IFNULL(SUM(eqr.eqrponto), 0) AS total_eqrponto,
+				IFNULL(SUM(eqr.eqrtempo), 0) AS total_eqrtempo,
+				e.equlogo
+			FROM equipe e
+			LEFT JOIN equipe_questaoresposta eqr ON e.id = eqr.idequipe
+			LEFT JOIN questao q ON eqr.idquestao = q.id AND q.idevento = $idevento
+			WHERE e.idevento = $idevento
+			GROUP BY e.equnome, e.id, e.equlogo
+			ORDER BY total_eqrponto DESC, total_eqrtempo ASC;
 		";
 
-		$res_ranking = $this->PadraoM->fmSearchQuery($query_ranking);
+		$ranking = $this->PadraoM->fmSearchQuery($query);
 
-		if($res_ranking){
-			foreach ($res_ranking as $indice => $r) {
+		if($ranking){
+			foreach ($ranking as $indice => $r) {
 				$data['EQUIPES'][] = array(
+					'ranking'	=> ($indice + 1),
 					'id'        => $r->idequipe,
 					'pontos'	=> $r->total_eqrponto,
-					'tempo'	=> $r->total_eqttempo,
-					'ranking'	=> ($indice + 1),
+					'tempo'		=> $r->total_eqrtempo,
 					'equnome'   => $r->equnome,
 					'equlogo'   => $r->equlogo
 				);
-			}
-
-			$equipes_ids = array_column($data['EQUIPES'], 'id');
-			$posicao = count($data['EQUIPES']) + 1;
-
-			$res_others = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', ['idevento' => $idevento], NULL);
-
-			if($res_others){
-				foreach ($res_others as $o) {
-					if (!in_array($o->id, $equipes_ids)) {
-						$data['EQUIPES'][] = array(
-							'id'        => $o->id,
-							'pontos'    => 0,
-							'tempo'     => 0,
-							'ranking'	=> $posicao,
-							'equnome'   => $o->equnome,
-							'equlogo'   => $o->equlogo
-						);
-						$posicao++;
-					}
-				}
 			}
 		}
 
@@ -247,15 +266,15 @@ class Acompanhamento extends CI_Controller {
 		$data = array();
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
-		$idevento = $this->session->userdata('quiz_ideventoativo');
 		$data['PONTUACAO_EQUIPES'] = [];
 		$data['TOTAL_INFOEQUIPE'] = [];
+		$idevento = $this->session->userdata('quiz_ideventoativo');
 
 		$query = "
-			SELECT e.equnome, q.queordem, qr.qrordem, eqr.eqrponto, eqr.eqttempo
+			SELECT e.equnome, q.queordem, q.idquestaotipo, qr.qrordem, eqr.*
 			FROM equipe_questaoresposta eqr
-			JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
-			JOIN questao q ON qr.idquestao = q.id
+			LEFT JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
+			JOIN questao q ON IFNULL(qr.idquestao, eqr.idquestao) = q.id
 			JOIN equipe e ON eqr.idequipe = e.id
 			WHERE q.idevento = $idevento
 			ORDER BY q.queordem ASC;
@@ -270,7 +289,10 @@ class Acompanhamento extends CI_Controller {
 					'equnome'   => $r->equnome,
 					'qrordem'   => $r->qrordem,
 					'eqrponto'  => $r->eqrponto,
-					'eqttempo'  => $r->eqttempo
+					'eqrtempo'  => $r->eqrtempo,
+					'eqrdiscursiva' => $r->eqrdiscursiva,
+					'DISCURSIVA'	=> ($r->idquestaotipo == 1) ? 'd-none' : 'd-block',
+					'OBJETIVA'	=> ($r->idquestaotipo == 1) ? 'd-block' : 'd-none'
 				);
 			}
 			
