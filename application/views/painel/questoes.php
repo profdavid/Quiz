@@ -125,50 +125,96 @@
                                                         <?php endif ?>
                                                     </div>
                                                 </div>
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <?php if($SHOW_RESULTS): ?>
-                                                                <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
-                                                                    <span class="badge badge-success rounded-circle resposta-ordem">
-                                                                        {CORRETA_qrordem}
-                                                                    </span>
-                                                                    <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
-                                                                        <?php if (!empty($CORRETA_qrimg)): ?>
-                                                                            <img style="max-width: 100px" class="img-fluid rounded mx-3" src="<?= base_url('{CORRETA_qrimg}') ?>" alt="qrimg">
-                                                                        <?php endif; ?>
-                                                                        <div class="mx-3 my-1 text-success">{CORRETA_qrtexto}</div>
+
+                                                <?php if ($SHOW_RESULTS): ?>
+                                                    <?php if ($idquestaotipo == 1): ?>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
+                                                                        <div class="badge badge-success rounded-circle resposta-ordem">
+                                                                            {CORRETA_qrordem}
+                                                                        </div>
+                                                                        <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
+                                                                            <?php if (!empty($CORRETA_qrimg)): ?>
+                                                                                <img
+                                                                                    style="max-width: 100px"
+                                                                                    class="img-fluid rounded mx-3"
+                                                                                    src="<?= base_url('{CORRETA_qrimg}') ?>"
+                                                                                    alt="qrimg"
+                                                                                >
+                                                                            <?php endif; ?>
+                                                                            <div class="mx-3 my-1 text-success">
+                                                                                {CORRETA_qrtexto}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="dt-responsive table-responsive">
+                                                                        <table id="tabListagem" class="table table-striped table-bordered nowrap">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Ordem</th>
+                                                                                    <th>Equipe</th>
+                                                                                    <th>Resposta</th>
+                                                                                    <th>Tempo</th>
+                                                                                    <th>Pontuação</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {RESULTS}
+                                                                                <tr class="{COR_EQRSITUACAO}">
+                                                                                    <td>{ordem}</td>
+                                                                                    <td>{equnome}</td>
+                                                                                    <td>{qrordem}</td>
+                                                                                    <td>{eqrtempo}</td>
+                                                                                    <td>{eqrponto}</td>
+                                                                                </tr>
+                                                                                {/RESULTS}
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="dt-responsive table-responsive">
-                                                                    <table id="tabListagem" class="table table-striped table-bordered nowrap">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Ordem</th>
-                                                                                <th>Equipe</th>
-                                                                                <th>Resposta</th>
-                                                                                <th>Tempo</th>
-                                                                                <th>Pontuação</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            {RESULTS}
-                                                                            <tr class="{COR_EQRSITUACAO}">
-                                                                                <td>{ordem}</td>
-                                                                                <td>{equnome}</td>
-                                                                                <td>{qrordem}</td>
-                                                                                <td>{eqttempo}</td>
-                                                                                <td>{eqrponto}</td>
-                                                                            </tr>
-                                                                            {/RESULTS}
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            <?php endif ?>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
+
+                                                    <?php else: ?>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
+                                                                        <div>{quediscursiva}</div>
+                                                                    </div>
+
+                                                                    <div class="dt-responsive table-responsive">
+                                                                        <table id="tabListagem" class="table table-striped table-bordered nowrap">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Ordem</th>
+                                                                                    <th>Equipe</th>
+                                                                                    <th>Resposta</th>
+                                                                                    <th>Tempo</th>
+                                                                                    <th>Pontuação</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {RESULTS}
+                                                                                <tr>
+                                                                                    <td>{ordem}</td>
+                                                                                    <td>{equnome}</td>
+                                                                                    <td><div class="table-questao-discursiva">{eqrdiscursiva}</div></td>
+                                                                                    <td>{eqrtempo}</td>
+                                                                                    <td>{eqrponto}</td>
+                                                                                </tr>
+                                                                                {/RESULTS}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif ?>
+                                                <?php endif ?>
                                             </div>
                                         </div>
 
@@ -181,8 +227,6 @@
                                                             <span class="badge badge-pill {ATUAL} {LIBERADA}">{queordem}</span>
                                                         </a>
                                                     {/QUESTOES}
-                                                    <div>
-                                                    </div>
                                                 </div>
                                             </div>
 

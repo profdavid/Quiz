@@ -58,7 +58,12 @@
                                                                 <div class="quetexto">{quetexto}</div>
                                                                 <div class="p-0 my-3 my-sm-0">
                                                                     <button class="btn m-0 p-0" onclick="chamaViewQuestaoImage()">
-                                                                        <img style="max-width: 125px" class="img-fluid rounded" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
+                                                                        <img
+                                                                            style="max-width: 125px"
+                                                                            class="img-fluid rounded"
+                                                                            src="<?= base_url('{queimg}') ?>"
+                                                                            alt="questao_logo"
+                                                                        >
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -68,14 +73,15 @@
                                                     <div class="row">
                                                         <div class="col-md-12 my-4">
                                                             <?php if(!$quesituacao): ?>
-                                                                <a class="btn btn-sm btn-info" href="{CHECK_LIBERACAO}/{queordem}">
-                                                                    <i class="feather icon-refresh-ccw"></i>Checar liberação
+                                                                <a class="btn btn-sm btn-info" href="{CHECK_LIBERACAO}">
+                                                                    <i class="feather icon-refresh-ccw"></i>
+                                                                    Checar liberação
                                                                 </a>
-                                                            <?php endif ?>
-
-                                                            <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
+                                                            <?php else: ?>
                                                                 <form role="form" id="frmacao" name="frmacao" method="post" action="{SAVE_RESPOSTA}">
                                                                     <input type="hidden" id="id" name="id" value="{id}" />
+
+                                                                        <?php if($idquestaotipo == 1): ?>
                                                                         {RESPOSTAS}
                                                                             <div class="card-resposta d-flex align-items-center my-2 rounded" onclick="selectCard(this)">
                                                                                 <input type="radio" name="equipe_resposta" id="resposta_{qrid}" class="d-none" value="{qrid}" required>
@@ -86,7 +92,12 @@
                                                                                     </span>
 
                                                                                     <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
-                                                                                        <img style="max-width: 100px" class="{SEM_IMAGEM} img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="qrimg">
+                                                                                        <img 
+                                                                                            style="max-width: 100px"
+                                                                                            class="{SEM_IMAGEM} img-fluid rounded mx-3"
+                                                                                            src="<?= base_url('{qrimg}') ?>"
+                                                                                            alt="qrimg"
+                                                                                        >
                                                                                         <div class="mx-3 my-1">
                                                                                             {qrtexto}
                                                                                         </div>
@@ -94,9 +105,16 @@
                                                                                 </label>
                                                                             </div>
                                                                         {/RESPOSTAS}
+
+                                                                        <?php else: ?>
+                                                                            <textarea class="form-control" id="eqrdiscursiva" name="eqrdiscursiva"></textarea>
+
+                                                                        <?php endif; ?>
+                                                                        
                                                                     <div class="d-flex mt-5 text-sm-right text-center">
                                                                         <button id="btnsave" type="submit" class="btn btn-success w-100 m-0">
-                                                                            <i class="feather icon-check-circle"></i>Salvar e continuar
+                                                                            <i class="feather icon-check-circle"></i>
+                                                                            Salvar e continuar
                                                                         </button> 
                                                                     </div>
                                                                 </form>
@@ -131,7 +149,10 @@
                                 <div class="d-flex h-100 flex-column justify-content-around text-center">
                                     <span></span>
                                     <span></span>
-                                    <h4 class="finish-text text-light">Fim das questões!</h4>
+                                    <div class="text-finish">
+                                        <i class="fa-regular fa-font-awesome pr-2"></i>    
+                                        <h5 class="text-light mb-0">Parabéns! A equipe concluiu o evento!</h5>
+                                    </div>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -157,6 +178,9 @@
     </div>
   </div>
 </div>
+
+<!-- TinyMCE -->
+<script src="<?= base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
 
 <script>
     window.onload = function(){
@@ -212,4 +236,20 @@
         document.querySelectorAll('.card-resposta').forEach(card => card.classList.remove('selected'));
         cardElement.classList.add('selected');
     }
+
+    tinymce.init({
+        selector: '#eqrdiscursiva',
+        height: 320,
+        plugins: [
+            'advlist', 'autolink', 'link', 'lists', 'charmap', 'anchor', 'pagebreak',
+            'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 
+            'codesample'
+        ],
+        toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify |' + 
+        'bullist numlist outdent indent | link image | preview media fullscreen | ' +
+        'forecolor backcolor',
+        menubar: 'edit view insert format table',
+        content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}',
+        branding: false
+    });
 </script>

@@ -130,6 +130,24 @@
             transform: translate(-50%, -50%);
         }
 
+        .card-resposta-correta {
+            color: #28A745;
+            border: 1px solid #28A745;
+            background-color: #28A74515; 
+        }
+
+        .card-resposta-invalida {
+            color: #FF9800;
+            border: 1px solid #FF9800;
+            background-color: #FF980015; 
+        }
+
+        .card-resposta-errada {
+            color: #F44336;
+            border: 1px solid #F44336;
+            background-color: #F4433615; 
+        }
+
         .card-resposta {
             transition: all 200ms;
             border: 3px solid #f1f1f1;
@@ -154,11 +172,14 @@
             background-repeat: no-repeat;
         }
 
-        .finish-text {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(6px);
-            padding: 20px 5px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        .text-finish {
+            color: white;
+            font-size: 26px;
+            font-weight: 700;
+            background: rgb(255,255,255);
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(108,240,139,0.6) 40%, rgba(108,240,139,0.7) 50%, rgba(108,240,139,0.6) 60%, rgba(255,255,255,0) 100%);
+            backdrop-filter: blur(8px);
+            padding: 30px 5px;
         }
 
         .ldBar.label-center > .ldBar-label {
@@ -225,7 +246,7 @@
                     </li>
 
                     <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == 'equipeInfo') ? 'active' : null ?>">
-                        <a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-star"></i></span><span class="pcoded-mtext">Pontuação</span></a>
+                        <a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="nav-link"><span class="pcoded-micon"><i class="fa-solid fa-id-card-clip"></i></span><span class="pcoded-mtext">Meus dados</span></a>
                     </li>
                 </ul>
             </div>
@@ -289,14 +310,14 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right profile-notification">
                             <div class="pro-head">
-                                <i class="bi bi-shield" style="font-size: 25px; margin-right: 5px"></i>
+                                <img class="img-fluid rounded-pill" src="<?=base_url($this->session->userdata('equipe_equlogo'))?>">
                                 <span><?=$this->session->userdata('equipe_equnome')?></span>
                                 <a href="<?=site_url('acesso/Gerenciador/logout')?>" class="dud-logout" title="Sair">
                                     <i class="feather icon-log-out"></i>
                                 </a>
                             </div>
                             <ul class="pro-body">
-                                <li><a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="dropdown-item"><i class="feather icon-align-justify"></i> Meus Dados</a></li>
+                                <li><a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="dropdown-item"><i class="fa-solid fa-id-card-clip"></i> Meus dados</a></li>
                             </ul>
                         </div>
                     </div>

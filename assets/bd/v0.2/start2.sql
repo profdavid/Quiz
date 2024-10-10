@@ -86,12 +86,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `questaotipo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `questaotipo` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `qtdescricao` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `questao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `questao` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idevento` INT NOT NULL,
-  `quetipo` ENUM('discursiva', 'objetiva') NOT NULL,
+  `idquestaotipo` INT NOT NULL,
   `queordem` INT NOT NULL,
   `quetempo` INT NOT NULL,
   `queponto` INT NOT NULL,
@@ -105,9 +115,15 @@ CREATE TABLE IF NOT EXISTS `questao` (
   `atualizado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `fk_questao_evento1_idx` (`idevento` ASC) VISIBLE,
+  INDEX `fk_questao_questaotipo1_idx` (`idquestaotipo` ASC) VISIBLE,
   CONSTRAINT `fk_questao_evento1`
     FOREIGN KEY (`idevento`)
     REFERENCES `evento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_questao_questaotipo1`
+    FOREIGN KEY (`idquestaotipo`)
+    REFERENCES `questaotipo` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -166,6 +182,14 @@ CREATE TABLE IF NOT EXISTS `equipe_questaoresposta` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+
+-- -----------------------------------------------------
+-- Insert `questaotipo`
+-- -----------------------------------------------------
+INSERT INTO `questaotipo` (`id`, `qtdescricao`)
+VALUES (1,'Objetiva'), (2,'Discursiva');
 
 
 

@@ -54,6 +54,17 @@
                               <label for="quetempo">Tempo (segundos): *</label>
                               <input type="number" class="form-control" id="quetempo" name="quetempo" required value="{quetempo}">
                             </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-row">
+                            <div class="form-group col-md-12">
+                              <label for="idquestaotipo">Tipo: *</label>
+                              <select class="form-control" name="idquestaotipo" id="idquestaotipo" onchange="handleQuestaoTipo()">
+                                <option value="1">Objetiva</option>
+                                <option value="2">Discursiva</option>
+                              </select>
+                            </div>
                             <div class="form-group col-md-12">
                               <label for="quesituacao">Situação: *</label>
                               <select class="form-control" name="quesituacao" id="quesituacao">
@@ -63,10 +74,10 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                           <div class="form-group">
                             <label for="queimg">Imagem inicial:</label>
-                            <div style="height:225px" class="form-control d-flex justify-content-center">
+                            <div style="height: 135px" class="form-control d-flex justify-content-center">
                               <img id="image-preview" class="img-fluid rounded" src="<?=base_url('{queimg}')?>" alt="">
                             </div>
                             <input class="mt-2" id="queimg" type="file" name="queimg" onchange="previewImage(event)"/>
@@ -86,51 +97,74 @@
                         </div>
                       </div>
 
-                      <label class="mb-3">Alternativas:</label>
-                      
-                      <div id="respostas-container">
-                        {LIST_RESPOSTAS}
-                        <div class="resposta-item" id="resposta_{index}">
-                          <div class="form-group d-flex flex-column flex-sm-row mb-4">
 
-                            <input type="hidden" name="respostas[{index}][id]" value="{id}">
-                            <input type="hidden" name="respostas[{index}][qrordem]" class="resposta-ordem-input" value="{qrordem}">
-
-                            <div class="d-flex align-self-center">
-                              <input type="radio" id="radio_{index}" class="resposta-ordem-radio mr-2"
-                                name="resposta_correta" 
-                                value="{qrordem}"
-                                required
-                                {RES_CORRETA}
-                              >
-                              <label for="radio_{index}" class="badge badge-primary rounded-circle m-0 resposta-ordem resposta-ordem-label">
-                                {qrordem}
-                              </label>
+                      <div id="discursivaResposta">
+                        <div class="row mb-5">
+                          <div class="col-md-12">
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <label for="quediscursiva">Resposta correta:</label>
+                                <textarea class="form-control" id="quediscursiva" name="quediscursiva">
+                                  {quediscursiva}
+                                </textarea>
+                              </div>
                             </div>
-
-                            <div class="input-group ml-0 ml-sm-3 my-2 my-sm-0">
-                              <input class="form-control"
-                                type="text" 
-                                name="respostas[{index}][qrtexto]" 
-                                value="{qrtexto}"
-                              >
-                            </div>
-
-                            <div class="form-control qrimg d-flex flex-column mx-0 mx-sm-1 my-sm-0 my-1 p-2">
-                              <img id="qr-preview{index}" class="img-fluid mb-2 rounded" src="<?=base_url('{qrimg}')?>" alt="">
-                              <input class="mb-1" type="file" name="respostas[{index}]" onchange="previewResImage(event, {index})"/>
-                            </div>
-
-                            <button type="button" class="btn btn-sm btn-danger btn-remove-resposta m-0" onclick="removeResposta(this)">
-                              <span class="feather icon-trash-2 f-16 text-c-white"></span>
-                            </button>
                           </div>
                         </div>
-                        {/LIST_RESPOSTAS}
                       </div>
-                      <button type="button" id="add-resposta" class="btn btn-add-resposta text-success text-center w-100 mb-4" onclick="addResposta()">
-                        <i class="feather icon-plus"></i>Adicionar
-                      </button>
+
+
+                      <div id="alternativas">
+                        <label class="mb-3">Alternativas:</label>
+                      
+                        <div id="respostas-container">
+                          {LIST_RESPOSTAS}
+                          <div class="resposta-item" id="resposta_{index}">
+                            <div class="form-group d-flex flex-column flex-sm-row mb-4">
+
+                              <input type="hidden" name="respostas[{index}][id]" value="{id}">
+                              <input type="hidden" name="respostas[{index}][qrordem]" class="resposta-ordem-input" value="{qrordem}">
+
+                              <div class="d-flex align-self-center">
+                                <input type="radio" id="radio_{index}" class="resposta-ordem-radio mr-2"
+                                  name="resposta_correta" 
+                                  value="{qrordem}"
+                                  required
+                                  {RES_CORRETA}
+                                >
+                                <label for="radio_{index}" class="badge badge-primary rounded-circle m-0 resposta-ordem resposta-ordem-label">
+                                  {qrordem}
+                                </label>
+                              </div>
+
+                              <div class="input-group ml-0 ml-sm-3 my-2 my-sm-0">
+                                <input class="form-control"
+                                  type="text" 
+                                  name="respostas[{index}][qrtexto]" 
+                                  value="{qrtexto}"
+                                >
+                              </div>
+
+                              <div class="form-control qrimg d-flex flex-column mx-0 mx-sm-1 my-sm-0 my-1 p-2">
+                                <img id="qr-preview{index}" class="img-fluid mb-2 rounded" src="<?=base_url('{qrimg}')?>" alt="">
+                                <input class="mb-1" type="file" name="respostas[{index}]" onchange="previewResImage(event, {index})"/>
+                              </div>
+
+                              <button type="button" class="btn btn-sm btn-danger btn-remove-resposta m-0" onclick="removeResposta(this)">
+                                <span class="feather icon-trash-2 f-16 text-c-white"></span>
+                              </button>
+                            </div>
+                          </div>
+                          {/LIST_RESPOSTAS}
+                        </div>
+                        <button type="button"
+                          id="add-resposta"
+                          class="btn btn-add-resposta text-success text-center w-100 mb-4"
+                          onclick="addResposta()"
+                        >
+                          <i class="feather icon-plus"></i>Adicionar
+                        </button>
+                      </div>
                     </div>
 
                     <div class="card-footer d-flex justify-content-end">
@@ -158,6 +192,9 @@
   window.onload = function () {
     {RES_OK}
     $("#quesituacao").val({quesituacao});
+    $("#idquestaotipo").val({idquestaotipo});
+    reordenarRespostas();
+    handleQuestaoTipo();
   }
 
 
@@ -230,6 +267,27 @@
 
 
 
+  tinymce.init({
+    selector: '#quediscursiva',
+    height: 460,
+    plugins: [
+        'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'anchor', 'pagebreak',
+        'searchreplace', 'wordcount', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 
+        'emoticons', 'template', 'codesample'
+    ],
+    toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify |' + 
+    'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+    'forecolor backcolor emoticons',
+    menu: {
+        favs: {title: 'Menu', items: 'code visualaid | searchreplace | emoticons'}
+    },  
+    menubar: 'favs file edit view insert format tools table',
+    content_style: 'body{font-family:Helvetica,Arial,sans-serif; font-size:16px}',
+    branding: false
+  });
+
+
+
   function previewImage(event) {
     var file = event.target.files[0];
     if(!file) return;
@@ -261,8 +319,20 @@
     });
   }
 
-  reordenarRespostas();
+  function handleQuestaoTipo() {
+    var idquestaotipo = document.getElementById('idquestaotipo');
+    var alternativas = document.getElementById('alternativas');
+    var discursivaResposta = document.getElementById('discursivaResposta');
 
+    if (idquestaotipo.value == 1){
+      alternativas.style.display = 'block';
+      discursivaResposta.style.display = 'none';
+    }
+    else {
+      alternativas.style.display = 'none';
+      discursivaResposta.style.display = 'block';
+    }
+  }
 
 
   function addResposta() {
