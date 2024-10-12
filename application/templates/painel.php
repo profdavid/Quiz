@@ -323,8 +323,6 @@
                     <img src="<?=base_url('assets/img/ico2.png')?>">
                 </div>
                 <span class="b-title"><span class="text-success">Quiz</span> <br> Ifes</span>
-                <!-- <img class="img-fluid horizontal-dasktop" src="../assets/images/logo-dark.png" alt="Theme-Logo" />
-                <img class="img-fluid horizontal-mobile" src="../assets/images/logo.png" alt="Theme-Logo" /> -->
             </a>
         </div>
         <div style="margin-left: 30px;">
@@ -363,6 +361,41 @@
                 <li>
                     <p class="text-primary"><?=$this->session->userdata('quiz_evenome')?></p>
                 </li>
+
+                <!-- Menu Envio de Email -->
+                <li>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon feather icon-mail"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right notification">
+                            <div class="noti-head">
+                                <h6 class="d-inline-block m-b-0">Notificações</h6>
+                            </div>
+                            <ul class="noti-body d-flex flex-column justify-content-between px-4 py-3">
+                                <div>
+                                    <div class="mb-1">
+                                        De: <span class="text-muted">ifesquiz@gmail.com</span>
+                                    </div>
+                                    <div>
+                                        Para: <span class="text-muted"><?=$this->session->userdata('quiz_usuemail')?></span>
+                                    </div>
+                                    <hr>
+                                </div>
+
+                                <div class="text-muted text-center mb-2">
+                                    <i style="color: #C7C7C7; font-size: 36px" class="fa-solid fa-paper-plane"></i>
+                                    <p class="mt-2 mb-0">Você receberá um e-mail contendo todos os detalhes do evento atual ativo.
+                                </div>
+
+                                <div>
+                                    <a class="w-100 btn btn-sm btn-success text-white mr-0" href="<?=site_url('painel/Notificacao/enviar')?>">Enviar</a>
+                                    <a class="w-100 btn btn-sm btn-info text-white m-0 disabled" href="<?=site_url('painel/Notificacao/automatico')?>">Envio automático</a>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 
                 <!-- Menu Seleção de Eventos -->
                 <?=listEventos()?>
@@ -382,8 +415,6 @@
                                 </a>
                             </div>
                             <ul class="pro-body">
-                                <!-- <li><a href="<?=site_url('painel/MeusDados')?>" class="dropdown-item"><i class="feather feather icon-edit-1"></i> Meus Dados</a></li> -->
-
                                 <li><a href="<?=site_url('painel/Log')?>" class="dropdown-item"><i class="feather icon-align-justify"></i> Log</a></li>
                             </ul>
                         </div>
