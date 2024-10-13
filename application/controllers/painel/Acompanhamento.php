@@ -166,7 +166,7 @@ class Acompanhamento extends CI_Controller {
 		$resultsDiscursiva = [];
 
 		$query = "
-			SELECT e.equnome, q.queordem, eqr.eqrponto, eqr.eqrtempo, eqr.eqrdiscursiva
+			SELECT e.equnome, q.queordem, q.queponto, eqr.*
 			FROM equipe_questaoresposta eqr
 			JOIN questao q ON eqr.idquestao = q.id
 			JOIN equipe e ON eqr.idequipe = e.id
@@ -184,12 +184,41 @@ class Acompanhamento extends CI_Controller {
 					'queordem'   => $result->queordem,
 					'eqrdiscursiva' => $result->eqrdiscursiva,
 					'eqrponto'   => $result->eqrponto,
-					'eqrtempo'   => $result->eqrtempo
+					'eqrtempo'   => $result->eqrtempo,
+					'COR_EQRSITUACAO' 	=> ($result->eqrponto > 0) ? 'bg-success-50' : 'bg-danger-50',
+					'URL_CORRECAO_CERTA' => site_url(
+						'painel/Acompanhamento/corrigirDiscursiva/'.$result->idequipe.'/'.$result->idquestao.'/'.$result->queordem.'/'.$result->queponto
+					),
+					'URL_CORRECAO_ERRADA' => site_url(
+						'painel/Acompanhamento/corrigirDiscursiva/'.$result->idequipe.'/'.$result->idquestao.'/'.$result->queordem.'/0'
+					),
 				);
 			}
 		}
 
 		return $resultsDiscursiva;
+	}
+
+
+	function corrigirDiscursiva($idequipe, $idquestao, $queordem, $queponto) {
+		$eqrponto = intval($queponto);
+		$itens['eqrponto'] = $eqrponto;
+
+		$cond = [
+			'idequipe' => $idequipe,
+			'idquestao' => $idquestao,
+		];
+
+		$res = $this->PadraoM->fmUpdate($this->tabela_equipe_questaoresposta, $cond, $itens);
+
+		if($res) {
+			$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Questão corrigida.'));
+		}
+		else {
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao corrigir.'));
+		}
+
+		redirect('painel/Acompanhamento/questao/'.$queordem.'/true');
 	}
 
 
