@@ -49,6 +49,7 @@ class Jogo extends CI_Controller {
 		$data['RES_OK']	= $this->session->flashdata('resok');
 		$data['CHECK_LIBERACAO'] = site_url('dinamica/Jogo');
 		$data['SAVE_RESPOSTA'] = site_url('dinamica/Jogo/salvarEquipeResposta');
+		$data['URL_EQUIPEINFO'] = site_url('dinamica/Jogo/equipeInfo');
 		$data['RESPOSTAS'] = [];
 		$data['COUNT_RESPOSTAS'] = 0;
 
@@ -154,6 +155,7 @@ class Jogo extends CI_Controller {
 		$data['LIST_EQUIPE_QUESTAORESPOSTA'] = array();
 		$data['TOTAL_EQRPONTO'] = 0;
 		$data['TOTAL_EQRTEMPO'] = 0;
+		
 		$idequipe = $this->session->userdata('equipe_idequipe');
 
 		$query = "
@@ -175,7 +177,7 @@ class Jogo extends CI_Controller {
 				$total_eqrponto += $r->eqrponto;
 				$total_eqrtempo += $r->eqrtempo;
 
-				if($r->qrcorreta == 1){
+				if($r->qrcorreta == 1 || $r->eqrponto > 0){
 					$BG_ACERTOU = 'card-resposta-correta';
 
 					if($r->eqrtempo > $r->quetempo)

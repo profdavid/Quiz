@@ -11,7 +11,7 @@
                                     <h5 class="m-b-10"><?=$this->session->userdata('equipe_evenome')?></h5>
                                 </div>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#!">Meus Dados</a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Informações da equipe</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -19,7 +19,7 @@
                 </div>
                 <!-- [ breadcrumb ] end -->
 
-                <div class="main-body">
+                <div class="main-body container">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
                         <div class="row">

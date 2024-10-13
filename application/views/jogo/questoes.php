@@ -19,7 +19,7 @@
                 </div>
                 <!-- [ breadcrumb ] end -->
 
-                <div class="main-body">
+                <div class="main-body container">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
                         {RES_ERRO}
@@ -146,12 +146,13 @@
                             </div>
                         <?php else: ?>
                             <div class="bg-finish w-100">
-                                <div class="d-flex h-100 flex-column justify-content-around text-center">
-                                    <span></span>
-                                    <span></span>
+                                <div class="d-flex h-100 flex-column justify-content-end text-center">
                                     <div class="text-finish">
-                                        <i class="fa-regular fa-font-awesome pr-2"></i>    
-                                        <h5 class="text-light mb-0">Parabéns! A equipe concluiu o evento!</h5>
+                                        <i style="font-size: 48px" class="feather icon-flag mx-0"></i>
+                                        <h4 class="text-light mt-2">Parabéns! A equipe concluiu o evento!</h4>
+                                        <a href="{URL_EQUIPEINFO}" class="btn btn-dark btn-rounded mt-4 mr-0 py-2">
+                                            Resultados<i class="feather icon-arrow-up-right ml-2 mr-0"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

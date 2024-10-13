@@ -113,7 +113,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <h6 class="mb-0"><i class="fa-solid fa-check-circle text-secondary mr-2"></i>Resultados</h6>
+                                                        <h6 class="mb-0"><i class="fa-solid fa-square-poll-horizontal mr-2"></i>Resultados</h6>
                                                         <?php if($SHOW_RESULTS): ?>
                                                             <a href="{URL_ATUAL}" class="btn btn-sm btn-secondary m-0">
                                                                 <i class="fa-solid fa-eye-slash"></i>Esconder resultados
@@ -131,7 +131,8 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
+                                                                    <h6 class="mt-2 mb-3"><i class="fa-solid fa-circle-check text-success mr-2"></i>Resposta correta:</h6>
+                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
                                                                         <div class="badge badge-success rounded-circle resposta-ordem">
                                                                             {CORRETA_qrordem}
                                                                         </div>
@@ -149,6 +150,8 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <hr>
 
                                                                     <div class="dt-responsive table-responsive">
                                                                         <table id="tabListagem" class="table table-striped table-bordered nowrap">
@@ -182,9 +185,12 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 my-4 rounded">
+                                                                    <h6 class="mt-2 mb-3"><i class="fa-solid fa-circle-check text-success mr-2"></i>Resposta correta:</h6>
+                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
                                                                         <div>{quediscursiva}</div>
                                                                     </div>
+
+                                                                    <hr>
 
                                                                     <div class="dt-responsive table-responsive">
                                                                         <table id="tabListagem" class="table table-striped table-bordered nowrap">
@@ -195,16 +201,29 @@
                                                                                     <th>Resposta</th>
                                                                                     <th>Tempo</th>
                                                                                     <th>Pontuação</th>
+                                                                                    <th>Ações</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 {RESULTS}
-                                                                                <tr>
+                                                                                <tr class="{COR_EQRSITUACAO}">
                                                                                     <td>{ordem}</td>
                                                                                     <td>{equnome}</td>
                                                                                     <td><div class="table-questao-discursiva">{eqrdiscursiva}</div></td>
                                                                                     <td>{eqrtempo}</td>
                                                                                     <td>{eqrponto}</td>
+                                                                                    <td class="d-flex justify-content-around">
+                                                                                        <a href="{URL_CORRECAO_CERTA}" data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Correta" class="text-success">
+                                                                                            <i style="font-size: 20px" class="fa-solid fa-circle-check"></i>
+                                                                                        </a>
+                                                                                        <a href="{URL_CORRECAO_ERRADA}" data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Errada" class="text-danger">
+                                                                                            <i style="font-size: 20px" class="fa-solid fa-circle-xmark"></i>
+                                                                                        </a>
+                                                                                    </td>
                                                                                 </tr>
                                                                                 {/RESULTS}
                                                                             </tbody>
@@ -284,6 +303,7 @@
 
 <script>
     window.onload = function(){
+        {RES_OK}
         $("#questao").val({queordem});
         $('.quetexto img').addClass('img-fluid');
         $('#tabListagem').DataTable({

@@ -80,6 +80,15 @@
             color: #a9d9a3;
         }
 
+        .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
+            margin-top: 0;
+            margin-left: 0;
+        }
+
+        code {
+            color: black;
+        }
+
         .nav-link {
             transition: background-color 100ms;
         }
@@ -164,8 +173,8 @@
         }
 
         .bg-finish {
-            height: 70vh;
-            border-radius: 6px;
+            height: 80vh;
+            border-radius: 2px;
             background-image: url("<?=base_url('assets/img/finish.png') ?>");
             background-size: cover;
             background-position: top center;
@@ -177,9 +186,9 @@
             font-size: 26px;
             font-weight: 700;
             background: rgb(255,255,255);
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(108,240,139,0.6) 40%, rgba(108,240,139,0.7) 50%, rgba(108,240,139,0.6) 60%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(108,240,139,0.6) 45%, rgba(108,240,139,0.7) 50%, rgba(108,240,139,0.6) 55%, rgba(255,255,255,0) 100%);
             backdrop-filter: blur(8px);
-            padding: 30px 5px;
+            padding: 50px 5px;
         }
 
         .ldBar.label-center > .ldBar-label {
@@ -222,8 +231,8 @@
     <!-- [ Pre-loader ] End -->
 
     <!-- [ navigation menu ] start -->
-    <nav class="pcoded-navbar menupos-fixed navbar-collapsed">
-        <div class="navbar-wrapper">
+    <nav class="pcoded-navbar theme-horizontal d-none">
+        <div class="navbar-wrapper container">
             <div class="navbar-brand header-logo">
                 <a href="<?=site_url('dinamica/Jogo')?>" class="b-brand">
                    <div class="b-bg">
@@ -233,22 +242,6 @@
                         IFES
                    </span>
                 </a>
-                <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
-            </div>
-            <div class="navbar-content scroll-div">
-                <ul class="nav pcoded-inner-navbar">
-                    <li class="nav-item pcoded-menu-caption">
-                        <label class="text-white f-14 text-uppercase">Dinâmica</label>
-                    </li>
-                    
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == '') ? 'active' : null ?>">
-                        <a href="<?=site_url('dinamica/Jogo')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-align-left"></i></span><span class="pcoded-mtext">Questões</span></a>
-                    </li>
-
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == 'equipeInfo') ? 'active' : null ?>">
-                        <a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="nav-link"><span class="pcoded-micon"><i class="fa-solid fa-id-card-clip"></i></span><span class="pcoded-mtext">Meus dados</span></a>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>
@@ -256,73 +249,69 @@
 
     <!-- [ Header ] start -->
     <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
-        <div class="m-header">
-            <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
-            <a href="<?=site_url()?>" class="b-brand">
-                <div>
-                    <img src="<?=base_url('assets/img/ico2.png')?>">
-                </div>
-                <span class="b-title"><span class="text-success">Quiz</span> <br> Ifes</span>
+        <div class="container">
+            <div class="px-lg-0 px-4 py-lg-0 py-2">
+                <a href="<?=site_url()?>" class="b-brand">
+                    <div>
+                        <img width="30px" src="<?=base_url('assets/img/logo_cor_brand.png')?>">
+                    </div>
+                    <span class="b-title"><h4 class="text-success mb-0">Quiz</h4></span>
+                </a>
+            </div>
+            <div style="margin-left: 30px;"></div>
+            <a class="mobile-menu" id="mobile-header" href="#!">
+                <i class="feather icon-more-horizontal"></i>
             </a>
-        </div>
-        <div style="margin-left: 30px;">
-            
-        </div>
-        <a class="mobile-menu" id="mobile-header" href="#!">
-            <i class="feather icon-more-horizontal"></i>
-        </a>
-        <div class="collapse navbar-collapse">
-            <a href="#!" class="mob-toggler"></a>
-            <ul class="navbar-nav mr-auto">
-                <li>
-                    <!-- [ breadcrumb ] start -->
-                    <div class="page-header">
-                        <div class="page-block">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <div class="page-header-title">
-                                        <h5 class="m-b-10">Collapse Menu</h5>
+            <div class="collapse navbar-collapse">
+                <a href="#!" class="mob-toggler"></a>
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Collapse Menu</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Page Layouts</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Vertical</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Collapse Menu</a></li>
+                                        </ul>
                                     </div>
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Page Layouts</a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Vertical</a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Collapse Menu</a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- [ breadcrumb ] end -->
-                </li>
-            </ul>
-            
-            <ul class="navbar-nav ml-auto">
-                <li>
-                    <p class="text-primary"><?=$this->session->userdata('equipe_equnome')?></p>
-                </li>
+                        <!-- [ breadcrumb ] end -->
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav ml-auto">
+                    <li>
+                        <p class="text-primary"><?=$this->session->userdata('equipe_equnome')?></p>
+                    </li>
 
-                <!-- Menu Superior Config -->
-                <li>
-                    <div class="dropdown drp-user">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon feather icon-settings"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right profile-notification">
-                            <div class="pro-head">
-                                <img class="img-fluid rounded-pill" src="<?=base_url($this->session->userdata('equipe_equlogo'))?>">
-                                <span><?=$this->session->userdata('equipe_equnome')?></span>
-                                <a href="<?=site_url('acesso/Gerenciador/logout')?>" class="dud-logout" title="Sair">
-                                    <i class="feather icon-log-out"></i>
-                                </a>
+                    <!-- Menu Superior Config -->
+                    <li>
+                        <div class="dropdown drp-user">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon feather icon-settings"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-notification">
+                                <div class="pro-head">
+                                    <img class="img-fluid rounded-pill" src="<?=base_url($this->session->userdata('equipe_equlogo'))?>">
+                                    <span><?=$this->session->userdata('equipe_equnome')?></span>
+                                    <a href="<?=site_url('acesso/Gerenciador/logout')?>" class="dud-logout" title="Sair">
+                                        <i class="feather icon-log-out"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <ul class="pro-body">
-                                <li><a href="<?=site_url('dinamica/Jogo/equipeInfo')?>" class="dropdown-item"><i class="fa-solid fa-id-card-clip"></i> Meus dados</a></li>
-                            </ul>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </header>
     <!-- [ Header ] end -->
@@ -369,10 +358,8 @@
     <script src="<?=base_url('assets/js/funcoes.js') ?>"></script>
     
     <script type="text/javascript">
-        // Collapse menu
         (function() {
-            // if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
-            if ($('#layout-sidenav').hasClass('sidenav-horizontal')) {
+            if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
                 return;
             }
             try {
@@ -389,7 +376,6 @@
                     orientation: $(this).hasClass('sidenav-horizontal') ? 'horizontal' : 'vertical'
                 });
             });
-
             // Initialize sidenav togglers
             $('body').on('click', '.layout-sidenav-toggle', function(e) {
                 e.preventDefault();
@@ -403,7 +389,6 @@
         });
         $(document).ready(function() {
             $("#pcoded").pcodedmenu({
-                themelayout: 'horizontal',
                 MenuTrigger: 'hover',
                 SubMenuTrigger: 'hover',
             });

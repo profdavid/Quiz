@@ -166,10 +166,14 @@
             background-color: #28A74515; 
         }
 
+        code {
+            color: black;
+        }
+
         .card-resposta-correta code,
         .card-resposta-correta span,
         .card-resposta-correta p {
-            color: #28A745;
+            color: #28A745 !important;
         }
         
         .badge-small {
