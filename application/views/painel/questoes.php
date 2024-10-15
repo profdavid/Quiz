@@ -88,7 +88,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 my-4">
                                                             <?php if(!$quesituacao): ?>
-                                                                <a class="btn btn-sm btn-primary" href="{URL_LIBERAR}">
+                                                                <a class="w-100 btn btn-primary" href="{URL_LIBERAR}">
                                                                     <i class="fa-solid fa-play"></i>Liberar questão
                                                                 </a>
                                                             <?php endif ?>
@@ -99,7 +99,7 @@
                                                                         <span class="badge badge-primary rounded-circle resposta-ordem">
                                                                             {qrordem}
                                                                         </span>
-                                                                        <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
+                                                                        <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-3 w-100">
                                                                             <img style="max-width: 100px" class="{SEM_IMAGEM} img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="">
                                                                             <div class="mx-3 my-1">{qrtexto}</div>
                                                                         </div>
@@ -115,11 +115,11 @@
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <h6 class="mb-0"><i class="fa-solid fa-square-poll-horizontal mr-2"></i>Resultados</h6>
                                                         <?php if($SHOW_RESULTS): ?>
-                                                            <a href="{URL_ATUAL}" class="btn btn-sm btn-secondary m-0">
+                                                            <a href="{URL_ATUAL}" class="btn btn-sm btn-danger m-0">
                                                                 <i class="fa-solid fa-eye-slash"></i>Esconder resultados
                                                             </a>
                                                         <?php else: ?>
-                                                            <a href="{URL_ATUAL}/true" class="btn btn-sm btn-info m-0">
+                                                            <a href="{URL_ATUAL}/true" class="btn btn-sm btn-light m-0">
                                                                 <i class="fa-solid fa-eye"></i>Mostrar resultados
                                                             </a>
                                                         <?php endif ?>
@@ -136,15 +136,13 @@
                                                                         <div class="badge badge-success rounded-circle resposta-ordem">
                                                                             {CORRETA_qrordem}
                                                                         </div>
-                                                                        <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-0 mx-sm-3 w-100">
-                                                                            <?php if (!empty($CORRETA_qrimg)): ?>
-                                                                                <img
-                                                                                    style="max-width: 100px"
-                                                                                    class="img-fluid rounded mx-3"
-                                                                                    src="<?= base_url('{CORRETA_qrimg}') ?>"
-                                                                                    alt="qrimg"
-                                                                                >
-                                                                            <?php endif; ?>
+                                                                        <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-3 w-100">
+                                                                            <img
+                                                                                style="max-width: 100px"
+                                                                                class="img-fluid rounded"
+                                                                                src="<?= base_url('{CORRETA_qrimg}') ?>"
+                                                                                alt=""
+                                                                            >
                                                                             <div class="mx-3 my-1 text-success">
                                                                                 {CORRETA_qrtexto}
                                                                             </div>
@@ -242,8 +240,8 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     {QUESTOES}
-                                                        <a href="{URL_ACCESS}">
-                                                            <span class="badge badge-pill {ATUAL} {LIBERADA}">{queordem}</span>
+                                                        <a href="{URL_ACCESS}" class="badge badge-pill {ATUAL} {LIBERADA}">
+                                                            {queordem}
                                                         </a>
                                                     {/QUESTOES}
                                                 </div>
@@ -263,12 +261,8 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="card-header">
-                                                    <h6 class="mb-0">
-                                                        <i class="fa-solid fa-clock text-secondary mr-2"></i>Atualizações
-                                                    </h6>
-                                                </div>
-                                                <div class="card-body">
+                                                <div class="card-body card-atualizacoes">
+                                                    <h6 class="mb-3"><i class="fa-solid fa-clock mr-2"></i>Atualizações</h6>
                                                     <div id="dataContainer"></div>
                                                 </div>
                                             </div>
@@ -305,7 +299,7 @@
     window.onload = function(){
         {RES_OK}
         $("#questao").val({queordem});
-        $('.quetexto img').addClass('img-fluid');
+        $('.quetexto img').addClass('img-fluid rounded');
         $('#tabListagem').DataTable({
             "language": {
                 "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"
@@ -325,6 +319,7 @@
 
             if (data.length > 0) {
                 var ol = document.createElement('ol');
+                ol.classList.add('px-3');
 
                 data.forEach(function(item) {
                     var li = document.createElement('li');
@@ -351,7 +346,7 @@
         function iniciarCountdown() {
             if (tempoRestante == -1){
                 countdown.innerHTML = "Aguarde!";
-                countdowncard.classList.add("bg-warning");
+                countdowncard.classList.add("bg-info");
                 return;
             }
 
@@ -372,6 +367,7 @@
                     clearInterval(att);
                     buscaAtualizacoes();
                     countdown.innerHTML = "Tempo esgotado!";
+                    countdowncard.classList.remove("bg-warning");
                     countdowncard.classList.add("bg-danger");
                     bar.set(0, false);
                     return;
@@ -383,6 +379,10 @@
 
                 var percent = (tempo / {quetempo}) * 100;
                 bar.set(100 - percent, false);
+
+                if ((percent > 0) && (percent < 30) && (!countdowncard.classList.contains("bg-warning"))) {
+                    countdowncard.classList.add("bg-warning");
+                }
 
                 tempo--;
             }, 1000);

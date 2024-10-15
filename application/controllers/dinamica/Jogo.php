@@ -53,17 +53,29 @@ class Jogo extends CI_Controller {
 		$data['RESPOSTAS'] = [];
 		$data['COUNT_RESPOSTAS'] = 0;
 
+		// Tratamento da jornada da equipe
+		$journey = $this->handleEquipeJourney();
+
+		if($journey){
+			$data['JOURNEY'] = $journey['JOURNEY'];
+			$data['JOURNEY_PATH'] = $journey['PATH'];
+			$data['SVG_WIDTH'] = $journey['SVG_WIDTH'];
+			$data['SVG_HEIGHT'] = $journey['SVG_HEIGHT'];
+			$data['EQUIPE_PROGRESSO'] = $journey['EQUIPE_PROGRESSO'];
+		}
+
 		// Busca a ordem desejada
 		$cond['idevento'] = $this->session->userdata('equipe_ideventoativo');
 		$cond['queordem'] = $queordem;
 
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
+
 		if($questao) {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
 
-			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
+			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'dark' : 'success';
 			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
 
 			// Tratamento do countdown
@@ -230,10 +242,72 @@ class Jogo extends CI_Controller {
 			}
 			else {
 				$ordem = $ultimaRespondida[0]->queordem + 1;
-				return $ordem; // ordem
+				return $ordem;
 			}
 		}
 
 		return 1; // inicio
+	}
+
+	
+	public function handleEquipeJourney() {
+		$cond['idevento'] = $this->session->userdata('equipe_ideventoativo');
+	
+		$questoes = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', $cond, FALSE);
+	
+		if ($questoes) {
+			$journey = [];
+			$x_base = 90;
+			$x_offset = 100;
+			$y_offset = 70;
+			$svgWidth = 300;
+       	 	$svgHeight = 0;
+			$path = "M" . ($x_base + 15.5) . " 15.5";
+	
+			foreach ($questoes as $index => $que) {
+				$x = ($index % 2 == 0) ? $x_base : $x_base + $x_offset;
+				$y = $y_offset * $index + 15.5;
+
+				if ($index > 0) {
+					if ($index % 3 == 0) {
+						$x_base = 90;
+						$x_offset = 130;
+					} else {
+						$x_base = 100;
+						$x_offset = 70;
+					}
+
+					$prev_x = ($index - 1) % 2 == 0 ? $x_base : $x_base + $x_offset;
+					$prev_y = $y_offset * ($index - 1) + 15.5;
+					$path .= " S" . ($prev_x + ($x_offset / 2)) . " " . ($prev_y + 90) . " " . ($x) . " " . ($y);
+				}
+
+				$journey[] = array(
+					'queindex'  => $index + 1,
+					'queid'     => $que->id,
+					'queordem'  => $que->queordem,
+					'situacao'	=> ($que->quesituacao == '1') ? 'cls-liberada' : 'cls-naoliberada',
+					'ultimo'	=> (count($questoes) == $index + 1) ? '' : 'display: none',
+					'x'         => $x,
+					'y'         => $y,
+				);
+			}
+
+			$ordemAtual = $this->checkUltimaRespondida();
+			$progressoAux = (($ordemAtual - 1) / count($journey)) * 100;
+			$progresso = round($progressoAux);
+
+			$svgHeight = (count($journey) * $y_offset);
+
+			return [
+				'JOURNEY' => $journey,
+				'PATH' => $path,
+				'SVG_WIDTH' => $svgWidth,
+				'SVG_HEIGHT' => $svgHeight,
+				'EQUIPE_PROGRESSO' => $progresso
+			];
+		}
+
+		return null;
 	}
 }

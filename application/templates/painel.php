@@ -197,7 +197,6 @@
             font-size: 14px;
             margin: 3px;
             padding: 6px 9px;
-            border: 2px solid green;
         }
 
         .bg-gray {

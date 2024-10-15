@@ -68,6 +68,8 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/style.css') ?>">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
         .tox .tox-editor-header {
             z-index: 0 !important;
         }
@@ -95,6 +97,11 @@
 
         .nav-link:hover {
             background-color: #254120;
+        }
+
+        .text-questao, .questao-equipeinfo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
         }
 
         .tabledit-delete-button{
@@ -129,7 +136,18 @@
         }
 
         .card-countdown {
+            border-radius: 50%;
             position: relative;
+        }
+
+        .icon-countdown {
+            position: absolute; 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: white;
+            opacity: 0.1;
         }
 
         .count {
@@ -137,29 +155,36 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
         }
 
         .card-resposta-correta {
             color: #28A745;
-            border: 1px solid #28A745;
-            background-color: #28A74515; 
+            border: 1px solid #E2E5E8;
+            background: rgb(255,255,255);
+            background: linear-gradient(111deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(76,175,80,1) 100%);
         }
 
         .card-resposta-invalida {
             color: #FF9800;
-            border: 1px solid #FF9800;
-            background-color: #FF980015; 
+            border: 1px solid #E2E5E8;
+            background: rgb(255,255,255);
+            background: linear-gradient(111deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(255,132,0,1) 100%);
         }
 
         .card-resposta-errada {
             color: #F44336;
-            border: 1px solid #F44336;
-            background-color: #F4433615; 
+            border: 1px solid #E2E5E8;
+            background: rgb(255,255,255);
+            background: linear-gradient(111deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(244,67,54,1) 100%);
         }
 
         .card-resposta {
             transition: all 200ms;
-            border: 3px solid #f1f1f1;
+            border: 2px solid #f1f1f1;
             background-color: #f1f1f1; 
         }
 
@@ -168,14 +193,14 @@
         }
 
         .card-resposta.selected {
-            border: 3px solid #007bff75;
+            border: 2px solid #007bff75;
             background-color: #007bff20;
         }
 
         .bg-finish {
             height: 80vh;
             border-radius: 2px;
-            background-image: url("<?=base_url('assets/img/finish.png') ?>");
+            background-image: url("<?=base_url('assets/img/finish2.png') ?>");
             background-size: cover;
             background-position: top center;
             background-repeat: no-repeat;
@@ -186,13 +211,58 @@
             font-size: 26px;
             font-weight: 700;
             background: rgb(255,255,255);
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(108,240,139,0.6) 45%, rgba(108,240,139,0.7) 50%, rgba(108,240,139,0.6) 55%, rgba(255,255,255,0) 100%);
-            backdrop-filter: blur(8px);
-            padding: 50px 5px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, #32c23e 45%, #32c23e 55%, rgba(255,255,255,0) 100%);
+            backdrop-filter: blur(10px);
+            padding: 25px 5px;
+        }
+
+        .widget-primary-card.table-card {
+            background-color: #2998f0;
         }
 
         .ldBar.label-center > .ldBar-label {
             opacity: 0;
+        }
+
+        .text-journey {
+            fill: #fff;
+            stroke: #fff;
+            font-size: 22px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .journey-container {
+            background-image: url("<?=base_url('assets/img/journey.jpg') ?>");
+            background-size: cover;
+            background-position: bottom;
+            width: 100%;
+            height: 265px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .cls-liberada {
+            fill: #4CAF50;
+        }
+
+        .cls-naoliberada {
+            fill: #6C757D;
+        }
+
+        .cls-3 {
+            cursor: pointer;
+            stroke: #fff;
+        }
+
+        .cls-3, .cls-6 {
+            fill: transparent;
+        }
+
+        .cls-4 {
+            fill: #fff;
+            stroke: #fff;
+            stroke-width: 5;
         }
     </style>
     <style media="screen">
@@ -216,6 +286,19 @@
             .sidenav-horizontal:before,
             .sidenav-horizontal:after {
                 display: none;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .card-header-sticky {
+                position: sticky !important;
+                top: 85px !important;
+                z-index: 1000 !important;
+            }
+
+            .equipe-info {
+                overflow-y: auto;
+                max-height: 380px;
             }
         }
     </style>
