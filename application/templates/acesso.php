@@ -74,6 +74,15 @@
             font-size: 20px !important;
         }
 
+        .pcoded-navbar.theme-horizontal ~ .pcoded-header {
+            height: 70px !important;
+        }
+        
+        .pcoded-navbar.theme-horizontal ~ .pcoded-main-container {
+            margin-top: 0;
+            margin-left: 0;
+        }
+
         .pcoded-navbar a {
             color: #a9d9a3;
         }
@@ -95,8 +104,8 @@
         .event-card, .anim-item { opacity: 0 }
 
         .items {
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
             position: relative;
         }
 
@@ -105,10 +114,10 @@
             scale: 1;
             top: 42%;
             left: 0;
-            transform-origin: 125px;
+            transform-origin: 100px;
         }
 
-        .anim img { width: 40px }
+        .anim img { width: 28px }
 
         .anim1 {transform: rotate(calc(360deg / 6 * 1))}
         .anim2 {transform: rotate(calc(360deg / 6 * 2))}
@@ -137,6 +146,11 @@
             justify-content: center;
             align-items: center;
         }
+
+        .event-card a:hover .card {
+            transform: scale(1.05);
+            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
     </style>
     <style media="screen">
         .sidenav-horizontal:before,
@@ -161,17 +175,8 @@
                 display: none;
             }
         }
-        @media only screen and (max-width: 991px){
-            .anim img { width: 28px }
-            
+        @media only screen and (max-width: 991px){       
             .overflow { padding: 35px 0px 40px 0px}
-
-            .items {
-                width: 200px;
-                height: 200px;
-            }
-
-            .anim { transform-origin: 100px } 
         }
     </style>
 
@@ -187,10 +192,10 @@
     <!-- [ Pre-loader ] End -->
 
     <!-- [ navigation menu ] start -->
-    <nav class="pcoded-navbar menupos-fixed navbar-collapsed">
-        <div class="navbar-wrapper">
+    <nav class="pcoded-navbar theme-horizontal d-none">
+        <div class="navbar-wrapper container">
             <div class="navbar-brand header-logo">
-                <a href="<?=site_url('')?>" class="b-brand">
+                <a href="<?=site_url('dinamica/Jogo')?>" class="b-brand">
                    <div class="b-bg">
                         <span>Quiz</span>
                     </div>
@@ -198,18 +203,6 @@
                         IFES
                    </span>
                 </a>
-                <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
-            </div>
-            <div class="navbar-content scroll-div">
-                <ul class="nav pcoded-inner-navbar">
-                    <li class="nav-item pcoded-menu-caption">
-                        <label class="text-white f-14 text-uppercase">Menu</label>
-                    </li>
-                    
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(3) == '') ? 'active' : null ?>">
-                        <a href="<?=site_url('acesso/Gerenciador')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Eventos</span></a>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>
@@ -217,46 +210,45 @@
 
     <!-- [ Header ] start -->
     <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
-        <div class="m-header">
-            <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
-            <a href="<?=site_url()?>" class="b-brand">
-                <div>
-                    <img src="<?=base_url('assets/img/ico2.png')?>">
-                </div>
-                <span class="b-title"><span class="text-success">Quiz</span> <br> Ifes</span>
+        <div class="container">
+            <div class="px-lg-0 px-4 py-lg-0 py-3">
+                <a href="<?=site_url('acesso/Gerenciador')?>" class="b-brand">
+                    <div>
+                        <img width="30px" src="<?=base_url('assets/img/logo_cor_brand.png')?>">
+                    </div>
+                    <span class="b-title"><h4 class="text-success mb-0">Quiz</h4></span>
+                </a>
+            </div>
+            <div style="margin-left: 30px;"></div>
+            <a class="mobile-menu" id="mobile-header" href="#!">
+                <i class="feather icon-more-horizontal"></i>
             </a>
-        </div>
-        <div style="margin-left: 30px;">
-            
-        </div>
-        <a class="mobile-menu" id="mobile-header" href="#!">
-            <i class="feather icon-more-horizontal"></i>
-        </a>
-        <div class="collapse navbar-collapse">
-            <a href="#!" class="mob-toggler"></a>
-            <ul class="navbar-nav mr-auto">
-                <li>
-                    <!-- [ breadcrumb ] start -->
-                    <div class="page-header">
-                        <div class="page-block">
-                            <div class="row align-items-center">
-                                <div class="col-md-12">
-                                    <div class="page-header-title">
-                                        <h5 class="m-b-10">Collapse Menu</h5>
+            <div class="collapse navbar-collapse">
+                <a href="#!" class="mob-toggler"></a>
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <!-- [ breadcrumb ] start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">Collapse Menu</h5>
+                                        </div>
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Page Layouts</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Vertical</a></li>
+                                            <li class="breadcrumb-item"><a href="#!">Collapse Menu</a></li>
+                                        </ul>
                                     </div>
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Page Layouts</a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Vertical</a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Collapse Menu</a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- [ breadcrumb ] end -->
-                </li>
-            </ul>
+                        <!-- [ breadcrumb ] end -->
+                    </li>
+                </ul>
+            </div>
         </div>
     </header>
     <!-- [ Header ] end -->
@@ -303,10 +295,8 @@
     <script src="<?=base_url('assets/js/funcoes.js') ?>"></script>
     
     <script type="text/javascript">
-        // Collapse menu
         (function() {
-            // if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
-            if ($('#layout-sidenav').hasClass('sidenav-horizontal')) {
+            if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
                 return;
             }
             try {
@@ -323,7 +313,6 @@
                     orientation: $(this).hasClass('sidenav-horizontal') ? 'horizontal' : 'vertical'
                 });
             });
-
             // Initialize sidenav togglers
             $('body').on('click', '.layout-sidenav-toggle', function(e) {
                 e.preventDefault();
@@ -337,7 +326,6 @@
         });
         $(document).ready(function() {
             $("#pcoded").pcodedmenu({
-                themelayout: 'horizontal',
                 MenuTrigger: 'hover',
                 SubMenuTrigger: 'hover',
             });

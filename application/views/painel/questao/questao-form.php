@@ -132,7 +132,7 @@
                                   required
                                   {RES_CORRETA}
                                 >
-                                <label for="radio_{index}" class="badge badge-primary rounded-circle m-0 resposta-ordem resposta-ordem-label">
+                                <label for="radio_{index}" class="badge badge-primary rounded-circle mb-0 resposta-ordem resposta-ordem-label">
                                   {qrordem}
                                 </label>
                               </div>
@@ -350,7 +350,7 @@
               required
               {RES_CORRETA}
             >
-            <label for="radio_${rcount}" class="badge badge-primary rounded-circle resposta-ordem resposta-ordem-label">
+            <label for="radio_${rcount}" class="badge badge-primary mb-0 rounded-circle resposta-ordem resposta-ordem-label">
               ${letra}
             </label>
           </div>

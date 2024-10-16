@@ -70,6 +70,8 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/style.css') ?>">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
         .tox .tox-editor-header {
             z-index: 0 !important;
         }
@@ -78,8 +80,17 @@
             font-size: 20px !important;
         }
 
+        .tox-promotion {
+            display: none !important;
+        }
+
         .pcoded-navbar a {
             color: #a9d9a3;
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
         }
 
         .nav-link {
@@ -137,7 +148,18 @@
         }
 
         .card-countdown {
+            border-radius: 50%;
             position: relative;
+        }
+
+        .icon-countdown {
+            position: absolute; 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: white;
+            opacity: 0.1;
         }
 
         .count {
@@ -145,6 +167,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
         }
 
         .qrimg {
@@ -152,13 +178,13 @@
         }
 
         .resposta-ordem {
-            width: 35px;
-            font-size: 24px;
+            width: 28px;
+            font-size: 18px;
         }
 
         .card-resposta {
-            border: 3px solid #f1f1f1;
-            background-color: #f1f1f1; 
+            border: 1px solid #F5F7F7;
+            background-color: #F5F7F7;
         }
 
         .card-resposta-correta {
@@ -256,6 +282,14 @@
         @media only screen and (max-width: 575px){
             .qrimg {
                 max-width: 100%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .card-header-sticky {
+                position: sticky !important;
+                top: 85px !important;
+                z-index: 2;
             }
         }
     </style>
@@ -365,9 +399,12 @@
                     <p class="text-primary"><?=$this->session->userdata('quiz_evenome')?></p>
                 </li>
 
+                <!-- Menu Seleção de Eventos -->
+                <?=listEventos()?>
+
                 <!-- Menu Envio de Email -->
                 <li>
-                    <div class="dropdown">
+                    <div class="dropdown drp-noti">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="icon feather icon-mail"></i>
                         </a>
@@ -388,20 +425,16 @@
 
                                 <div class="text-muted text-center mb-2">
                                     <i style="color: #C7C7C7; font-size: 36px" class="fa-solid fa-paper-plane"></i>
-                                    <p class="mt-2 mb-0">Você receberá um e-mail contendo todos os detalhes do evento atual ativo.
+                                    <p class="mt-2 mb-0">Você receberá um e-mail contendo todos os detalhes do evento atual ativo.</p>
                                 </div>
 
                                 <div>
                                     <a class="w-100 btn btn-sm btn-success text-white mr-0" href="<?=site_url('painel/Notificacao/enviar')?>">Enviar</a>
-                                    <a class="w-100 btn btn-sm btn-info text-white m-0 disabled" href="<?=site_url('painel/Notificacao/automatico')?>">Envio automático</a>
                                 </div>
                             </ul>
                         </div>
                     </div>
                 </li>
-                
-                <!-- Menu Seleção de Eventos -->
-                <?=listEventos()?>
 
                 <!-- Menu Superior Config -->
                 <li>

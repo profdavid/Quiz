@@ -12,42 +12,61 @@
         {LIST_QUESTOES}
             <div class="col-md-12 mb-2">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header bg-light py-3">
                         <div class="row">
-                            <div class="col-md-4 text-center text-md-left">
-                                <h4 class="m-0">Questão {queordem}</h4>
-                            </div>
-                            <div class="col-md-8 pt-2 pt-md-0 text-center text-md-right">
-                                <div class="mr-2 badge {cor_situacao}">
-                                    <i class="fa-solid fa-info-circle pr-1"></i>
-                                    {text_situacao}
-                                </div>
-                                <div class="mr-2 badge text-info">
-                                    <i class="fa-solid fa-star pr-1"></i>
-                                    {queponto} pontos
-                                </div>
-                                <div class="badge text-danger">
-                                    <i class="fa-solid fa-clock pr-1"></i>
-                                    {quetempo} segundos
+                            <div class="col-md-12">
+                                <div class="d-flex flex-column flex-md-row justify-content-between">
+                                    <div class="d-flex flex-column flex-md-row align-items-center">
+                                        <div class="mr-0 mt-3 mr-md-3 mt-md-0">
+                                            <img
+                                                style="max-height: 55px"
+                                                class="img-fluid rounded"
+                                                src="<?= base_url('{queimg}') ?>"
+                                                alt="questao_logo"
+                                            >
+                                        </div>
+
+                                        <div class="d-flex flex-column justify-content-center my-4 my-md-0">
+                                            <h4 class="font-poppins mb-1 mb-md-0 text-center text-md-left text-{situacao}">
+                                                Questão {queordem}
+                                            </h4>
+                                            <div class="d-flex mt-2">
+                                                <div class="badge badge-{situacao}">
+                                                    {text_situacao}
+                                                </div>
+                                                <div class="badge badge-info mx-2">
+                                                    <i class="fa-solid fa-star mr-1"></i>
+                                                    {queponto} pontos
+                                                </div>
+                                                <div class="badge badge-warning">
+                                                    <i class="fa-solid fa-clock mr-1"></i>
+                                                    {quetempo} segundos
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <div class="d-flex flex-column-reverse flex-sm-row justify-content-between text-center text-sm-left">
-                            <div>{quetexto}</div>
-                            <div class="p-0 my-3 my-sm-0">
-                                <img style="max-width: 100px" class="img-fluid rounded" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <div class="mb-3 mb-md-0">
+                                    <div class="quetexto">{quetexto}</div>
+                                </div>
                             </div>
                         </div>
 
                         <ul class="{OBJETIVA} list-group my-4">
                             {respostas}
                             <li class="list-group-item {BG_CORRETA}">
-                                <div class="badge {BADGE_CORRETA} mr-2">{qrordem}</div>
-                                <img style="max-width: 75px" class="img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="">
-                                <span>{qrtexto}</span>
+                                <div class="d-flex align-items-center w-100 mb-0">
+                                    <div class="badge {BADGE_CORRETA} mr-2">{qrordem}</div>
+                                    <img style="max-width: 75px" class="img-fluid rounded mx-3" src="<?= base_url('{qrimg}') ?>" alt="">
+                                    <span>{qrtexto}</span>
+                                </div>
                             </li>
                             {/respostas}
                         </ul>

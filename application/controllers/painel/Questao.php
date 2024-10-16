@@ -117,11 +117,11 @@ class Questao extends CI_Controller {
 		$itens['idevento'] = $this->session->userdata('quiz_ideventoativo');
 
 		//Tratamento da data liberacao e data limite
-		//Caso haja necessidade de editar questao apos ela ser liberada e nao alterar as datas
 		if ($itens['quesituacao'] == 0) {
 			$itens['quedtliberacao'] = null;
 			$itens['quedtlimite'] = null;
-		} else {
+		} 
+		else {
 			if ($id) {
 				$res_questao = $this->PadraoM->fmSearch($this->tabela, null, ['id' => $id], TRUE);
 		
@@ -138,11 +138,9 @@ class Questao extends CI_Controller {
 		//Salvando os dados
 		if($id){ //Edição
 			$cond = array('id' => $id);
-
 			$res_id = $this->PadraoM->fmUpdate($this->tabela, $cond, $itens);
 		}
 		else //Novo
-
 			$res_id = $this->PadraoM->fmNew($this->tabela, $itens);
 		
 		//Se dados salvos no BD com sucesso
@@ -280,7 +278,7 @@ class Questao extends CI_Controller {
 					'quetexto'     	=> $q->quetexto,
 					'queimg'       	=> $q->queimg,
 					'text_situacao' => ($q->quesituacao == 0) ? 'Não liberada' : 'Liberada',
-					'cor_situacao'	=> ($q->quesituacao == 0) ? 'text-secondary' : 'text-success'
+					'situacao'	=> ($q->quesituacao == 0) ? 'dark' : 'success',
 				);
 
 				if ($q->idquestaotipo == 2){ //discursiva

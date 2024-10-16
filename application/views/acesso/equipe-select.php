@@ -9,11 +9,11 @@
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="page-header-title">
-                                    <h5 class="m-b-10">Acesso</h5>
+                                    <h5 class="m-b-10">Acesso das equipes</h5>
                                 </div>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="<?=site_url('acesso/Gerenciador') ?>">Eventos</a></li>
-                                    <li class="breadcrumb-item"><a href="#!">Escolha de equipes</a></li>
+                                    <li class="breadcrumb-item"><a href="{URL_HOME}"><i class="feather icon-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="#!">Entrar</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                 </div>
                 <!-- [ breadcrumb ] end -->
 
-                <div class="main-body">
+                <div class="main-body container">
                     <div class="page-wrapper">
                         <!-- [ Main Content ] start -->
                         <div class="row">
@@ -29,11 +29,11 @@
                             {RES_MSG}
 
                             <div class="card">
-                                <form role="form" id="frmacao" enctype="multipart/form-data" name="frmacao" method="post" action="{URL_ACESSAR}">
-                                    <input type="hidden" id="id" name="id" value="{id}" />
-                                    <input type="hidden" id="evenome" name="evenome" value="{evenome}" />
+                                <div class="card-body container">
+                                    <form role="form" id="frmacao" enctype="multipart/form-data" name="frmacao" method="post" action="{URL_ACESSAR}">
+                                        <input type="hidden" id="id" name="id" value="{id}" />
+                                        <input type="hidden" id="evenome" name="evenome" value="{evenome}" />
 
-                                    <div class="card-body container">
                                         <div class="row">
                                             <!-- animacao start -->
                                             <div class="col-lg-6 col-md-12 d-flex overflow justify-content-center">
@@ -63,7 +63,7 @@
                                             </div>
                                             <!-- animacao end -->
                                             
-                                            <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-center">
+                                            <div class="col-lg-4 col-md-12 d-flex flex-column justify-content-center">
                                                 <h3 class="mb-4">{evenome}</h3>
                                                 <div class="mb-4">
                                                     <label for="equipe">Escolha a sua equipe:</label>
@@ -80,8 +80,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                         <!-- [ Main Content ] end -->

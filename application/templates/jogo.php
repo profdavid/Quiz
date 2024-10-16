@@ -74,8 +74,16 @@
             z-index: 0 !important;
         }
 
+        .pcoded-navbar.theme-horizontal ~ .pcoded-header {
+            height: 70px !important;
+        }
+
         .b-title {
             font-size: 20px !important;
+        }
+
+        .tox-promotion {
+            display: none !important;
         }
 
         .pcoded-navbar a {
@@ -99,7 +107,7 @@
             background-color: #254120;
         }
 
-        .text-questao, .questao-equipeinfo {
+        .font-poppins {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
@@ -115,8 +123,8 @@
         }
 
         .resposta-ordem {
-            width: 35px;
-            font-size: 24px;
+            width: 28px;
+            font-size: 18px;
         }
 
         .badge-small {
@@ -163,29 +171,26 @@
 
         .card-resposta-correta {
             color: #28A745;
-            border: 1px solid #E2E5E8;
             background: rgb(255,255,255);
-            background: linear-gradient(111deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(76,175,80,1) 100%);
+            background: linear-gradient(111deg, #F5F7F7 0%, #F5F7F7 20%, rgba(76,175,80,1) 100%);
         }
 
         .card-resposta-invalida {
             color: #FF9800;
-            border: 1px solid #E2E5E8;
             background: rgb(255,255,255);
-            background: linear-gradient(111deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(255,132,0,1) 100%);
+            background: linear-gradient(111deg, #F5F7F7 0%, #F5F7F7 20%, rgba(255,132,0,1) 100%);
         }
 
         .card-resposta-errada {
             color: #F44336;
-            border: 1px solid #E2E5E8;
             background: rgb(255,255,255);
-            background: linear-gradient(111deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 20%, rgba(244,67,54,1) 100%);
+            background: linear-gradient(111deg, #F5F7F7 0%, #F5F7F7 20%, rgba(244,67,54,1) 100%);
         }
 
         .card-resposta {
             transition: all 200ms;
-            border: 2px solid #f1f1f1;
-            background-color: #f1f1f1; 
+            border: 1px solid #F5F7F7;
+            background-color: #F5F7F7;
         }
 
         .card-resposta label {
@@ -193,7 +198,7 @@
         }
 
         .card-resposta.selected {
-            border: 2px solid #007bff75;
+            border: 1px solid #007bff75;
             background-color: #007bff20;
         }
 
@@ -237,7 +242,7 @@
             background-size: cover;
             background-position: bottom;
             width: 100%;
-            height: 265px;
+            height: 260px;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -259,8 +264,12 @@
             fill: transparent;
         }
 
-        .cls-4 {
-            fill: #fff;
+        .cls-selected {
+            stroke: #359830;
+            stroke-width: 10;
+        }
+
+        .cls-unselected {
             stroke: #fff;
             stroke-width: 5;
         }
@@ -292,8 +301,8 @@
         @media (min-width: 992px) {
             .card-header-sticky {
                 position: sticky !important;
-                top: 85px !important;
-                z-index: 1000 !important;
+                top: 70px !important;
+                z-index: 2;
             }
 
             .equipe-info {
@@ -334,7 +343,7 @@
     <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
         <div class="container">
             <div class="px-lg-0 px-4 py-lg-0 py-2">
-                <a href="<?=site_url()?>" class="b-brand">
+                <a href="<?=site_url('dinamica/Jogo')?>" class="b-brand">
                     <div>
                         <img width="30px" src="<?=base_url('assets/img/logo_cor_brand.png')?>">
                     </div>

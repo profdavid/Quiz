@@ -17,6 +17,7 @@ class Notificacao extends CI_Controller {
 	
 	public function index(){}
 
+	public function automatico(){}
 
 	public function enviar(){
 		$data = array();
@@ -65,20 +66,13 @@ class Notificacao extends CI_Controller {
 				$this->email->subject($info[0]->evenome.' - Detalhes do evento');
 				$this->email->message($this->load->view('painel/notificacao-email', $data, TRUE));
 
-				if ($this->email->send()) {
+				if ($this->email->send())
 					$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! E-mail enviado.'));
-				}
-				else {
+				else
 					$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Erro ao enviar e-mail.'));
-				}
 
 				redirect('painel/Home');
 			}
 		}
 	}
-
-
-	public function automatico(){}
-
-
 }

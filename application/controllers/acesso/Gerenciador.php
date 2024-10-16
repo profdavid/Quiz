@@ -38,10 +38,11 @@ class Gerenciador extends CI_Controller {
 				$data['EVENTOS'][] = array(
 					'id' 			=> $r->id,
 					'evenome' 		=> $r->evenome,
+					'eveimg' 		=> $r->eveimg,
 					'evesituacao' 	=> $situacao,
 					'criado_em' 	=> date('d/m/Y', strtotime($r->criado_em)),
 					'COR_SITUACAO'	=> $COR_SITUACAO,
-					'BTN_DISABLED'	=> ($r->evesituacao == 1) ? '' : 'd-none',
+					'BTN_NONE'	=> ($r->evesituacao == 1) ? '' : 'd-none',
 					'URL_ACESSAR' 	=> site_url('acesso/Gerenciador/selecionaEvento/'.$r->id)
 				);
 			}
@@ -55,6 +56,7 @@ class Gerenciador extends CI_Controller {
 		$data = array();
 		$data['RES_MSG']	= $this->session->flashdata('resmsg');
 		$data['RES_OK']		= $this->session->flashdata('resok');
+		$data['URL_HOME'] = site_url('acesso/Gerenciador');
 		$data['URL_ACESSAR'] = site_url('acesso/Gerenciador/acessar');
 
 		// Buscando evento

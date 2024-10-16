@@ -37,8 +37,8 @@ class Jogo extends CI_Controller {
 	
 
 	public function index(){
-		$ordem = $this->checkUltimaRespondida();
-		$this->questao($ordem);
+		$queordem = $this->checkEquipeProgresso();
+		$this->questao($queordem);
 	}
 
 
@@ -53,24 +53,21 @@ class Jogo extends CI_Controller {
 		$data['RESPOSTAS'] = [];
 		$data['COUNT_RESPOSTAS'] = 0;
 
-		// Tratamento da jornada da equipe
-		$journey = $this->handleEquipeJourney();
+		$idevento = $this->session->userdata('equipe_ideventoativo');
 
-		if($journey){
-			$data['JOURNEY'] = $journey['JOURNEY'];
-			$data['JOURNEY_PATH'] = $journey['PATH'];
-			$data['SVG_WIDTH'] = $journey['SVG_WIDTH'];
-			$data['SVG_HEIGHT'] = $journey['SVG_HEIGHT'];
-			$data['EQUIPE_PROGRESSO'] = $journey['EQUIPE_PROGRESSO'];
-		}
+		// Busca dados do evento
+		$evento = $this->PadraoM->fmSearch($this->tabela_evento, NULL, ['id' => $idevento], TRUE);
+		$data['eveimg'] = ($evento) ? $evento->eveimg : '';
+
+		// Tratamento progresso da equipe
+		$data['EQUIPE_PROGRESSO'] = $this->porcentagemEquipeProgresso();
 
 		// Busca a ordem desejada
-		$cond['idevento'] = $this->session->userdata('equipe_ideventoativo');
+		$cond['idevento'] = $idevento;
 		$cond['queordem'] = $queordem;
-
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
 
-		if($questao) {
+		if ($questao) {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
@@ -107,8 +104,9 @@ class Jogo extends CI_Controller {
 			}
 		}
 
-		$this->parser->parse('jogo/questoes', $data);
+		$this->parser->parse('jogo/equipe-progresso', $data);
 	}
+
 
 
 	public function salvarEquipeResposta(){
@@ -197,6 +195,7 @@ class Jogo extends CI_Controller {
 				} else
 					$BG_ACERTOU = 'card-resposta-errada';
 
+				
 				$data['LIST_EQUIPE_QUESTAORESPOSTA'][] = array(
 					'queordem' 	=> $r->queordem,
 					'queponto'	=> $r->queponto,
@@ -219,7 +218,8 @@ class Jogo extends CI_Controller {
 	}
 
 
-	public function checkUltimaRespondida(){
+
+	public function checkEquipeProgresso(){
 		$idevento = $this->session->userdata('equipe_ideventoativo');
 		$idequipe = $this->session->userdata('equipe_idequipe');
 
@@ -241,73 +241,29 @@ class Jogo extends CI_Controller {
 				return -1; // finalizado
 			}
 			else {
-				$ordem = $ultimaRespondida[0]->queordem + 1;
-				return $ordem;
+				$ordemProgresso = $ultimaRespondida[0]->queordem + 1;
+				return $ordemProgresso; // em progresso
 			}
 		}
 
-		return 1; // inicio
+		return 1; // inicio 
 	}
 
 	
-	public function handleEquipeJourney() {
+
+	public function porcentagemEquipeProgresso() {
 		$cond['idevento'] = $this->session->userdata('equipe_ideventoativo');
+
+		$ordemAtual = $this->checkEquipeProgresso();
 	
 		$questoes = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', $cond, FALSE);
 	
 		if ($questoes) {
-			$journey = [];
-			$x_base = 90;
-			$x_offset = 100;
-			$y_offset = 70;
-			$svgWidth = 300;
-       	 	$svgHeight = 0;
-			$path = "M" . ($x_base + 15.5) . " 15.5";
-	
-			foreach ($questoes as $index => $que) {
-				$x = ($index % 2 == 0) ? $x_base : $x_base + $x_offset;
-				$y = $y_offset * $index + 15.5;
-
-				if ($index > 0) {
-					if ($index % 3 == 0) {
-						$x_base = 90;
-						$x_offset = 130;
-					} else {
-						$x_base = 100;
-						$x_offset = 70;
-					}
-
-					$prev_x = ($index - 1) % 2 == 0 ? $x_base : $x_base + $x_offset;
-					$prev_y = $y_offset * ($index - 1) + 15.5;
-					$path .= " S" . ($prev_x + ($x_offset / 2)) . " " . ($prev_y + 90) . " " . ($x) . " " . ($y);
-				}
-
-				$journey[] = array(
-					'queindex'  => $index + 1,
-					'queid'     => $que->id,
-					'queordem'  => $que->queordem,
-					'situacao'	=> ($que->quesituacao == '1') ? 'cls-liberada' : 'cls-naoliberada',
-					'ultimo'	=> (count($questoes) == $index + 1) ? '' : 'display: none',
-					'x'         => $x,
-					'y'         => $y,
-				);
-			}
-
-			$ordemAtual = $this->checkUltimaRespondida();
-			$progressoAux = (($ordemAtual - 1) / count($journey)) * 100;
+			$progressoAux = (($ordemAtual - 1) / count($questoes)) * 100;
 			$progresso = round($progressoAux);
-
-			$svgHeight = (count($journey) * $y_offset);
-
-			return [
-				'JOURNEY' => $journey,
-				'PATH' => $path,
-				'SVG_WIDTH' => $svgWidth,
-				'SVG_HEIGHT' => $svgHeight,
-				'EQUIPE_PROGRESSO' => $progresso
-			];
+			return $progresso;
 		}
 
-		return null;
+		return 0;
 	}
 }

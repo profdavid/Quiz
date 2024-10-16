@@ -30,27 +30,40 @@
                                 {RES_ERRO}
 
                                 <div class="card">
-                                    <form role="form" id="frmacao" name="frmacao" method="post" action="{URL_FRM}">
+                                    <form role="form" id="frmacao" enctype="multipart/form-data" name="frmacao" method="post" action="{URL_FRM}">
                                     <input type="hidden" id="id" name="id" value="{id}" />
                                     
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-row">
-                                                    <div class="col-md-8">
-                                                        <div class="form-group">
-                                                            <label for="evenome">Nome: *</label>
-                                                            <input type="text" class="form-control" id="evenome" name="evenome" required value="{evenome}">
+                                                    <div class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="evenome">Nome: *</label>
+                                                                <input type="text" class="form-control" id="evenome" name="evenome" required value="{evenome}">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12">
+                                                            <label for="evesituacao">Situação:</label>
+                                                            <select class="form-control" name="evesituacao" id="evesituacao">
+                                                                <option value="0">Criado</option>
+                                                                <option value="1">Iniciado</option>
+                                                                <option value="2">Finalizado</option>
+                                                            </select>
                                                         </div>
                                                     </div>
-
-                                                    <div class="form-group col-md-4">
-                                                        <label for="evesituacao">Situação:</label>
-                                                        <select class="form-control" name="evesituacao" id="evesituacao">
-                                                            <option value="0">Criado</option>
-                                                            <option value="1">Iniciado</option>
-                                                            <option value="2">Finalizado</option>
-                                                        </select>
+                                                    <div class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="eveimg">Banner:</label>
+                                                                <div style="height: 135px" class="form-control d-flex justify-content-center">
+                                                                    <img id="image-preview" class="img-fluid rounded" src="<?=base_url('{eveimg}')?>" alt="">
+                                                                </div>
+                                                                <input class="mt-2" id="eveimg" type="file" name="eveimg" onchange="previewImage(event)"/>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,11 +87,18 @@
     </div>
 </div>
 <!-- [ Main Content ] end -->
+ 
 
 <script>
-window.onload = function(){
-    {RES_OK}
-    $("#evenome").focus();
-    $("#evesituacao").val({evesituacao});
-}
+    window.onload = function(){
+        {RES_OK}
+        $("#evenome").focus();
+        $("#evesituacao").val({evesituacao});
+    }
+
+    function previewImage(event) {
+        var file = event.target.files[0];
+        if(!file) return;
+        document.getElementById('image-preview').src = URL.createObjectURL(file);
+    }
 </script>

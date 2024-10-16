@@ -11,6 +11,7 @@
                                     <h5 class="m-b-10">Ranking</h5>
                                 </div>
                                 <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="<?=site_url('painel') ?>"><i class="feather icon-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="#!">Geral</a></li>
                                 </ul>
                             </div>
@@ -109,7 +110,7 @@
                                                                 <?= $EQUIPES[$i]['ranking'] ?>° <?= $EQUIPES[$i]['equnome'] ?>
                                                             </strong>
                                                             <div class="ml-2">
-                                                                <div class="d-flex flex-column badge py-1 px-3">
+                                                                <div class="d-flex flex-column text-left badge py-1 px-3">
                                                                     <div>
                                                                         <i class="fa-solid fa-star"></i>
                                                                         <?= $EQUIPES[$i]['pontos'] ?> pontos

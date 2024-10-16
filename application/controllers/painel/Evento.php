@@ -14,6 +14,7 @@ class Evento extends CI_Controller {
 		$this->layout = LAYOUT_PAINEL;
 		$this->load->model('/Padrao_Model', 'PadraoM');
 		$this->load->model('/LogSistema_Model', 'LogM');
+		$this->load->helpers('/fileuploader_helper');
 	}
 
 	public function index(){
@@ -27,9 +28,6 @@ class Evento extends CI_Controller {
 		
 		//Buscando dados no Banco
 		$res = $this->PadraoM->fmSearch($this->tabela, 'evenome', []);
-		//echo "<pre>";
-		//print_r($res);
-		//exit;
 		
 		if($res){
 			foreach($res as $r){
@@ -45,13 +43,12 @@ class Evento extends CI_Controller {
 					'URL_EDITAR'	=> site_url('painel/Evento/edita/'.$r->id)
 				);
 			}
-			//echo "<pre>";
-			//print_r($data['LIST_DADOS']);
 		}
 		
 		$this->parser->parse('painel/evento/evento-list', $data);
 	}
 	
+
 	public function novo(){
 		$data = array();
 		$data['LABEL_ACAO'] 	= 'Novo';
@@ -62,11 +59,13 @@ class Evento extends CI_Controller {
 		
 		$data['id'] 		= null;
 		$data['evenome'] 	= null;
-		$data['evesituacao']= null;
+		$data['evesituacao'] = null;
+		$data['eveimg'] = 'assets/img/evento-banner.jpg';
 
 		$this->parser->parse('painel/evento/evento-form', $data);
 	}
 	
+
 	public function edita($id){
 		$data = array();
 		$data['LABEL_ACAO'] 	= 'Editar';
@@ -137,14 +136,14 @@ class Evento extends CI_Controller {
 		
 		//Se dados salvos no BD com sucesso
 		if($res_id){
-			if($id) //Edição
+			if($id) { //Edição
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados atualizados.'));
-			else { //Novo
+			} else { //Novo
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados inseridos.'));
-				$evenomeDir = retirarAcentos($evenome);
-				$quizDir = 'assets/uploads/'.$evenomeDir;
-				mkdir($quizDir);
 			}
+
+			$this->criarDiretorioEvento($evenome);
+			$this->salvarBannerEvento($res_id, $evenome, $id);
 			
 			//--- Grava Log ---
 			$log = ($id) ? "Edita ".$this->tabela." | Id: ".$res_id : "Novo ". $this->tabela." | Id: ".$res_id;
@@ -167,6 +166,45 @@ class Evento extends CI_Controller {
 			else //Novo
 				redirect('painel/Evento/novo');
 		}
+	}
+
+
+	public function criarDiretorioEvento($evenome){
+		$evenome_dir = retirarAcentos($evenome);
+		$diretorio = 'assets/uploads/'.$evenome_dir;
+
+		if (!is_dir($diretorio)) {
+			$res_mkdir = mkdir($diretorio);
+
+			if (!$res_mkdir)
+				$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao realizar a operação.'));
+		}
+	}
+
+	
+	public function salvarBannerEvento($idevento, $evenome, $id = null){		
+		if($_FILES['eveimg']['error'] == 0 && $_FILES['eveimg']['size'] > 0){
+			$evenome_dir = retirarAcentos($evenome);
+			$diretorio = 'assets/uploads/'.$evenome_dir.'/';
+
+			$fileupload = new FileUploader('eveimg', ['uploadDir' => $diretorio]);
+			$upload_res = $fileupload->upload();
+			
+			if($upload_res['isSuccess'])
+				$itens['eveimg'] = $upload_res['files'][0]['file'];
+		}
+		else {
+			if (!$id)
+				$itens['eveimg'] = 'assets/img/evento-banner.jpg';
+			else 
+				return;
+		}
+
+		$cond = array('id' => $idevento);
+		$res_id = $this->PadraoM->fmUpdate($this->tabela, $cond, $itens);
+
+		if (!$res_id)
+			$this->session->set_flashdata('reserro', fazAlerta('danger', 'Erro!', 'Problemas ao salvar banner.'));
 	}
 
 }

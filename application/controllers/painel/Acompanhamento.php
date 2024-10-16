@@ -40,6 +40,10 @@ class Acompanhamento extends CI_Controller {
 		
 		$ideventoativo = $this->session->userdata('quiz_ideventoativo');
 
+		// Busca dados do evento
+		$evento = $this->PadraoM->fmSearch($this->tabela_evento, NULL, ['id' => $ideventoativo], TRUE);
+		$data['eveimg'] = ($evento) ? $evento->eveimg : '';
+
 		// Busca todas as questoes
 		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $ideventoativo], FALSE);
 		if($quetotal) {
@@ -69,7 +73,7 @@ class Acompanhamento extends CI_Controller {
 			$data['URL_ATUALIZACOES'] = site_url('painel/Acompanhamento/buscaAtualizacoes/'.$questao->id);
 			$data['URL_LIBERAR'] = site_url('painel/Acompanhamento/liberarQuestao/'.$questao->id);
 			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
-			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'secondary' : 'success';
+			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'dark' : 'success';
 
 			// Tratamento do countdown
 			$tempoAtual = date("Y-m-d H:i:s");
@@ -115,7 +119,7 @@ class Acompanhamento extends CI_Controller {
 			}
 		}
 
-		$this->parser->parse('painel/questoes', $data);
+		$this->parser->parse('painel/acompanhamento', $data);
 	}
 
 
