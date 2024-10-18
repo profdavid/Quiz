@@ -82,3 +82,9 @@
         {/LIST_QUESTOES}
     </div>
 </div>
+
+<script>
+    window.onload = function(){
+        $('.quetexto img').addClass('img-fluid rounded');
+    }
+</script>

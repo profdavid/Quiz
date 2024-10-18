@@ -60,7 +60,7 @@ class Evento extends CI_Controller {
 		$data['id'] 		= null;
 		$data['evenome'] 	= null;
 		$data['evesituacao'] = null;
-		$data['eveimg'] = 'assets/img/evento-banner.jpg';
+		$data['eveimg'] = 'assets/img/evento-banner.png';
 
 		$this->parser->parse('painel/evento/evento-form', $data);
 	}
@@ -195,7 +195,7 @@ class Evento extends CI_Controller {
 		}
 		else {
 			if (!$id)
-				$itens['eveimg'] = 'assets/img/evento-banner.jpg';
+				$itens['eveimg'] = 'assets/img/evento-banner.png';
 			else 
 				return;
 		}

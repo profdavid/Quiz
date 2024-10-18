@@ -122,7 +122,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 mt-3">
                                                             <?php if(!$quesituacao): ?>
-                                                                <a class="w-100 btn btn-primary" href="{URL_LIBERAR}">
+                                                                <a class="btn btn-sm btn-primary" href="{URL_LIBERAR}">
                                                                     <i class="fa-solid fa-play"></i>Liberar questão
                                                                 </a>
                                                             <?php endif ?>
@@ -181,16 +181,16 @@
                                                                                 <div class="badge badge-success rounded-circle resposta-ordem">
                                                                                     {CORRETA_qrordem}
                                                                                 </div>
-                                                                                <div class="d-flex flex-column flex-sm-row align-items-center text-center mx-3 w-100">
+                                                                                <div class="d-flex flex-column flex-sm-row align-items-center mx-3 w-100">
                                                                                     <img
                                                                                         style="max-width: 100px"
                                                                                         class="img-fluid rounded"
                                                                                         src="<?= base_url('{CORRETA_qrimg}') ?>"
                                                                                         alt=""
                                                                                     >
-                                                                                    <div class="mx-3 my-1 text-success">
+                                                                                    <p class="mx-3 my-1 text-success">
                                                                                         {CORRETA_qrtexto}
-                                                                                    </div>
+                                                                                    </p>
                                                                                 </div>
                                                                             </div>
 
@@ -338,7 +338,7 @@
             aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body text-center p-0">
-        <img class="w-100 img-fluid" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
+        <img class="img-fluid" src="<?= base_url('{queimg}') ?>" alt="questao_logo">
       </div>
     </div>
   </div>

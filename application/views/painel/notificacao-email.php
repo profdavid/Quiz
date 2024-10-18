@@ -7,7 +7,7 @@
 >
     <tr>
         <td>
-            <div style="width: 65%; margin: 0 auto; overflow: hidden; border: 3px solid #F8F8F8;">
+            <div style="width: 90%; margin: 0 auto; overflow: hidden; border: 3px solid #F8F8F8;">
                 <div style="border: 1px solid #F0F0F0;">
                     <div style="background-color: #40AE84; color: white; padding: 20px 10px;">
                         <h2 style="margin: 0;"><?= $evenome ?></h2>

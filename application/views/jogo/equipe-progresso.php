@@ -102,7 +102,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 mt-3">
                                                             <?php if(!$quesituacao): ?>
-                                                                <a class="w-100 btn btn-info" href="{CHECK_LIBERACAO}">
+                                                                <a class="btn btn-sm btn-info" href="{CHECK_LIBERACAO}">
                                                                     <i class="feather icon-refresh-ccw"></i>
                                                                     Checar liberação
                                                                 </a>
@@ -171,9 +171,9 @@
                                             </div>
 
                                             <div class="card">
-                                                <div class="card-header">
+                                                <!-- <div class="card-header">
                                                     <h6 class="mb-0"><i class="fa-solid fa-bars-progress mr-2"></i>Progresso da equipe</h6>
-                                                </div>
+                                                </div> -->
                                                 <div class="card-body py-3 d-flex align-items-center">
                                                     <img width="35px" class="img-fluid rounded-pill mr-2"
                                                         src="<?=base_url($this->session->userdata('equipe_equlogo'))?>"

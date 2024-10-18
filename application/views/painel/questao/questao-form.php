@@ -360,7 +360,6 @@
               type="text" 
               name="respostas[${rcount}][qrtexto]" 
               value=""
-              required
             >
           </div>
 

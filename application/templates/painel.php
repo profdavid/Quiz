@@ -88,6 +88,12 @@
             color: #a9d9a3;
         }
 
+        .pcoded-navbar.mob-open ~ .pcoded-header:before,
+        .pcoded-navbar.mob-open ~ .pcoded-main-container:before, .pcoded-navbar.navbar-collapsed:hover ~ .pcoded-header:before,
+        .pcoded-navbar.navbar-collapsed:hover ~ .pcoded-main-container:before {
+            z-index: 4 !important;
+        }
+
         .font-poppins {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
@@ -289,7 +295,7 @@
             .card-header-sticky {
                 position: sticky !important;
                 top: 85px !important;
-                z-index: 2;
+                z-index: 1;
             }
         }
     </style>
