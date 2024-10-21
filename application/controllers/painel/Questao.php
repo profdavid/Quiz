@@ -402,10 +402,11 @@ class Questao extends CI_Controller {
 					$this->PadraoM->fmUpdate($this->tabela_equipe_questaoresposta, $cond, $itens);
 				}
 				else { // novo
-					$itens['idequipe'] = $equipe->id;
-					$itens['idquestao'] = $questao->id;
+					$itensNew = $itens;
+					$itensNew['idequipe'] = $equipe->id;
+					$itensNew['idquestao'] = $questao->id;
 
-					$this->PadraoM->fmNew($this->tabela_equipe_questaoresposta, $itens);
+					$this->PadraoM->fmNew($this->tabela_equipe_questaoresposta, $itensNew);
 				}
 			}
 

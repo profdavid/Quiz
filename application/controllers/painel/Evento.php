@@ -60,6 +60,7 @@ class Evento extends CI_Controller {
 		$data['id'] 		= null;
 		$data['evenome'] 	= null;
 		$data['evesituacao'] = null;
+		$data['eveautocheck']  = '';
 		$data['eveimg'] = 'assets/img/evento-banner.png';
 
 		$this->parser->parse('painel/evento/evento-form', $data);
@@ -78,8 +79,10 @@ class Evento extends CI_Controller {
 		$res = $this->PadraoM->fmSearch($this->tabela, null, array('id' => $id), TRUE);
 		
 		if($res){
-			foreach($res as $chave => $valor)
+			foreach($res as $chave => $valor){
 				$data[$chave] = $valor;
+			}
+			$data['eveautocheck'] = ($data['eveautocheck'] == 1) ? 'checked="checked"' : null;
 		}
 		else 
 			show_error('Erro ao pesquisar registro para edição.', 500, 'Ops, erro encontrado.');
@@ -123,6 +126,7 @@ class Evento extends CI_Controller {
 		}
 
 		//Tratamento dos itens
+		$itens['eveautocheck'] = ($this->input->post('eveautocheck')) ? $this->input->post('eveautocheck') : 0;
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
 
 		//Salvando os dados

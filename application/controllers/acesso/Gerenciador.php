@@ -68,18 +68,23 @@ class Gerenciador extends CI_Controller {
 			}
 
 			// Buscando equipes do evento
-			$res_equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', array('idevento' => $res_evento->id));
+			$cond = [
+				'idevento' => $res_evento->id,
+				'equlogada' => 0
+			];
+
+			$res_equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equnome', $cond);
 
 			if ($res_equipes){
 				foreach($res_equipes as $e){
 					$data['EQUIPES'][] = array(
 						'idequipe' 	=> $e->id,
-						'equnome' 	=> $e->equnome,
-						'logada' 	=> ($e->equlogada == 1) ? 'disabled' : ''
+						'equnome' 	=> $e->equnome
 					);
 				}
 			}
-		} else {
+		}
+		else {
 			show_error('Erro ao pesquisar registro.', 500, 'Ops, erro encontrado.');
 		}
 
@@ -96,7 +101,7 @@ class Gerenciador extends CI_Controller {
 			$res_equipe = $this->PadraoM->fmSearch($this->tabela_equipe, null, array('id'=> $idequipe), TRUE);
 
 			// Verifica se equipe ja esta logada
-			if(!$res_equipe->equlogada){
+			if($res_equipe && !$res_equipe->equlogada){
 				$equipe_update = $this->PadraoM->fmUpdate($this->tabela_equipe, array('id'=> $idequipe), array('equlogada' => 1));
 	
 				$this->session->set_userdata('equipe_logado', TRUE);
@@ -108,11 +113,13 @@ class Gerenciador extends CI_Controller {
 	
 				$this->session->set_flashdata('resok', fazNotificacao('success', "Sucesso! A equipe ".$res_equipe->equnome." entrou no evento."));
 				redirect('dinamica/Jogo');
-			} else {
+			}
+			else {
 				$this->session->set_flashdata('resmsg', fazAlerta('danger', 'Problemas no acesso!', 'A equipe selecionada já está logada'));
 				redirect('acesso/Gerenciador/selecionaEvento/'.$idevento);
 			}
-		} else {
+		}
+		else {
 			$this->session->set_flashdata('resmsg', fazAlerta('danger', 'Problemas no acesso!', 'Selecione uma equipe disponível'));
 			redirect('acesso/Gerenciador/selecionaEvento/'.$idevento);
 		}

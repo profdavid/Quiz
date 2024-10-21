@@ -33,7 +33,7 @@
                                                 <div class="card-header card-header-sticky bg-light py-2">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="d-flex flex-column flex-md-row justify-content-between">
+                                                            <div class="d-flex flex-column flex-md-row justify-content-between py-1">
                                                                 <div class="d-flex flex-column flex-md-row align-items-center">
                                                                     <div class="mr-0 mt-3 mr-md-3 mt-md-0">
                                                                         <button class="btn m-0 p-0" onclick="chamaViewQuestaoImage()">
@@ -47,18 +47,18 @@
                                                                     </div>
 
                                                                     <div class="d-flex flex-column justify-content-center my-4 my-md-0">
-                                                                        <h4 class="font-poppins mb-1 mb-md-0 text-center text-md-left text-{LIBERADA}">
+                                                                        <h4 class="font-poppins mb-1 mb-md-0 ml-1 text-center text-md-left text-{LIBERADA}">
                                                                             Questão {queordem}
                                                                         </h4>
-                                                                        <div class="d-flex mt-2">
-                                                                            <div class="badge badge-{LIBERADA}">
+                                                                        <div class="d-flex justify-content-center justify-content-md-start mt-1">
+                                                                            <div class="badge badge-pill badge-small badge-{LIBERADA}">
                                                                                 {SITUACAO}
                                                                             </div>
-                                                                            <div class="badge badge-info mx-2">
+                                                                            <div class="{D-SITUACAO} badge badge-pill badge-small badge-info mx-2">
                                                                                 <i class="fa-solid fa-star mr-1"></i>
                                                                                 {queponto} pontos
                                                                             </div>
-                                                                            <div class="badge badge-warning">
+                                                                            <div class="{D-SITUACAO} badge badge-pill badge-small badge-warning">
                                                                                 <i class="fa-solid fa-clock mr-1"></i>
                                                                                 {quetempo} segundos
                                                                             </div>
@@ -66,25 +66,18 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <!-- [ countdown ] start -->
-                                                                <div class="my-3 my-md-0">
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <div style="height: 80px; width: 80px" class="card card-countdown mb-0">
-                                                                            <i class="fa-solid fa-hourglass-half icon-countdown"></i>
-                                                                            <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                                                                                <div class="count" id="countdown"></div>
-                                                                                <div class="myBar ldBar label-center text-center"
-                                                                                    data-value="0"
-                                                                                    data-preset="circle"
-                                                                                    data-stroke="white"
-                                                                                    data-stroke-width="6"
-                                                                                    style="width: 80px; height: 80px"
-                                                                                ></div>
-                                                                            </div>
+                                                                <div class="d-flex flex-column-reverse">
+                                                                    <?php if(!$quesituacao && $AUTOCHECK == 0): ?>
+                                                                        <div class="d-flex align-items-center justify-content-center justify-content-md-end my-4 my-md-0">
+                                                                            <a class="btn btn-sm btn-info m-0" href="{CHECK_LIBERACAO}">
+                                                                                <i class="feather icon-refresh-ccw"></i>
+                                                                                Checar liberação
+                                                                            </a>
                                                                         </div>
-                                                                    </div>
+                                                                    <?php endif ?>
+
+                                                                    <div id="mobile-countdown-container"></div>
                                                                 </div>
-                                                                <!-- [ countdown ] end -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -93,27 +86,20 @@
                                                 <div class="card-body">
                                                     <div class="row mt-2">
                                                         <div class="col-md-12">
-                                                            <div class="mb-3 mb-md-0">
-                                                                <div class="quetexto">{quetexto}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12 mt-3">
                                                             <?php if(!$quesituacao): ?>
-                                                                <a class="btn btn-sm btn-info" href="{CHECK_LIBERACAO}">
-                                                                    <i class="feather icon-refresh-ccw"></i>
-                                                                    Checar liberação
-                                                                </a>
+                                                                <p class="m-0">Aguarde a liberação da questão.</p>
+                                                                
+                                                                <?php else: ?>
+                                                                <div class="mb-4">
+                                                                    <div class="quetexto">{quetexto}</div>
+                                                                </div>
 
-                                                            <?php else: ?>
                                                                 <form role="form" id="frmacao" name="frmacao" method="post" action="{SAVE_RESPOSTA}">
                                                                     <input type="hidden" id="id" name="id" value="{id}" />
 
                                                                         <?php if($idquestaotipo == 1): ?>
                                                                         {RESPOSTAS}
-                                                                            <div class="card-resposta d-flex align-items-center my-2 rounded" onclick="selectCard(this)">
+                                                                            <div class="card-resposta d-flex align-items-center my-2 rounded {SELECTED}" onclick="selectCard(this)">
                                                                                 <input type="radio" 
                                                                                     name="equipe_resposta" 
                                                                                     id="resposta_{qrid}" 
@@ -124,7 +110,7 @@
 
                                                                                 <label for="resposta_{qrid}" class="d-flex align-items-center px-3 py-2 w-100 mb-0">
                                                                                     <span class="badge badge-primary rounded-circle resposta-ordem">
-                                                                                        {qrordem}
+                                                                                        <span>{qrordem}</span>
                                                                                     </span>
 
                                                                                     <div class="d-flex align-items-center mx-0 mx-sm-3 w-100">
@@ -135,7 +121,9 @@
                                                                                             alt="qrimg"
                                                                                         >
                                                                                         <div class="mx-3">
-                                                                                            <p class="mb-0">{qrtexto}</p>
+                                                                                            <p class="resposta-texto mb-0">
+                                                                                                {qrtexto}
+                                                                                            </p>
                                                                                         </div>
                                                                                     </div>
                                                                                 </label>
@@ -143,12 +131,14 @@
                                                                         {/RESPOSTAS}
 
                                                                         <?php else: ?>
-                                                                            <textarea class="form-control" id="eqrdiscursiva" name="eqrdiscursiva"></textarea>
+                                                                            <textarea class="form-control" id="eqrdiscursiva" name="eqrdiscursiva">
+                                                                                {eqrdiscursiva}
+                                                                            </textarea>
                                                                         <?php endif; ?>
                                                                         
-                                                                    <div class="d-flex text-center mt-5">
-                                                                        <button id="btnsave" type="submit" class="btn btn-success w-100 m-0">
-                                                                            <i class="fa-solid fa-circle-check mr-2"></i>
+                                                                    <div class="d-flex justify-content-end mt-4">
+                                                                        <button id="btnsave" type="submit" class="btn btn-success m-0 {BTN_RESPONDEU}">
+                                                                            <i class="fa-solid fa-check mr-2"></i>
                                                                             Salvar e continuar
                                                                         </button> 
                                                                     </div>
@@ -158,40 +148,61 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <!-- [paginacao] start -->
+                                            <div id="desktop-pagination-container" style="margin-top: 4rem">
+                                                <nav id="questoes-pagination" aria-label="">
+                                                    <ul class="pagination justify-content-center flex-wrap">
+                                                        <?php if($queordem > 1): ?>
+                                                            <li class="page-item">
+                                                                <a style="background-color: transparent; border: none" class="page-link text-success mr-1 mb-1" href="{URL_ANTERIOR}">
+                                                                    <i class="fa-solid fa-angle-left"></i>
+                                                                </a>
+                                                            </li>
+                                                        <?php endif ?>
+
+                                                        {QUESTOES}
+                                                            <li class="page-item {ACTIVE}">
+                                                                <a style="{LIBERADA}" href="{URL_ACCESS}" class="page-link mb-1 mr-1">
+                                                                    {queordem}
+                                                                </a>
+                                                            </li>
+                                                        {/QUESTOES}
+
+                                                        <?php if($queordem < $COUNT_QUESTOES): ?>
+                                                            <li class="page-item">
+                                                                <a style="background-color: transparent; border: none" class="page-link text-success mb-1" href="{URL_PROXIMO}">
+                                                                    <i class="fa-solid fa-angle-right"></i>
+                                                                </a>
+                                                            </li>
+                                                        <?php endif ?>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                            <!-- [paginacao] end -->
                                         </div>
                                         <!-- [ listagem da questao ] end -->
 
-                                        <!-- [ banner do evento, progresso % ] start -->
+                                        <!-- [ countdown desktop ] start -->
                                         <div class="col-xl-3">
-                                            <div class="d-flex justify-content-center mb-4 mt-5 mt-xl-0">
-                                                <img class="img-fluid rounded" 
-                                                    src="<?=base_url('{eveimg}')?>"
-                                                    alt=""
-                                                >
-                                            </div>
-
-                                            <div class="card">
-                                                <!-- <div class="card-header">
-                                                    <h6 class="mb-0"><i class="fa-solid fa-bars-progress mr-2"></i>Progresso da equipe</h6>
-                                                </div> -->
-                                                <div class="card-body py-3 d-flex align-items-center">
-                                                    <img width="35px" class="img-fluid rounded-pill mr-2"
-                                                        src="<?=base_url($this->session->userdata('equipe_equlogo'))?>"
-                                                        alt="Profile-user"
-                                                    >
-                                                    <div class="progress w-100" style="height: 15px">
-                                                        <div class="progress-bar" role="progressbar" 
-                                                            style="width: {EQUIPE_PROGRESSO}%; height: 15px" 
-                                                            aria-valuenow="{EQUIPE_PROGRESSO}" aria-valuemin="0" aria-valuemax="100"
-                                                        >
-                                                            {EQUIPE_PROGRESSO}%
+                                            <div id="desktop-countdown-container">
+                                                <div id="countdown-element" class="d-flex justify-content-center">
+                                                    <div class="card-countdown mb-0">
+                                                        <i class="fa-regular fa-clock icon-countdown"></i>
+                                                        <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                                            <div class="count" id="countdown"></div>
+                                                            <div class="myBar ldBar label-center p-1 text-center"
+                                                                data-value="0"
+                                                                data-preset="circle"
+                                                                data-stroke="white"
+                                                                data-stroke-width="5"
+                                                            ></div>
                                                         </div>
                                                     </div>
-                                                    <i class="fa-solid fa-trophy text-warning mb-1 ml-2"></i>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- [ banner do evento, progresso % ] end -->
+                                        <!-- [ countdown desktop  ] end -->
                                     </div>
                                 </div>
                             </div>
@@ -248,16 +259,60 @@
         $("#questao").val({queordem});
         $('.quetexto img').addClass('img-fluid rounded');
 
+
+        function moverCountdownAndPagination() {
+            var countElement = document.getElementById("countdown-element");
+            var mobileCount = document.getElementById("mobile-countdown-container");
+            var desktopCount = document.getElementById("desktop-countdown-container");
+            
+            if (window.innerWidth <= 1200) {
+                mobileCount.appendChild(countElement);
+            }
+            else {
+                desktopCount.appendChild(countElement);
+            }
+        }
+
+        moverCountdownAndPagination();
+        
+        window.onresize = function() {
+            moverCountdownAndPagination();
+        };
+
+
+        var autoCheck = {AUTOCHECK};
         var tempoRestante = {tempoRestante};
         var bar = new ldBar(".myBar");
         var countdowncard = document.querySelector(".card-countdown");
         var countdown = document.getElementById("countdown");
+
+
+        function checkLiberacao() {
+            fetch('{URL_AUTOCHECK}', { method: 'GET' } )
+            .then(response => {
+                if (!response.ok) { throw new Error('Erro ao realizar operação.') }
+                return response.json();
+            })
+            .then(data => {
+                if(data == "1"){
+                    location.reload();
+                }
+            })
+            .catch(error => { console.error('Erro ao checar liberacao:', error) });
+        }
+        
 
         function iniciarCountdown() {
             if (tempoRestante == -1){
                 countdown.innerHTML = "Aguarde!";
                 countdowncard.classList.add("bg-dark");
                 bar.set(100, true);
+
+                if (autoCheck == 1) {
+                    checkLiberacao();
+                    var checkLib = setInterval(checkLiberacao, 2000);
+                }
+
                 return;
             }
 
@@ -300,8 +355,10 @@
 
 
     function selectCard(cardElement) {
-        document.querySelectorAll('.card-resposta').forEach(card => card.classList.remove('selected'));
-        cardElement.classList.add('selected');
+        if({RESPONDEU} == -1){
+            document.querySelectorAll('.card-resposta').forEach(card => card.classList.remove('selected'));
+            cardElement.classList.add('selected');
+        }
     }
 
     tinymce.init({

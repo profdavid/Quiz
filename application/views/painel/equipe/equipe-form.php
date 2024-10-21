@@ -46,7 +46,7 @@
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-12 mt-4">
-                                                        <label>Logada: </label>
+                                                        <label class="mr-2">Logada: </label>
                                                         <div class="switch switch-success d-inline m-r-10">
                                                             <input type="checkbox" id="equlogada" name="equlogada" value="1" {equlogada}>
                                                             <label for="equlogada" class="cr"></label>

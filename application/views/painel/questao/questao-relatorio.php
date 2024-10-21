@@ -27,18 +27,18 @@
                                         </div>
 
                                         <div class="d-flex flex-column justify-content-center my-4 my-md-0">
-                                            <h4 class="font-poppins mb-1 mb-md-0 text-center text-md-left text-{situacao}">
+                                            <h4 class="font-poppins mb-1 mb-md-0 ml-1 text-center text-md-left text-{situacao}">
                                                 Questão {queordem}
                                             </h4>
                                             <div class="d-flex mt-2">
-                                                <div class="badge badge-{situacao}">
+                                                <div class="badge badge-pill badge-small badge-{situacao}">
                                                     {text_situacao}
                                                 </div>
-                                                <div class="badge badge-info mx-2">
+                                                <div class="badge badge-pill badge-small badge-info mx-2">
                                                     <i class="fa-solid fa-star mr-1"></i>
                                                     {queponto} pontos
                                                 </div>
-                                                <div class="badge badge-warning">
+                                                <div class="badge badge-pill badge-small badge-warning">
                                                     <i class="fa-solid fa-clock mr-1"></i>
                                                     {quetempo} segundos
                                                 </div>

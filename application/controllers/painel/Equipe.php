@@ -95,6 +95,7 @@ class Equipe extends CI_Controller {
 		$idevento_ativo = $this->session->userdata('quiz_ideventoativo');
 		
 		//Tratamento dos itens
+		$itens['equlogada'] = ($this->input->post('equlogada')) ? $this->input->post('equlogada') : 0;
 		$itens['atualizado_em'] = date("Y-m-d H:i:s");
 		$itens['idevento'] = $idevento_ativo;
 		

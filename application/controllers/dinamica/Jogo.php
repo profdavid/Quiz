@@ -48,32 +48,65 @@ class Jogo extends CI_Controller {
 		$data['RES_ERRO'] = $this->session->flashdata('reserro');
 		$data['RES_OK']	= $this->session->flashdata('resok');
 		$data['CHECK_LIBERACAO'] = site_url('dinamica/Jogo');
+		$data['URL_ANTERIOR'] = site_url('dinamica/Jogo/questao/'.($queordem - 1));
+		$data['URL_PROXIMO'] = site_url('dinamica/Jogo/questao/'.($queordem + 1));
 		$data['SAVE_RESPOSTA'] = site_url('dinamica/Jogo/salvarEquipeResposta');
 		$data['URL_EQUIPEINFO'] = site_url('dinamica/Jogo/equipeInfo');
+		$data['URL_AUTOCHECK'] = site_url('dinamica/Jogo/autoCheckLiberacao/'.$queordem);
 		$data['RESPOSTAS'] = [];
+		$data['COUNT_QUESTOES'] = 0;
 		$data['COUNT_RESPOSTAS'] = 0;
 
 		$idevento = $this->session->userdata('equipe_ideventoativo');
+		$idequipe = $this->session->userdata('equipe_idequipe');
 
-		// Busca dados do evento
+		// Busca info do evento
 		$evento = $this->PadraoM->fmSearch($this->tabela_evento, NULL, ['id' => $idevento], TRUE);
-		$data['eveimg'] = ($evento) ? $evento->eveimg : '';
+		$data['AUTOCHECK'] = ($evento) ? $evento->eveautocheck : -1;
 
-		// Tratamento progresso da equipe
-		$data['EQUIPE_PROGRESSO'] = $this->porcentagemEquipeProgresso();
+		// Busca todas as questoes
+		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $idevento], FALSE);
+		if($quetotal) {
+			foreach ($quetotal as $q) {
+				$data['QUESTOES'][] = array(
+					'queid'      => $q->id,
+					'queordem'   => $q->queordem,
+					'LIBERADA'	 => ($q->quesituacao == '1' && $q->queordem != $queordem) ? 'background-color: #28A74520;' : '',
+					'ACTIVE'	 => ($q->queordem == $queordem) ? 'active' : '',
+					'URL_ACCESS' => site_url('dinamica/Jogo/questao/'.$q->queordem)
+				);
+			}
+			$data['COUNT_QUESTOES'] = count($quetotal);
+		}
 
 		// Busca a ordem desejada
-		$cond['idevento'] = $idevento;
-		$cond['queordem'] = $queordem;
+		$cond = [
+			'idevento' => $idevento,
+			'queordem' => $queordem
+		];
+
 		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
 
-		if ($questao) {
+		if($questao) {
 			foreach($questao as $chave => $valor) {
 				$data[$chave] = $valor;
 			}
 
 			$data['LIBERADA'] = ($questao->quesituacao == 0) ? 'dark' : 'success';
 			$data['SITUACAO'] = ($questao->quesituacao == 0) ? 'Não liberada' : 'Liberada';
+			$data['D-SITUACAO'] = ($questao->quesituacao == 0) ? 'd-none' : 'd-block';
+
+			// Tratamento se equipe ja respondeu
+			$cond = [
+				'idequipe' => $idequipe,
+				'idquestao' => $questao->id,
+			];
+
+			$equipe_questaoresposta = $this->PadraoM->fmSearch($this->tabela_equipe_questaoresposta, NULL, $cond, TRUE);
+
+			$data['RESPONDEU'] = ($equipe_questaoresposta) ? 1 : -1;
+			$data['BTN_RESPONDEU'] = ($equipe_questaoresposta) ? 'd-none' : '';
+			$data['eqrdiscursiva'] = ($equipe_questaoresposta) ? $equipe_questaoresposta->eqrdiscursiva : '';
 
 			// Tratamento do countdown
 			$tempoAtual = date("Y-m-d H:i:s");
@@ -97,7 +130,8 @@ class Jogo extends CI_Controller {
 						'qrordem'   => $r->qrordem,
 						'qrtexto'   => $r->qrtexto,
 						'qrimg'     => $r->qrimg,
-						'SEM_IMAGEM' => (!$r->qrimg) ? 'd-none' : ''
+						'SEM_IMAGEM' => (!$r->qrimg) ? 'd-none' : '',
+						'SELECTED' => ($equipe_questaoresposta && ($r->id == $equipe_questaoresposta->idquestaoresposta)) ? 'selected' : ''
 					);
 				}
 				$data['COUNT_RESPOSTAS'] = count($respostas);
@@ -140,10 +174,10 @@ class Jogo extends CI_Controller {
 	
 				$resposta_correta = $this->PadraoM->fmSearch($this->tabela_questaoresposta, NULL, $cond, TRUE);
 	
-				if (($resposta_correta->id == $equiperesposta_id) && ($diferenca <= $questao->quetempo)) {
+				if (($resposta_correta->id == $equiperesposta_id) && ($diferenca <= $questao->quetempo))
 					$itens['eqrponto'] = $questao->queponto;
-				}
-			} else { //Discursiva
+			} 
+			else { //Discursiva
 				$eqrdiscursiva = $this->input->post('eqrdiscursiva');
 				$itens['eqrdiscursiva'] = $eqrdiscursiva;
 			}
@@ -219,6 +253,24 @@ class Jogo extends CI_Controller {
 
 
 
+	public function autoCheckLiberacao($queordem){
+		$idevento = $this->session->userdata('equipe_ideventoativo');
+
+		$cond = [
+			'idevento' => $idevento,
+			'queordem' => $queordem
+		];
+
+		$questao = $this->PadraoM->fmSearch($this->tabela_questao, NULL, $cond, TRUE);
+
+		$check = ($questao) ? $questao->quesituacao : "-1";
+		echo json_encode($check);
+
+		exit;
+	}
+
+
+
 	public function checkEquipeProgresso(){
 		$idevento = $this->session->userdata('equipe_ideventoativo');
 		$idequipe = $this->session->userdata('equipe_idequipe');
@@ -247,23 +299,5 @@ class Jogo extends CI_Controller {
 		}
 
 		return 1; // inicio 
-	}
-
-	
-
-	public function porcentagemEquipeProgresso() {
-		$cond['idevento'] = $this->session->userdata('equipe_ideventoativo');
-
-		$ordemAtual = $this->checkEquipeProgresso();
-	
-		$questoes = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', $cond, FALSE);
-	
-		if ($questoes) {
-			$progressoAux = (($ordemAtual - 1) / count($questoes)) * 100;
-			$progresso = round($progressoAux);
-			return $progresso;
-		}
-
-		return 0;
 	}
 }

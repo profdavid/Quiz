@@ -64,6 +64,11 @@
             font-weight: 600;
         }
 
+        .badge-small {
+            font-size: 14px;
+            margin: 3px;
+        }
+
         .card-resposta-correta {
             border: 1px solid #28A745;
             background-color: #28A74515;

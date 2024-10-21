@@ -53,7 +53,16 @@
                                                                 <option value="2">Finalizado</option>
                                                             </select>
                                                         </div>
+
+                                                        <div class="form-group col-md-12">
+                                                            <label class="mr-2">Checar liberação automática: </label>
+                                                            <div class="switch switch-success d-inline m-r-10">
+                                                                <input type="checkbox" id="eveautocheck" name="eveautocheck" value="1" {eveautocheck}>
+                                                                <label for="eveautocheck" class="cr"></label>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                     <div class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="form-group">

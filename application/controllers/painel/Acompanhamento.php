@@ -40,10 +40,6 @@ class Acompanhamento extends CI_Controller {
 		
 		$ideventoativo = $this->session->userdata('quiz_ideventoativo');
 
-		// Busca dados do evento
-		$evento = $this->PadraoM->fmSearch($this->tabela_evento, NULL, ['id' => $ideventoativo], TRUE);
-		$data['eveimg'] = ($evento) ? $evento->eveimg : '';
-
 		// Busca todas as questoes
 		$quetotal = $this->PadraoM->fmSearch($this->tabela_questao, 'queordem', ['idevento' => $ideventoativo], FALSE);
 		if($quetotal) {
@@ -51,8 +47,8 @@ class Acompanhamento extends CI_Controller {
 				$data['QUESTOES'][] = array(
 					'queid'      => $q->id,
 					'queordem'   => $q->queordem,
-					'LIBERADA'	 => ($q->quesituacao == '1') ? 'badge-success' : 'badge-secondary',
-					'ATUAL'		 => ($q->queordem == $queordem) ? 'badge-selected' : 'badge-custom',
+					'LIBERADA'	 => ($q->quesituacao == '1' && $q->queordem != $queordem) ? 'background-color: #28A74520' : '',
+					'ACTIVE'	 => ($q->queordem == $queordem) ? 'active' : '',
 					'URL_ACCESS' => site_url('painel/Acompanhamento/questao/'.$q->queordem)
 				);
 			}
@@ -133,7 +129,7 @@ class Acompanhamento extends CI_Controller {
 			JOIN questao q ON qr.idquestao = q.id
 			JOIN equipe e ON eqr.idequipe = e.id
 			WHERE q.id = $questao->id
-			ORDER BY eqr.eqrtempo ASC;
+			ORDER BY eqr.eqrtempo DESC;
 		";
 
 		$results = $this->PadraoM->fmSearchQuery($query);
@@ -175,7 +171,7 @@ class Acompanhamento extends CI_Controller {
 			JOIN questao q ON eqr.idquestao = q.id
 			JOIN equipe e ON eqr.idequipe = e.id
 			WHERE q.id = $questao->id
-			ORDER BY eqr.eqrtempo ASC;
+			ORDER BY eqr.eqrtempo DESC;
 		";
 
 		$results = $this->PadraoM->fmSearchQuery($query);
@@ -245,7 +241,7 @@ class Acompanhamento extends CI_Controller {
 			FROM equipe_questaoresposta eqr
 			JOIN equipe e ON eqr.idequipe = e.id
 			WHERE eqr.idquestao = $idquestao
-			ORDER BY eqr.criado_em ASC
+			ORDER BY eqr.criado_em DESC
 		";
 
 		$att = $this->PadraoM->fmSearchQuery($query);

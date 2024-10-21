@@ -123,6 +123,9 @@
         }
 
         .resposta-ordem {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: none;
             width: 28px;
             font-size: 18px;
         }
@@ -143,9 +146,19 @@
             opacity: 75%;
         }
 
+        #countdown-element {
+            margin: 10px 0px;
+        }
+
         .card-countdown {
+            transition: all 0.5s;
             border-radius: 50%;
             position: relative;
+        }
+
+        .card-countdown, .myBar {
+            width: 180px !important;
+            height: 180px !important;
         }
 
         .icon-countdown {
@@ -153,7 +166,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 30px;
+            font-size: 180px;
             color: white;
             opacity: 0.1;
         }
@@ -166,7 +179,7 @@
             text-align: center;
             color: white;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 22px;
         }
 
         .card-resposta-correta {
@@ -188,8 +201,6 @@
         }
 
         .card-resposta {
-            transition: all 200ms;
-            border: 1px solid #F5F7F7;
             background-color: #F5F7F7;
         }
 
@@ -198,9 +209,21 @@
         }
 
         .card-resposta.selected {
-            border: 1px solid #007bff75;
-            background-color: #007bff20;
+            background-color: #007bff;
         }
+
+        .card-resposta.selected .resposta-texto {
+            color: white;
+        }
+
+        .card-resposta.selected .resposta-ordem {
+            background-color: white;
+        }
+
+        .card-resposta.selected .resposta-ordem span {
+            color: #007bff;
+            font-weight: 900;
+        } 
 
         .bg-finish {
             height: 80vh;
@@ -299,15 +322,32 @@
         }
 
         @media (min-width: 992px) {
+            .equipe-info {
+                overflow-y: auto;
+                max-height: 360px;
+            }
+        }
+
+        @media (min-width: 1200px) {
             .card-header-sticky {
                 position: sticky !important;
                 top: 70px !important;
                 z-index: 2;
             }
+        }
 
-            .equipe-info {
-                overflow-y: auto;
-                max-height: 380px;
+        @media (max-width: 1200px) {
+            .card-countdown, .myBar {
+                width: 120px !important;
+                height: 120px !important;
+            }
+            
+            .icon-countdown {
+                font-size: 120px;
+            }
+
+            .count {
+                font-size: 16px;
             }
         }
     </style>

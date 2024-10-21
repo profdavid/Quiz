@@ -73,7 +73,7 @@
                                             </div>
 
                                             <div class="col-lg-8 col-md-12 align-self-center">
-                                                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mx-3 mt-5 mt-lg-0 mb-3">
+                                                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mx-0 mx-md-3 mt-5 mt-lg-0 mb-3">
                                                     <div class="d-flex align-items-center">
                                                         <h6 class="m-0">
                                                             <i class="fa-solid fa-list-check mr-2"></i>
@@ -98,7 +98,7 @@
 
                                                 <div class="equipe-info">
                                                     {LIST_EQUIPE_QUESTAORESPOSTA}
-                                                    <div class="card m-3">
+                                                    <div class="card mx-0 mx-md-3 mt-3">
                                                         <div class="card-header d-flex justify-content-between align-items-center py-2 {BG_ACERTOU}">
                                                             <strong class="font-poppins">
                                                                 Questão {queordem}

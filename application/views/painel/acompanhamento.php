@@ -38,7 +38,7 @@
                                                 <div class="card-header card-header-sticky bg-light py-2">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="d-flex flex-column flex-md-row justify-content-between">
+                                                            <div class="d-flex flex-column flex-md-row justify-content-between py-1">
                                                                 <div class="d-flex flex-column flex-md-row align-items-center">
                                                                     <div class="mr-0 mt-3 mr-md-3 mt-md-0">
                                                                         <button class="btn m-0 p-0" onclick="chamaViewQuestaoImage()">
@@ -53,32 +53,20 @@
 
                                                                     <div class="d-flex flex-column justify-content-center my-4 my-md-0">
                                                                         <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                                                                            <?php if($queordem > 1): ?>
-                                                                                <a class="mr-3 text-success" href="{URL_ANTERIOR}">
-                                                                                    <i style="font-size: 14px" class="fa-solid fa-chevron-left"></i>
-                                                                                </a>
-                                                                            <?php endif ?>
-                                                                            
-                                                                            <h4 class="font-poppins mb-1 mb-md-0 text-{LIBERADA}">
+                                                                            <h4 class="font-poppins ml-1 mb-1 mb-md-0 text-{LIBERADA}">
                                                                                 Questão {queordem}
                                                                             </h4>
-
-                                                                            <?php if($queordem < $COUNT_QUESTOES): ?>
-                                                                                <a class="ml-3 text-success" href="{URL_PROXIMO}">
-                                                                                    <span style="font-size: 14px" class="fa-solid fa-chevron-right"></span>
-                                                                                </a>
-                                                                            <?php endif ?>
                                                                         </div>
 
-                                                                        <div class="d-flex mt-2">
-                                                                            <div class="badge badge-{LIBERADA}">
+                                                                        <div class="d-flex mt-1">
+                                                                            <div class="badge badge-pill badge-small badge-{LIBERADA}">
                                                                                 {SITUACAO}
                                                                             </div>
-                                                                            <div class="badge badge-info mx-2">
+                                                                            <div class="badge badge-pill badge-small badge-info mx-2">
                                                                                 <i class="fa-solid fa-star mr-1"></i>
                                                                                 {queponto} pontos
                                                                             </div>
-                                                                            <div class="badge badge-warning">
+                                                                            <div class="badge badge-pill badge-small badge-warning">
                                                                                 <i class="fa-solid fa-clock mr-1"></i>
                                                                                 {quetempo} segundos
                                                                             </div>
@@ -86,25 +74,18 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <!-- [ countdown ] start -->
-                                                                <div class="my-3 my-md-0">
-                                                                    <div class="d-flex justify-content-center">
-                                                                        <div style="height: 80px; width: 80px" class="card card-countdown mb-0">
-                                                                            <i class="fa-solid fa-hourglass-half icon-countdown"></i>
-                                                                            <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                                                                                <div class="count" id="countdown"></div>
-                                                                                <div class="myBar ldBar label-center text-center"
-                                                                                    data-value="0"
-                                                                                    data-preset="circle"
-                                                                                    data-stroke="white"
-                                                                                    data-stroke-width="6"
-                                                                                    style="width: 80px; height: 80px"
-                                                                                ></div>
-                                                                            </div>
+                                                                <div class="d-flex flex-column-reverse">
+                                                                    <?php if(!$quesituacao): ?>
+                                                                        <div class="d-flex align-items-center justify-content-center justify-content-md-end my-4 my-md-0">
+                                                                            <a class="btn btn-sm btn-primary m-0" href="{URL_LIBERAR}">
+                                                                                <i class="fa-solid fa-play"></i>
+                                                                                Liberar questão
+                                                                            </a>
                                                                         </div>
-                                                                    </div>
+                                                                    <?php endif ?>
+
+                                                                    <div id="mobile-countdown-container"></div>
                                                                 </div>
-                                                                <!-- [ countdown ] end -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -113,19 +94,9 @@
                                                 <div class="card-body">
                                                     <div class="row mt-2">
                                                         <div class="col-md-12">
-                                                            <div class="mb-3 mb-md-0">
+                                                            <div class="mb-4">
                                                                 <div class="quetexto">{quetexto}</div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12 mt-3">
-                                                            <?php if(!$quesituacao): ?>
-                                                                <a class="btn btn-sm btn-primary" href="{URL_LIBERAR}">
-                                                                    <i class="fa-solid fa-play"></i>Liberar questão
-                                                                </a>
-                                                            <?php endif ?>
 
                                                             <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
                                                                 {RESPOSTAS}
@@ -150,171 +121,201 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
-                                                <!-- [ resultados ] start -->
-                                                <div class="card-footer">
-                                                    <div class="card bg-light mt-4">
-                                                        <div class="card-header">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <h6 class="mb-0"><i class="fa-solid fa-square-poll-horizontal mr-2"></i>Resultados</h6>
-                                                                <?php if($SHOW_RESULTS): ?>
-                                                                    <a href="{URL_ATUAL}" class="btn btn-sm btn-dark m-0">
-                                                                        <i class="fa-solid fa-eye-slash"></i>Esconder resultados
-                                                                    </a>
-                                                                <?php else: ?>
-                                                                    <a href="{URL_ATUAL}/true" class="btn btn-sm btn-light m-0">
-                                                                        <i class="fa-solid fa-eye"></i>Mostrar resultados
-                                                                    </a>
-                                                                <?php endif ?>
-                                                            </div>
-                                                        </div>
+                                            </div>
 
-                                                        <?php if ($SHOW_RESULTS): ?>
-                                                            <?php if ($idquestaotipo == 1): ?>
-                                                                <div class="card-body">
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <h6 class="mt-2 mb-3 text-success">
-                                                                                <i class="fa-solid fa-circle-check mr-2"></i>Resposta correta:
-                                                                            </h6>
-                                                                            <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
-                                                                                <div class="badge badge-success rounded-circle resposta-ordem">
-                                                                                    {CORRETA_qrordem}
-                                                                                </div>
-                                                                                <div class="d-flex flex-column flex-sm-row align-items-center mx-3 w-100">
-                                                                                    <img
-                                                                                        style="max-width: 100px"
-                                                                                        class="img-fluid rounded"
-                                                                                        src="<?= base_url('{CORRETA_qrimg}') ?>"
-                                                                                        alt=""
-                                                                                    >
-                                                                                    <p class="mx-3 my-1 text-success">
-                                                                                        {CORRETA_qrtexto}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="dt-responsive table-responsive">
-                                                                                <table id="tabListagem" class="table table-striped table-bordered nowrap">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th>Ordem</th>
-                                                                                            <th>Equipe</th>
-                                                                                            <th>Resposta</th>
-                                                                                            <th>Tempo</th>
-                                                                                            <th>Pontuação</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        {RESULTS}
-                                                                                        <tr class="{COR_EQRSITUACAO}">
-                                                                                            <td>{ordem}</td>
-                                                                                            <td>{equnome}</td>
-                                                                                            <td>{qrordem}</td>
-                                                                                            <td>{eqrtempo}</td>
-                                                                                            <td>{eqrponto}</td>
-                                                                                        </tr>
-                                                                                        {/RESULTS}
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <?php else: ?>
-                                                                    <div class="card-body">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <h6 class="mt-2 mb-3 text-success">
-                                                                                    <i class="fa-solid fa-circle-check mr-2"></i>Resposta correta:
-                                                                                </h6>
-                                                                                <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
-                                                                                    <div>{quediscursiva}</div>
-                                                                                </div>
-
-                                                                                <div class="dt-responsive table-responsive">
-                                                                                    <table id="tabListagem" class="table table-striped table-bordered nowrap">
-                                                                                        <thead>
-                                                                                            <tr>
-                                                                                                <th>Ordem</th>
-                                                                                                <th>Equipe</th>
-                                                                                                <th>Resposta</th>
-                                                                                                <th>Tempo</th>
-                                                                                                <th>Pontuação</th>
-                                                                                                <th>Ações</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-                                                                                            {RESULTS}
-                                                                                            <tr class="{COR_EQRSITUACAO}">
-                                                                                                <td>{ordem}</td>
-                                                                                                <td>{equnome}</td>
-                                                                                                <td><div class="table-questao-discursiva">{eqrdiscursiva}</div></td>
-                                                                                                <td>{eqrtempo}</td>
-                                                                                                <td>{eqrponto}</td>
-                                                                                                <td class="d-flex justify-content-around">
-                                                                                                    <a href="{URL_CORRECAO_CERTA}" data-toggle="tooltip"
-                                                                                                        data-placement="top"
-                                                                                                        title="Correta" class="text-success">
-                                                                                                        <i style="font-size: 20px" class="fa-solid fa-circle-check"></i>
-                                                                                                    </a>
-                                                                                                    <a href="{URL_CORRECAO_ERRADA}" data-toggle="tooltip"
-                                                                                                        data-placement="top"
-                                                                                                        title="Errada" class="text-danger">
-                                                                                                        <i style="font-size: 20px" class="fa-solid fa-circle-xmark"></i>
-                                                                                                    </a>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            {/RESULTS}
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                            <?php endif ?>
+                                            <!-- [resultados] start -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h6 class="mb-0"><i class="fa-solid fa-square-poll-horizontal mr-2"></i>Resultados</h6>
+                                                        <?php if($SHOW_RESULTS): ?>
+                                                            <a href="{URL_ATUAL}" class="btn btn-sm btn-dark m-0">
+                                                                <i class="fa-solid fa-eye-slash"></i>Esconder resultados
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <a href="{URL_ATUAL}/true" class="btn btn-sm btn-light m-0">
+                                                                <i class="fa-solid fa-eye"></i>Mostrar resultados
+                                                            </a>
                                                         <?php endif ?>
                                                     </div>
                                                 </div>
-                                                <!-- [ resultados ] end -->
+
+                                                <?php if ($SHOW_RESULTS): ?>
+                                                    <?php if ($idquestaotipo == 1): ?>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <h6 class="mt-2 mb-3 text-success">
+                                                                        <i class="fa-solid fa-circle-check mr-2"></i>Resposta correta:
+                                                                    </h6>
+                                                                    <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
+                                                                        <div class="badge badge-success rounded-circle resposta-ordem">
+                                                                            {CORRETA_qrordem}
+                                                                        </div>
+                                                                        <div class="d-flex flex-column flex-sm-row align-items-center mx-3 w-100">
+                                                                            <img
+                                                                                style="max-width: 100px"
+                                                                                class="img-fluid rounded"
+                                                                                src="<?= base_url('{CORRETA_qrimg}') ?>"
+                                                                                alt=""
+                                                                            >
+                                                                            <p class="mx-3 my-1 text-success">
+                                                                                {CORRETA_qrtexto}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="dt-responsive table-responsive">
+                                                                        <table class="table table-striped table-bordered nowrap">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Ordem</th>
+                                                                                    <th>Equipe</th>
+                                                                                    <th>Resposta</th>
+                                                                                    <th>Tempo</th>
+                                                                                    <th>Pontuação</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {RESULTS}
+                                                                                <tr class="{COR_EQRSITUACAO}">
+                                                                                    <td>{ordem}</td>
+                                                                                    <td>{equnome}</td>
+                                                                                    <td>{qrordem}</td>
+                                                                                    <td>{eqrtempo}</td>
+                                                                                    <td>{eqrponto}</td>
+                                                                                </tr>
+                                                                                {/RESULTS}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <?php else: ?>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h6 class="mt-2 mb-3 text-success">
+                                                                            <i class="fa-solid fa-circle-check mr-2"></i>Resposta correta:
+                                                                        </h6>
+                                                                        <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
+                                                                            <div>{quediscursiva}</div>
+                                                                        </div>
+
+                                                                        <div class="dt-responsive table-responsive">
+                                                                            <table class="table table-striped table-bordered nowrap">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Ordem</th>
+                                                                                        <th>Equipe</th>
+                                                                                        <th>Resposta</th>
+                                                                                        <th>Tempo</th>
+                                                                                        <th>Pontuação</th>
+                                                                                        <th>Ações</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {RESULTS}
+                                                                                    <tr class="{COR_EQRSITUACAO}">
+                                                                                        <td>{ordem}</td>
+                                                                                        <td>{equnome}</td>
+                                                                                        <td><div class="table-questao-discursiva">{eqrdiscursiva}</div></td>
+                                                                                        <td>{eqrtempo}</td>
+                                                                                        <td>{eqrponto}</td>
+                                                                                        <td class="text-center">
+                                                                                            <a href="{URL_CORRECAO_CERTA}" data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Correta" class="text-success mx-2">
+                                                                                                <i style="font-size: 20px" class="fa-solid fa-circle-check"></i>
+                                                                                            </a>
+                                                                                            <a href="{URL_CORRECAO_ERRADA}" data-toggle="tooltip"
+                                                                                                data-placement="top"
+                                                                                                title="Errada" class="text-danger mx-2">
+                                                                                                <i style="font-size: 20px" class="fa-solid fa-circle-xmark"></i>
+                                                                                            </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    {/RESULTS}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    <?php endif ?>
+                                                <?php endif ?>
                                             </div>
+                                            <!-- [resultados] end -->
+
+                                            <!-- [paginacao] start -->
+                                            <div id="desktop-pagination-container">
+                                                <div id="questoes-pagination" style="margin: 4rem 0rem">
+                                                    <nav aria-label="">
+                                                        <ul class="pagination justify-content-center flex-wrap">
+                                                            <?php if($queordem > 1): ?>
+                                                                <li class="page-item">
+                                                                    <a style="background-color: transparent; border: none" class="page-link text-success mr-1 mb-1" href="{URL_ANTERIOR}">
+                                                                        <i class="fa-solid fa-angle-left"></i>
+                                                                    </a>
+                                                                </li>
+                                                            <?php endif ?>
+
+                                                            {QUESTOES}
+                                                                <li class="page-item {ACTIVE}">
+                                                                    <a style="{LIBERADA}" href="{URL_ACCESS}" class="page-link mb-1 mr-1">
+                                                                        {queordem}
+                                                                    </a>
+                                                                </li>
+                                                            {/QUESTOES}
+
+                                                            <?php if($queordem < $COUNT_QUESTOES): ?>
+                                                                <li class="page-item">
+                                                                    <a style="background-color: transparent; border: none" class="page-link text-success mb-1" href="{URL_PROXIMO}">
+                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                    </a>
+                                                                </li>
+                                                            <?php endif ?>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                            <!-- [paginacao] end -->
                                         </div>
                                         <!-- [ listagem da questao ] end -->
                                          
 
-                                        <!-- [ banner, painel questoes, atualizacoes ] start -->
+                                        <!-- [ countdown desktop e envios ] start -->
                                         <div class="col-xl-3">
-                                            <div class="d-flex justify-content-center mb-4 mt-5 mt-xl-0">
-                                                <img class="img-fluid rounded" 
-                                                    src="<?=base_url('{eveimg}')?>"
-                                                    alt=""
-                                                >
-                                            </div>
-
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h6 class="mb-0"><i class="fa-solid fa-align-left mr-2"></i>Questões</h6>
+                                            <div id="desktop-countdown-container" class="card card-countdown-sticky">
+                                                <div id="countdown-element" class="d-flex justify-content-center">
+                                                    <div class="card-countdown mb-0">
+                                                        <i class="fa-regular fa-clock icon-countdown"></i>
+                                                        <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                                            <div class="count" id="countdown"></div>
+                                                            <div class="myBar ldBar label-center p-1 text-center"
+                                                                data-value="0"
+                                                                data-preset="circle"
+                                                                data-stroke="white"
+                                                                data-stroke-width="5"
+                                                            ></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                                 <div class="card-body">
-                                                    {QUESTOES}
-                                                        <a href="{URL_ACCESS}" class="badge badge-pill {ATUAL} {LIBERADA}">
-                                                            {queordem}
-                                                        </a>
-                                                    {/QUESTOES}
+                                                    <h6 class="mb-0"><i class="fa-solid fa-clock mr-2"></i>Envios</h6>
                                                 </div>
-                                            </div>
 
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h6 class="mb-0"><i class="fa-regular fa-clock mr-2"></i>Atualizações</h6>
-                                                </div>
-                                                <div class="card-body card-atualizacoes">
-                                                    <div id="dataContainer"></div>
+                                                <div class="card-footer">
+                                                    <div id="dataContainer">Não há envios registrados.</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- [ banner, painel questoes, atualizacoes ] end -->
+                                        <!-- [ countdown desktop e envios  ] end -->
+
+                                        <div id="mobile-pagination-container" class="col-md-12"></div>
                                     </div>
                                 </div>
                             </div>
@@ -352,18 +353,32 @@
         {RES_OK}
         $("#questao").val({queordem});
         $('.quetexto img').addClass('img-fluid rounded');
-        $('#tabListagem').DataTable({
-            "language": {
-                "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"
-            },
-            "aaSorting": []
-        });
 
-        var tempoRestante = {tempoRestante};
-        var bar = new ldBar(".myBar");
-        var countdowncard = document.querySelector(".card-countdown");
-        var countdown = document.getElementById("countdown");
+        function moverCountdownAndPagination() {
+            var countElement = document.getElementById("countdown-element");
+            var mobileCount = document.getElementById("mobile-countdown-container");
+            var desktopCount = document.getElementById("desktop-countdown-container");
 
+            var paginationElement = document.getElementById("questoes-pagination");
+            var mobilePagination = document.getElementById("mobile-pagination-container");
+            var desktopPagination = document.getElementById("desktop-pagination-container");
+            
+            if (window.innerWidth <= 1200) {
+                mobileCount.appendChild(countElement);
+                mobilePagination.appendChild(paginationElement);
+            }
+            else {
+                desktopCount.insertBefore(countElement, desktopCount.firstChild);
+                desktopPagination.insertBefore(paginationElement, desktopPagination.firstChild);
+            }
+        }
+
+        moverCountdownAndPagination();
+        
+        window.onresize = function() {
+            moverCountdownAndPagination();
+        };
+        
 
         function exibeAtualizacoes(data) {
             var container = document.getElementById('dataContainer');
@@ -394,6 +409,11 @@
             .catch(error => { console.error('Erro ao buscar atualizações:', error) });
         }
 
+
+        var tempoRestante = {tempoRestante};
+        var bar = new ldBar(".myBar");
+        var countdowncard = document.querySelector(".card-countdown");
+        var countdown = document.getElementById("countdown");
 
         function iniciarCountdown() {
             if (tempoRestante == -1){

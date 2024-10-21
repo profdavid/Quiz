@@ -68,9 +68,16 @@
                                                 <div class="mb-4">
                                                     <label for="equipe">Escolha a sua equipe:</label>
                                                     <select class="form-control" name="equipe" id="equipe">
+                                                    <?php if (!empty($EQUIPES)) : ?>
                                                         {EQUIPES}
                                                             <option value="{idequipe}">{equnome}</option>
                                                         {/EQUIPES}
+
+                                                        <?php else : ?>
+                                                            <option selected disabled value="-1">
+                                                                Não há equipes disponíveis
+                                                            </option>
+                                                    <?php endif; ?>
                                                     </select>
                                                 </div>
                                                 <div class="text-right mb-lg-0 mb-5">

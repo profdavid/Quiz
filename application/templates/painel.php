@@ -153,9 +153,19 @@
             background-color: #3aab2c15;
         }
 
+        #countdown-element {
+            margin: 10px 0px;
+        }
+
         .card-countdown {
+            transition: all 0.5s;
             border-radius: 50%;
             position: relative;
+        }
+
+        .card-countdown, .myBar {
+            width: 180px !important;
+            height: 180px !important;
         }
 
         .icon-countdown {
@@ -163,7 +173,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 30px;
+            font-size: 180px;
             color: white;
             opacity: 0.1;
         }
@@ -176,7 +186,7 @@
             text-align: center;
             color: white;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 22px;
         }
 
         .qrimg {
@@ -184,6 +194,8 @@
         }
 
         .resposta-ordem {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
             width: 28px;
             font-size: 18px;
         }
@@ -291,11 +303,26 @@
             }
         }
 
-        @media (min-width: 992px) {
-            .card-header-sticky {
+        @media (min-width: 1200px) {
+            .card-header-sticky, .card-countdown-sticky {
                 position: sticky !important;
                 top: 85px !important;
                 z-index: 1;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .card-countdown, .myBar {
+                width: 120px !important;
+                height: 120px !important;
+            }
+            
+            .icon-countdown {
+                font-size: 120px;
+            }
+
+            .count {
+                font-size: 16px;
             }
         }
     </style>
