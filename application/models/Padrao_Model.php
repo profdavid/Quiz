@@ -119,7 +119,7 @@ class Padrao_Model extends CI_Model {
 		else return FALSE;
 	}
 
-	public function fmSearchIn($tabela, $order = null, $ids){
+	public function fmSearchIn($tabela, $order = null, $ids = null){
 		$this->db->select('*');
 		$this->db->from($tabela);
 		$this->db->where_in('id', $ids);
