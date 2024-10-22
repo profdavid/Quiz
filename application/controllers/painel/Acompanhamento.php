@@ -237,6 +237,7 @@ class Acompanhamento extends CI_Controller {
 
 	public function buscaAtualizacoes($idquestao) {
 		$ideventoativo = $this->session->userdata('quiz_ideventoativo');
+		$todosEnviaram = false;
 
 		$query = "
 			SELECT DISTINCT e.equnome, eqr.criado_em
@@ -248,9 +249,15 @@ class Acompanhamento extends CI_Controller {
 
 		$envios = $this->PadraoM->fmSearchQuery($query);
 
+		if (!$envios) {
+			$envios = [];
+		}
+
 		$equipes = $this->PadraoM->fmSearch($this->tabela_equipe, NULL, ['idevento' => $ideventoativo], FALSE);
 
-		$todosEnviaram = (count($envios) >= count($equipes)) ? true : false;
+		if ($equipes) {
+			$todosEnviaram = (count($envios) >= count($equipes)) ? true : false;
+		}
 
 		$resultado = [
 			'envios' => $envios,
@@ -258,7 +265,6 @@ class Acompanhamento extends CI_Controller {
 		];
 
 		echo json_encode($resultado);
-
 		exit;
 	}
 
