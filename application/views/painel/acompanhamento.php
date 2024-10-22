@@ -98,7 +98,7 @@
                                                                 <div class="quetexto">{quetexto}</div>
                                                             </div>
 
-                                                            <?php if($COUNT_RESPOSTAS > 0 && $quesituacao): ?>
+                                                            <?php if($COUNT_RESPOSTAS > 0): ?>
                                                                 {RESPOSTAS}
                                                                     <div class="card-resposta d-flex align-items-center px-3 py-2 my-2 rounded">
                                                                         <span class="badge badge-primary rounded-circle resposta-ordem">
@@ -378,6 +378,10 @@
         window.onresize = function() {
             moverCountdownAndPagination();
         };
+
+
+        var count;
+        var att;
         
 
         function exibeAtualizacoes(data) {
@@ -405,7 +409,18 @@
                 if (!response.ok) { throw new Error('Erro ao realizar operação.') }
                 return response.json();
             })
-            .then(data => { exibeAtualizacoes(data) })
+            .then(data => { 
+                exibeAtualizacoes(data.envios);
+
+                if (data.todosEnviaram) {
+                    clearInterval(count); 
+                    clearInterval(att); 
+                    countdown.innerHTML = "Todos Enviaram!";
+                    countdowncard.classList.remove("bg-primary", "bg-warning", "bg-danger");
+                    countdowncard.classList.add("bg-info");
+                    bar.set(0, true);
+                }
+            })
             .catch(error => { console.error('Erro ao buscar atualizações:', error) });
         }
 
@@ -432,9 +447,9 @@
 
             var tempo = tempoRestante;
             countdowncard.classList.add("bg-primary");
-            var att = setInterval(buscaAtualizacoes, 1500);
+            att = setInterval(buscaAtualizacoes, 1500);
 
-            var count = setInterval(function() {
+            count = setInterval(function() {
                 if (tempo <= 0) {
                     clearInterval(count);
                     clearInterval(att);

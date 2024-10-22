@@ -31,6 +31,7 @@
     <link rel="icon" href="<?=base_url('assets/img/ico.png') ?>" type="image/x-icon">
     
     <!-- fontawesome icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="<?=base_url('assets/fonts/fontawesome/css/fontawesome-all.min.css') ?>">
     
     <!-- animation css -->
@@ -66,6 +67,8 @@
     <link rel="stylesheet" href="<?=base_url('assets/css/style.css') ?>">
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
         .tox .tox-editor-header {
             z-index: 0 !important;
         }
@@ -101,7 +104,23 @@
             border:0;
         }
 
-        .event-card, .anim-item { opacity: 0 }
+        .card-header {
+            overflow: hidden;
+        }
+
+        .acesso-title {
+            font-size: 60px;
+            color: #3AAB2C;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .acesso-subtitle {
+            font-size: 14px;
+            color: #888a8c;
+        }
+
+        .anim-item { opacity: 0 }
 
         .items {
             width: 200px;
@@ -147,9 +166,29 @@
             align-items: center;
         }
 
+        .img-logo-header {
+            width: 135px;
+        }
+
+        .card-rounded {
+            opacity: 0;
+            border-radius: 18px !important;
+        }
+
+        .event-card-rounded {
+            background-color: #f9f9f9;
+            border-radius: 10px !important;
+        }
+
+        .event-card a .card {
+            overflow: hidden;
+        }
+
         .event-card a:hover .card {
-            transform: scale(1.05);
-            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transform: scale(1.03);
+            transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+            filter: drop-shadow(0px 0px 8px #e6e6e6);
+            background-color: #ffffff;
         }
     </style>
     <style media="screen">
@@ -177,6 +216,16 @@
         }
         @media only screen and (max-width: 991px){       
             .overflow { padding: 35px 0px 40px 0px}
+            .acesso-title { font-size: 36px }
+            .img-logo-header { width: 100px }
+        }
+
+        @media only screen and (max-width: 767px){       
+            .overflow { padding: 35px 0px 40px 0px}
+
+            .acesso-title, .acesso-subtitle {
+                text-align: center !important;
+            }
         }
     </style>
 
