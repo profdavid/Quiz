@@ -99,6 +99,42 @@
             font-weight: 600;
         }
 
+        .home-title {
+            font-size: 24px;
+            color: #3AAB2C;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .card-home {
+            height: 480px;
+            position: relative;
+            border-radius: 12px;
+        }
+
+        .card-home-min {
+            overflow: hidden;
+            height: 230px;
+            position: relative;
+            border-radius: 12px;
+        }
+
+        .card-home div {
+            border-radius: 12px;
+        }
+
+        .btn-home {
+            position: absolute;
+            bottom: 22px;
+            right: 22px;
+        }
+
+        .equipes-info {
+            position: absolute;
+            bottom: 12px;
+            left: 22px;
+        }
+
         .nav-link {
             transition: background-color 100ms;
         }
@@ -154,7 +190,7 @@
         }
 
         #countdown-element {
-            margin: 10px 0px;
+            margin: 0px;
         }
 
         .card-countdown {
@@ -270,6 +306,13 @@
             opacity: 0;
             transform: translateY(100px);
         }
+
+        .bg-home {
+            background-image: url("<?=base_url('assets/img/access-2.png') ?>");
+            background-size: cover;
+            background-position: bottom right;
+            background-repeat: no-repeat;
+        }
     </style>
     <style media="screen">
         .sidenav-horizontal:before,
@@ -324,6 +367,10 @@
             .count {
                 font-size: 16px;
             }
+
+            #countdown-element {
+                margin: 0px 0px 10px 0px;
+            }
         }
     </style>
 </head>
@@ -353,12 +400,12 @@
             </div>
             <div class="navbar-content scroll-div">
                 <ul class="nav pcoded-inner-navbar">
+                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item mt-4 <?php echo ($this->uri->segment(2) == 'Home') ? 'active' : null ?>">
+                        <a href="<?=site_url('painel/Home')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+                    </li>
+
                     <li class="nav-item pcoded-menu-caption">
                         <label class="text-white f-14 text-uppercase">Cadastros</label>
-                    </li>
-                    
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item <?php echo ($this->uri->segment(2) == 'Home') ? 'active' : null ?>">
-                        <a href="<?=site_url('painel/Home')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
                     </li>
                     
                     <li data-username="Usuario" class="nav-item <?php echo ($this->uri->segment(2) == 'Usuario') ? 'active' : null ?>"><a href="<?=site_url('painel/Usuario')?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Usuários</span></a></li>

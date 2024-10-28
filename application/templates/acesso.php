@@ -69,6 +69,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
         .tox .tox-editor-header {
             z-index: 0 !important;
         }
@@ -98,18 +102,26 @@
             background-color: #254120;
         }
 
-        .tabledit-delete-button{
+        .tabledit-delete-button {
             margin: 0; 
             padding: 0; 
             border:0;
         }
 
-        .card-header {
+        .card {
             overflow: hidden;
         }
 
+        .btn-access {
+            position: relative;
+        }
+
+        .btn-access .card .card-body {
+            padding: 12px;
+        }
+
         .acesso-title {
-            font-size: 60px;
+            font-size: 38px;
             color: #3AAB2C;
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
@@ -120,7 +132,38 @@
             color: #888a8c;
         }
 
-        .anim-item { opacity: 0 }
+        .btn-access:hover .card {
+            background-color: #F5F7F7;
+        }
+
+        .btn-access:hover .event-icon {
+            padding: 14px 24px 0px 20px;
+            background-color: #3AAB2C;
+            i {
+                transform: rotate(42deg);
+            }
+        }
+
+        .btn-access .card, .event-icon, .event-icon i {
+            transition: all 0.1s;
+        }
+
+        .event-icon i {
+            color: #fff;
+        }
+
+        .event-icon {
+            position: absolute;
+            bottom: 0;
+            right: -1px;
+            height: 100%;
+            background-color: #81DC77;
+            padding: 14px 12px 0px 8px;
+        }
+
+        .anim-item { 
+            opacity: 0 
+        }
 
         .items {
             width: 200px;
@@ -136,7 +179,7 @@
             transform-origin: 100px;
         }
 
-        .anim img { width: 28px }
+        .anim img { width: 30px }
 
         .anim1 {transform: rotate(calc(360deg / 6 * 1))}
         .anim2 {transform: rotate(calc(360deg / 6 * 2))}
@@ -176,19 +219,22 @@
         }
 
         .event-card-rounded {
-            background-color: #f9f9f9;
-            border-radius: 10px !important;
+            border-radius: 4px !important;
         }
 
-        .event-card a .card {
-            overflow: hidden;
+        .bg-access {
+            background-image: url("<?=base_url('assets/img/access.png') ?>");
+            background-size: cover;
+            background-position: bottom center;
+            background-repeat: no-repeat;
         }
 
-        .event-card a:hover .card {
-            transform: scale(1.03);
-            transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-            filter: drop-shadow(0px 0px 8px #e6e6e6);
-            background-color: #ffffff;
+        .bg-events {
+            min-height: 480px;
+            background-image: url("<?=base_url('assets/img/image-home.png') ?>");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
         }
     </style>
     <style media="screen">
@@ -216,16 +262,14 @@
         }
         @media only screen and (max-width: 991px){       
             .overflow { padding: 35px 0px 40px 0px}
-            .acesso-title { font-size: 36px }
             .img-logo-header { width: 100px }
+            .bg-access { background-position: center right; }
+            .btn-entrar { width: 100 }
         }
 
         @media only screen and (max-width: 767px){       
             .overflow { padding: 35px 0px 40px 0px}
-
-            .acesso-title, .acesso-subtitle {
-                text-align: center !important;
-            }
+            .acesso-title, .acesso-subtitle { text-align: center !important; }
         }
     </style>
 

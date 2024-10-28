@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
+	private $tabela_equipe = 'equipe';
+	private $tabela_questao = 'questao';
+
 	public function __construct(){
 		parent::__construct();
 
@@ -18,11 +21,31 @@ class Home extends CI_Controller {
 		$data = array();
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
-		$data['LIST_DADOS']	= array();
+		$data['EQUIPES'] = array();
 		$data['SEM_DADOS'] 	= null;
+
+		$idevento = $this->session->userdata('quiz_ideventoativo');
+
+		if($idevento) {
+			$equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equlogada', array('idevento' => $idevento));
+			
+			if($equipes){
+				foreach($equipes as $e){
+					$data['EQUIPES'][] = array(
+						'id' 			=> $e->id,
+						'equnome' 		=> $e->equnome,
+						'equlogo' 		=> $e->equlogo,
+						'text-color'  	=> ($e->equlogada) ? 'text-success' : 'text-secondary',
+						'img-color'  	=> ($e->equlogada) ? '' : 'filter: saturate(0)',
+						'editar' 		=> site_url('painel/Equipe/edita/'.$e->id)
+					);
+				}
+			}
+		}
 		
 		$this->parser->parse('painel/home', $data);
 	}
+
 
 	public function selecionaEvento($idevento){
 		$res_id = $this->PadraoM->fmUpdate('usuario', ['id' => $this->session->userdata('quiz_idusuario')], ['ideventoativo' => $idevento]);

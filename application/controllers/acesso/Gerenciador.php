@@ -20,29 +20,17 @@ class Gerenciador extends CI_Controller {
 		$data['RES_ERRO']		= $this->session->flashdata('reserro');
 		$data['RES_OK']			= $this->session->flashdata('resok');
 
-		$cond = 'evesituacao = 1 OR evesituacao = 2';
-		$order = 'evesituacao ASC';
+		$cond = 'evesituacao = 1';
+		$order = 'evenome DESC';
 
 		$res = $this->PadraoM->fmSearch($this->tabela_evento, $order, $cond);
 
 		if($res){
 			foreach($res as $r){
-				if($r->evesituacao == 1){
-					$situacao = "Iniciado";
-					$COR_SITUACAO = 'badge badge-pill badge-success py-1';
-				} else {
-					$situacao = "Finalizado";
-					$COR_SITUACAO = 'badge badge-pill badge-danger py-1';
-				}
-				
 				$data['EVENTOS'][] = array(
 					'id' 			=> $r->id,
 					'evenome' 		=> $r->evenome,
 					'eveimg' 		=> $r->eveimg,
-					'evesituacao' 	=> $situacao,
-					'criado_em' 	=> date('d/m/Y', strtotime($r->criado_em)),
-					'COR_SITUACAO'	=> $COR_SITUACAO,
-					'BTN_NONE'	=> ($r->evesituacao == 1) ? '' : 'd-none',
 					'URL_ACESSAR' 	=> site_url('acesso/Gerenciador/selecionaEvento/'.$r->id)
 				);
 			}

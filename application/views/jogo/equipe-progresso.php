@@ -185,18 +185,28 @@
 
                                         <!-- [ countdown desktop ] start -->
                                         <div class="col-xl-3">
-                                            <div id="desktop-countdown-container">
-                                                <div id="countdown-element" class="d-flex justify-content-center">
-                                                    <div class="card-countdown mb-0">
-                                                        <i class="fa-regular fa-clock icon-countdown"></i>
-                                                        <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                                                            <div class="count" id="countdown"></div>
-                                                            <div class="myBar ldBar label-center p-1 text-center"
-                                                                data-value="0"
-                                                                data-preset="circle"
-                                                                data-stroke="white"
-                                                                data-stroke-width="5"
-                                                            ></div>
+                                            <div class="card-countdown-sticky">
+                                                <div class="card d-xl-block d-none">
+                                                    <div class="card-header">
+                                                        <h6 class="mb-0"><i class="fa-solid fa-clock mr-2"></i>Tempo</h6>
+                                                    </div>
+
+                                                    <div class="card-body">
+                                                        <div id="desktop-countdown-container">
+                                                            <div id="countdown-element" class="d-flex justify-content-center">
+                                                                <div class="card-countdown mb-0">
+                                                                    <i class="fa-regular fa-clock icon-countdown"></i>
+                                                                    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                                                                        <div class="count" id="countdown"></div>
+                                                                        <div class="myBar ldBar label-center p-1 text-center"
+                                                                            data-value="0"
+                                                                            data-preset="circle"
+                                                                            data-stroke="white"
+                                                                            data-stroke-width="5"
+                                                                        ></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -265,7 +275,7 @@
             var mobileCount = document.getElementById("mobile-countdown-container");
             var desktopCount = document.getElementById("desktop-countdown-container");
             
-            if (window.innerWidth <= 1200) {
+            if (window.innerWidth < 1200) {
                 mobileCount.appendChild(countElement);
             }
             else {

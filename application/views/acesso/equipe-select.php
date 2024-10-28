@@ -28,8 +28,8 @@
                             <div class="col-sm-12">
                             {RES_MSG}
 
-                            <div class="card">
-                                <div class="card-body container">
+                            <div class="card" style="border-radius: 18px; overflow: hidden">
+                                <div class="card-body container bg-access">
                                     <form role="form" id="frmacao" enctype="multipart/form-data" name="frmacao" method="post" action="{URL_ACESSAR}">
                                         <input type="hidden" id="id" name="id" value="{id}" />
                                         <input type="hidden" id="evenome" name="evenome" value="{evenome}" />
@@ -64,7 +64,7 @@
                                             <!-- animacao end -->
                                             
                                             <div class="col-lg-4 col-md-12 d-flex flex-column justify-content-center">
-                                                <h3 class="mb-4">{evenome}</h3>
+                                                <h3 class="mb-4 font-poppins">{evenome}</h3>
                                                 <div class="mb-4">
                                                     <label for="equipe">Escolha a sua equipe:</label>
                                                     <select class="form-control" name="equipe" id="equipe">
@@ -81,7 +81,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="text-right mb-lg-0 mb-5">
-                                                    <button type="submit" class="btn btn-success m-0">
+                                                    <button type="submit" class="btn btn-success m-0 btn-entrar">
                                                         ENTRAR
                                                     </button> 
                                                 </div>

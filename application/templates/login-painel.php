@@ -28,12 +28,25 @@
   <link rel="stylesheet" href="<?=base_url('assets/css/style.css') ?>">
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    .card-rounded {
+        border-radius: 18px !important;
+    }
+
+    .quiz-title {
+        font-size: 42px;
+        color: #3AAB2C;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+    }
+
     .aut-bg-img {
-        background-image: url("<?=base_url('assets/img/bg01.png') ?>");
-        background-size: auto;
+        min-height: 440px;
+        background-image: url("<?=base_url('assets/img/image-home.png') ?>");
+        background-size: cover;
         background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: top right;
+        background-position: center center;
     }
   </style>
   

@@ -87,6 +87,7 @@
 <script>
   window.onload = function () {
     {RES_OK}
+    $('.table-questao-texto img').addClass('img-fluid rounded');
   }
 
   $(document).ready(function(){

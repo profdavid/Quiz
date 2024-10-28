@@ -226,8 +226,9 @@
         } 
 
         .bg-finish {
+            overflow: hidden;
             height: 80vh;
-            border-radius: 2px;
+            border-radius: 18px;
             background-image: url("<?=base_url('assets/img/finish2.png') ?>");
             background-size: cover;
             background-position: top center;
@@ -329,9 +330,9 @@
         }
 
         @media (min-width: 1200px) {
-            .card-header-sticky {
+            .card-header-sticky, .card-countdown-sticky {
                 position: sticky !important;
-                top: 70px !important;
+                top: 68px !important;
                 z-index: 2;
             }
         }
