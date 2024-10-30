@@ -189,6 +189,10 @@
             background-color: #3aab2c15;
         }
 
+        #dataContainer {
+            font-size: 18px;
+        }
+
         #countdown-element {
             margin: 0px;
         }

@@ -1,5 +1,10 @@
 <style>
     table td { padding: 0.5rem 0.75rem !important; }
+    table, .table-questao-discursiva p,  
+    .quetexto p, .quetexto h6, .quetexto h5, 
+    .quetexto h4, .qrtexto, .qrcorreta, .qrcorreta p {
+        font-size: 17px; 
+    }
 </style>
 
 <div class="pcoded-main-container">
@@ -74,17 +79,28 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="d-flex flex-column-reverse">
-                                                                    <?php if(!$quesituacao): ?>
-                                                                        <div class="d-flex align-items-center justify-content-center justify-content-md-end my-4 my-md-0">
-                                                                            <a class="btn btn-sm btn-primary m-0" href="{URL_LIBERAR}">
-                                                                                <i class="fa-solid fa-play"></i>
-                                                                                Liberar questão
+                                                                <div class="d-flex justify-content-center flex-column flex-md-row">
+                                                                    <div class="d-flex flex-column-reverse justify-content-center">
+                                                                        <?php if(!$quesituacao): ?>
+                                                                            <div class="d-flex align-items-center justify-content-center justify-content-md-end my-4 my-md-0">
+                                                                                <a class="btn btn-sm btn-primary m-0" href="{URL_LIBERAR}">
+                                                                                    <i class="fa-solid fa-play"></i>
+                                                                                    Liberar questão
+                                                                                </a>
+                                                                            </div>
+                                                                        <?php endif ?>
+
+                                                                        <div id="mobile-countdown-container"></div>
+                                                                    </div>
+
+                                                                    
+                                                                    <?php if($queordem < $COUNT_QUESTOES): ?>
+                                                                        <div class="d-flex align-items-center justify-content-center ml-0 ml-md-5 my-3 my-md-0">
+                                                                            <a class="text-success" href="{URL_PROXIMO}">
+                                                                                <i style="font-size: 32px" class="fa-solid fa-circle-arrow-right"></i>
                                                                             </a>
                                                                         </div>
                                                                     <?php endif ?>
-
-                                                                    <div id="mobile-countdown-container"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -98,7 +114,7 @@
                                                                 <div class="quetexto">{quetexto}</div>
                                                             </div>
 
-                                                            <?php if($COUNT_RESPOSTAS > 0): ?>
+                                                            <?php if($COUNT_RESPOSTAS > 0  && $quesituacao): ?>
                                                                 {RESPOSTAS}
                                                                     <div class="card-resposta d-flex align-items-center px-3 py-2 my-2 rounded">
                                                                         <span class="badge badge-primary rounded-circle resposta-ordem">
@@ -112,7 +128,7 @@
                                                                                 alt=""
                                                                             >
                                                                             <div class="mx-3">
-                                                                                <p class="mb-0">{qrtexto}</p>
+                                                                                <p class="qrtexto mb-0">{qrtexto}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -159,7 +175,7 @@
                                                                                 src="<?= base_url('{CORRETA_qrimg}') ?>"
                                                                                 alt=""
                                                                             >
-                                                                            <p class="mx-3 my-1 text-success">
+                                                                            <p class="qrcorreta mx-3 my-1 text-success">
                                                                                 {CORRETA_qrtexto}
                                                                             </p>
                                                                         </div>
@@ -201,7 +217,7 @@
                                                                             <i class="fa-solid fa-circle-check mr-2"></i>Resposta correta:
                                                                         </h6>
                                                                         <div class="card-resposta-correta d-flex align-items-center p-3 mb-5 rounded">
-                                                                            <div>{quediscursiva}</div>
+                                                                            <div class="qrcorreta">{quediscursiva}</div>
                                                                         </div>
 
                                                                         <div class="dt-responsive table-responsive">
@@ -464,7 +480,6 @@
             count = setInterval(function() {
                 if (tempo <= 0) {
                     clearInterval(count);
-                    clearInterval(att);
                     buscaAtualizacoes();
                     countdown.innerHTML = "Tempo Esgotado!";
                     countdowncard.classList.remove("bg-warning");
