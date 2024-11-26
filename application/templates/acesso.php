@@ -112,14 +112,6 @@
             overflow: hidden;
         }
 
-        .btn-access {
-            position: relative;
-        }
-
-        .btn-access .card .card-body {
-            padding: 12px;
-        }
-
         .acesso-title {
             font-size: 38px;
             color: #3AAB2C;
@@ -130,35 +122,6 @@
         .acesso-subtitle {
             font-size: 14px;
             color: #888a8c;
-        }
-
-        .btn-access:hover .card {
-            background-color: #F5F7F7;
-        }
-
-        .btn-access:hover .event-icon {
-            padding: 14px 24px 0px 20px;
-            background-color: #3AAB2C;
-            i {
-                transform: rotate(42deg);
-            }
-        }
-
-        .btn-access .card, .event-icon, .event-icon i {
-            transition: all 0.1s;
-        }
-
-        .event-icon i {
-            color: #fff;
-        }
-
-        .event-icon {
-            position: absolute;
-            bottom: 0;
-            right: -1px;
-            height: 100%;
-            background-color: #81DC77;
-            padding: 14px 12px 0px 8px;
         }
 
         .anim-item { 
@@ -218,8 +181,19 @@
             border-radius: 18px !important;
         }
 
-        .event-card-rounded {
+        .card-event {
+            color: #000000;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 200ms ease-out;
             border-radius: 4px !important;
+        }
+
+        .card-event:hover {
+            color: #3CAD2E;
+            transform: scale(1.03);
         }
 
         .bg-access {

@@ -1,4 +1,4 @@
-<div class="pcoded-main-container">
+<div class="pcoded-main-container mx-auto" style="max-width: 68rem">
     <div class="pcoded-wrapper">
         <div class="pcoded-content">
             <div class="pcoded-inner-content">
@@ -27,60 +27,40 @@
                                 {RES_ERRO}
 
                                 <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <h5>Resultados:</h5>
+                                            <small><?=$this->session->userdata('equipe_evenome')?></small>
+                                        </div>
+                                    </div>
+
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-12">
-                                                <div class="row h-100 justify-content-center">
-                                                    <div class="col-md-12 align-self-center">
-                                                        <div class="card m-0">
-                                                            <div class="widget-profile-card-1">
-                                                                <img class="img-fluid" 
-                                                                    src="<?=base_url('assets/img/finish.png') ?>" 
-                                                                    alt="card-style-1"
-                                                                >
-                                                                <div class="middle-user">
-                                                                    <img class="img-fluid img-thumbnail" 
-                                                                        src="<?=base_url($this->session->userdata('equipe_equlogo'))?>"
-                                                                        alt="Profile-user"
-                                                                    >
-                                                                </div>
-                                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="d-flex flex-column align-items-center text-center justify-content-center mt-4">
+                                                    <img class="img-fluid img-thumbnail rounded-circle my-2" 
+                                                        src="<?=base_url($this->session->userdata('equipe_equlogo'))?>"
+                                                        width="100px" alt="equipe_logo"
+                                                    >
 
-                                                            <div class="card-body text-center">
-                                                                <h3><?=$this->session->userdata('equipe_equnome')?></h3>
-                                                                <small><?=$this->session->userdata('equipe_evenome')?></small>
-                                                            </div>
+                                                    <h3><?=$this->session->userdata('equipe_equnome')?></h3>
 
-                                                            <div class="card-footer bg-inverse">
-                                                                <div class="row text-center">
-                                                                    <div class="col my-2">
-                                                                        <span class="badge badge-pill py-2 px-3 badge-info">
-                                                                            <i class="feather icon-star-on mr-1"></i>
-                                                                            {TOTAL_EQRPONTO} pontos
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="col my-2">
-                                                                        <span class="badge badge-pill py-2 px-3 badge-warning">
-                                                                            <i class="fa-solid fa-clock mr-1"></i>
-                                                                            {TOTAL_EQRTEMPO} segundos
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    <div style="font-size: 19px" class="d-inline-block mt-2">
+                                                        <span class="badge badge-pill badge-info mr-1">
+                                                            <i class="feather icon-star-on mr-1"></i>
+                                                            {TOTAL_EQRPONTO} pontos
+                                                        </span>
+                                                        <span class="badge badge-pill badge-warning">
+                                                            <i class="fa-solid fa-clock mr-1"></i>
+                                                            {TOTAL_EQRTEMPO} segundos
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-8 col-md-12 align-self-center">
-                                                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mx-0 mx-md-3 mt-5 mt-lg-0 mb-3">
-                                                    <div class="d-flex align-items-center">
-                                                        <h6 class="m-0">
-                                                            <i class="fa-solid fa-list-check mr-2"></i>
-                                                            Resultados da equipe
-                                                        </h6>
-                                                    </div>
-                                                    <div class="d-flex text-center text-lg-right mt-3 mt-lg-0">
+                                            <div class="col-md-12 mt-5">
+                                                <div class="d-flex justify-content-end">
+                                                    <div>
                                                         <small class="mr-2">
                                                             <i class="fa-solid fa-square text-success mr-1"></i>
                                                             Correta
@@ -96,28 +76,38 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="equipe-info">
+                                                <div>
                                                     {LIST_EQUIPE_QUESTAORESPOSTA}
-                                                    <div class="card mx-0 mx-md-3 mt-3">
-                                                        <div class="card-header d-flex justify-content-between align-items-center py-2 {BG_ACERTOU}">
-                                                            <strong class="font-poppins">
-                                                                Questão {queordem}
-                                                            </strong>
-                                                            <div style="font-size: 16px; color: white" class="d-flex flex-column text-right">
-                                                                <small>
-                                                                    <i class="fa-solid fa-star mr-1"></i>
+                                                    <div class="card mt-3">
+                                                        <div class="card-header text-white py-2 {BG_QUESTAO}">
+                                                            <h2 style="font-size: 16px" class="font-poppins text-white mt-2">QUESTÃO {queordem}</h2>
+                                                            <div style="font-size: 14px; font-weight: 600">
+                                                                <span>
+                                                                    <i class="fa-regular fa-star mr-1"></i>
                                                                     {eqrponto} de {queponto} pontos
-                                                                </small>
-                                                                <small class="mt-1">
-                                                                    <i class="fa-solid fa-clock mr-1"></i>
+                                                                </span>
+                                                                <span class="ml-2">
+                                                                    <i class="fa-regular fa-clock mr-1"></i>
                                                                     {eqrtempo} de {quetempo} segundos
-                                                                </small>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         
-                                                        <div class="card-body">
-                                                            <div class="{OBJETIVA}">Letra {qrordem}</div>
-                                                            <div class="{DISCURSIVA}">{eqrdiscursiva}</div>
+                                                        <div style="background-color: #F9F9F9" class="card-body">
+                                                            <div class="quetexto">
+                                                                {quetexto}
+                                                            </div>
+
+                                                            <div class="d-flex mt-4">
+                                                                <strong class="mr-2">Sua resposta:</strong>
+                                                                <div class="{OBJETIVA}">{qrordem}</div>
+                                                                <div class="{DISCURSIVA}">{eqrdiscursiva}</div>
+                                                            </div>
+
+                                                            <div class="d-flex">
+                                                                <strong class="text-success mr-2">Resposta correta:</strong>
+                                                                <div>{CORRETA}</div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     {/LIST_EQUIPE_QUESTAORESPOSTA}
@@ -135,3 +125,6 @@
     </div>
 </div>
 
+<script>
+    $('.quetexto img').addClass('img-fluid rounded');
+</script>

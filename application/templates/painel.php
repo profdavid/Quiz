@@ -107,14 +107,14 @@
         }
 
         .card-home {
-            height: 480px;
+            height: 430px;
             position: relative;
             border-radius: 12px;
         }
 
         .card-home-min {
             overflow: hidden;
-            height: 230px;
+            height: 210px;
             position: relative;
             border-radius: 12px;
         }
@@ -127,6 +127,7 @@
             position: absolute;
             bottom: 22px;
             right: 22px;
+            border-radius: 16px;
         }
 
         .equipes-info {
@@ -304,9 +305,10 @@
         }
 
         .bg-ranking {
-            background-image: url("<?=base_url('assets/img/ranking.png') ?>");
+            background-image: url("<?=base_url('assets/img/bg-ranking.png') ?>");
             background-size: cover;
             background-repeat: no-repeat;
+            background-position: center;
             opacity: 0;
             transform: translateY(100px);
         }

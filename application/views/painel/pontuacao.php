@@ -34,7 +34,7 @@
                                     <?php if (!empty($PONTUACAO_EQUIPES)): ?>
                                         {PONTUACAO_EQUIPES}
                                         <div class="card">
-                                            <div class="card-header card-header-sticky bg-success py-3">
+                                            <div class="card-header card-header-sticky bg-success py-2">
                                                 <h5 class="font-poppins text-left text-white mb-0">
                                                     Questão {queordem}
                                                 </h5>
@@ -86,12 +86,5 @@
 <script>
     window.onload = function() {
         {RES_OK}
-
-        $('.tabListagem').DataTable({
-            "language": {
-                "url": "<?php echo base_url('assets/plugins/data-tables/json/dataTables.ptbr.json') ?>"
-            },
-            "aaSorting": []        
-        });
     };
 </script>

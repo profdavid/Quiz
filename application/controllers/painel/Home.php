@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends CI_Controller {
 	private $tabela_equipe = 'equipe';
 	private $tabela_questao = 'questao';
+	private $tabela_evento = 'evento';
 
 	public function __construct(){
 		parent::__construct();
@@ -22,11 +23,14 @@ class Home extends CI_Controller {
 		$data['RES_ERRO']	= $this->session->flashdata('reserro');
 		$data['RES_OK']		= $this->session->flashdata('resok');
 		$data['EQUIPES'] = array();
+		$data['EVENOME'] = "";
 		$data['SEM_DADOS'] 	= null;
 
 		$idevento = $this->session->userdata('quiz_ideventoativo');
 
 		if($idevento) {
+			$data['EVENOME'] = $this->session->userdata('quiz_evenome');
+
 			$equipes = $this->PadraoM->fmSearch($this->tabela_equipe, 'equlogada', array('idevento' => $idevento));
 			
 			if($equipes){

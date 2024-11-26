@@ -159,7 +159,6 @@ class Usuario extends CI_Controller {
 		//Salvando os dados
 		if($id){ //Edição
 			$cond = array('id' => $id);
-		
 			$res_id = $this->PadraoM->fmUpdate($this->tabela, $cond, $itens);
 		}
 		else //Novo
@@ -173,12 +172,8 @@ class Usuario extends CI_Controller {
 				$this->session->set_flashdata('resok', fazNotificacao('success', 'Sucesso! Dados inseridos.'));
 			
 			//--- Grava Log ---
-			$log = ($id) ? "Edita ".$this->tabela." | Id: ".$res_id : "Novo ". $this->tabela." | Id: ".$res_id;
-			$log .= " | Valores: ";
-			foreach($itens as $key => $val)
-				$log .= $key."=".$val.", ";
-			$itens_log = array('logtexto' => $log,'idusuario' => $this->session->userdata('quiz_idusuario'));
-			$res_log = $this->LogM->fmNew($itens_log);
+			$acao = $id ? "Edita" : "Novo";
+			gravarLog($acao, $res_id, $itens, $this->tabela, $this->session->userdata('quiz_idusuario'));
 			//--- Fim Log ---
 
 			//Redireciona

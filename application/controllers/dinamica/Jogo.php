@@ -203,7 +203,23 @@ class Jogo extends CI_Controller {
 		$idequipe = $this->session->userdata('equipe_idequipe');
 
 		$query = "
-			SELECT eqr.*, q.queponto, q.idquestaotipo, q.queordem, q.quetempo, qr.qrordem, qr.qrcorreta
+			SELECT 
+				eqr.*, 
+				q.*,
+				qr.qrcorreta,
+				qr.qrordem,
+				qr.qrordem AS resposta_ordem, 
+				qr.qrcorreta AS resposta_correta,
+				CASE 
+					WHEN q.quediscursiva IS NULL THEN (
+						SELECT qr2.qrordem 
+						FROM questaoresposta qr2 
+						WHERE qr2.idquestao = q.id 
+						AND qr2.qrcorreta = 1 
+						LIMIT 1
+					)
+					ELSE q.quediscursiva
+				END AS resposta_correta
 			FROM equipe_questaoresposta eqr
 			LEFT JOIN questaoresposta qr ON eqr.idquestaoresposta = qr.id
 			JOIN questao q ON IFNULL(qr.idquestao, eqr.idquestao) = q.id
@@ -212,6 +228,9 @@ class Jogo extends CI_Controller {
 		";
 		
 		$res = $this->PadraoM->fmSearchQuery($query);
+
+		// var_dump($res);
+		// exit;
 
 		if($res){
 			$total_eqrponto = 0;
@@ -222,16 +241,17 @@ class Jogo extends CI_Controller {
 				$total_eqrtempo += $r->eqrtempo;
 
 				if($r->qrcorreta == 1 || $r->eqrponto > 0){
-					$BG_ACERTOU = 'card-resposta-correta';
+					$BG_QUESTAO = 'bg-success';
 
 					if($r->eqrtempo > $r->quetempo)
-						$BG_ACERTOU = 'card-resposta-invalida';
-				} else
-					$BG_ACERTOU = 'card-resposta-errada';
-
+						$BG_QUESTAO = 'bg-warning';
+				} 
+				else
+					$BG_QUESTAO = 'bg-danger';
 				
 				$data['LIST_EQUIPE_QUESTAORESPOSTA'][] = array(
 					'queordem' 	=> $r->queordem,
+					'quetexto' => $r->quetexto,
 					'queponto'	=> $r->queponto,
 					'quetempo'	=> $r->quetempo,
 					'qrordem' 	=> $r->qrordem,
@@ -240,7 +260,8 @@ class Jogo extends CI_Controller {
 					'eqrdiscursiva'	=> $r->eqrdiscursiva,
 					'DISCURSIVA' => ($r->idquestaotipo == 1) ? 'd-none' : 'd-block',
 					'OBJETIVA' => ($r->idquestaotipo == 1) ? 'd-block' : 'd-none',
-					'BG_ACERTOU' => $BG_ACERTOU
+					'CORRETA' => $r->resposta_correta,
+					'BG_QUESTAO' => $BG_QUESTAO
 				);
 			}
 

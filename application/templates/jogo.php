@@ -182,24 +182,6 @@
             font-size: 22px;
         }
 
-        .card-resposta-correta {
-            color: #28A745;
-            background: rgb(255,255,255);
-            background: linear-gradient(111deg, #F5F7F7 0%, #F5F7F7 20%, rgba(76,175,80,1) 100%);
-        }
-
-        .card-resposta-invalida {
-            color: #FF9800;
-            background: rgb(255,255,255);
-            background: linear-gradient(111deg, #F5F7F7 0%, #F5F7F7 20%, rgba(255,132,0,1) 100%);
-        }
-
-        .card-resposta-errada {
-            color: #F44336;
-            background: rgb(255,255,255);
-            background: linear-gradient(111deg, #F5F7F7 0%, #F5F7F7 20%, rgba(244,67,54,1) 100%);
-        }
-
         .card-resposta {
             background-color: #F5F7F7;
         }
@@ -319,13 +301,6 @@
             .sidenav-horizontal:before,
             .sidenav-horizontal:after {
                 display: none;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .equipe-info {
-                overflow-y: auto;
-                max-height: 360px;
             }
         }
 

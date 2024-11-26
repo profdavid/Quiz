@@ -181,3 +181,25 @@ function listEventos(){
 		return null;
 	}
 }
+
+
+function gravarLog($acao, $id, $valores, $tabela, $idUsuario){
+    $acaoTexto = "$acao $tabela | Id: $id";
+
+    $valoresLog = "";
+    foreach ($valores as $key => $val) {
+        $valoresLog .= "$key=$val, ";
+    }
+
+    $valoresLog = rtrim($valoresLog, ", ");
+    $logTexto = "$acaoTexto | Valores: $valoresLog | Realizado por: Usuário ID $idUsuario";
+
+    $dadosLog = [
+        'logtexto' => $logTexto,
+        'idusuario' => $idUsuario
+    ];
+
+    $CI = &get_instance();
+    $CI->load->model('LogM');
+    return $CI->LogM->fmNew($dadosLog);
+}
